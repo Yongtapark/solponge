@@ -25,10 +25,12 @@ public class homeController {
 
     @GetMapping("/join")
     String getJoin(@ModelAttribute("member") Member member){
+        log.info("==getJoin==");
         return "member/signup";
     }
     @PostMapping("/join")
     public String postJoin(@Validated @ModelAttribute("member") Member member, BindingResult bindingResult){
+        log.info("==postJoin==");
         List<Member> all = memberService.findAll();
         for (Member members : all) {
             String memberId = members.getMemberId();
@@ -48,6 +50,7 @@ public class homeController {
 
         combineString(member); //문자열 합치기 주소,이메일,폰
         Long join = memberService.join(member);
+        log.info("join={}",join);
        /* log.info("joinedMember={}",join);
         //회원가입 시 카트 생성
         int cart = cartService.createCart(new CartVo(Math.toIntExact(join)));
@@ -69,7 +72,7 @@ public class homeController {
         member.setMemberEmail(email);
 
         String phone = member.getMemberPhone1() + "-" + member.getMemberPhone2() + "-" + member.getMemberPhone3();
-        member.setMemberPwd(phone);
+        member.setMemberPhone(phone);
     }
 
    /* *//*세션 로그인 정보 받기*//*

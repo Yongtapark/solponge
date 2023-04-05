@@ -13,17 +13,18 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true)
     private Long memberNo;
     @Enumerated(EnumType.STRING)
     private Grade memberGrade = Grade.BASIC;
-   // @NotEmpty
+    @NotEmpty
     private String memberId;
-  //  @NotEmpty
+    @NotEmpty
     private String memberPwd;
-  //  @NotEmpty
-  @Transient
+    @NotEmpty
+    @Transient
     private String memberPwdCheck;
-  //  @NotEmpty
+    @NotEmpty
     private String memberName;
     /**
      * 주소
@@ -42,23 +43,23 @@ public class Member {
 
     private String memberEmail;
     @Transient
-  //  @NotEmpty
+    @NotEmpty
     private String memberEmail1;
     @Transient
-   // @NotEmpty
+    @NotEmpty
     private String memberEmail2;
     /**
      * 휴대폰
      */
     private String memberPhone;
     @Transient
-   // @NotEmpty
+    @NotEmpty
     private String memberPhone1;
     @Transient
-  //  @NotEmpty
+    @NotEmpty
     private String memberPhone2;
     @Transient
-   // @NotEmpty
+    @NotEmpty
     private String memberPhone3;
 
     private LocalDateTime memberDate = LocalDateTime.now();
