@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.MemberJoinForm;
-import com.example.demo.service.MemberService;
+import com.example.demo.service.interfaces.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -36,12 +34,12 @@ public class homeController {
         for (Member members : all) {
             String memberId = members.getMemberId();
             if(member.getMemberId().equals(memberId)){
-                bindingResult.rejectValue("MEMBER_ID","idCheckFail","이미 존재하는 회원입니다.");
+                bindingResult.rejectValue("memberId","idCheckFail","이미 존재하는 회원입니다.");
             }
         }
 
         if(!member.getMemberPwd().equals(member.getMemberPwdCheck())){
-            bindingResult.rejectValue("MEMBER_PWD_CHECK","pwdCheckFail","비밀번호가 일치하지 않습니다.");
+            bindingResult.rejectValue("memberPwdCheck","pwdCheckFail","비밀번호가 일치하지 않습니다.");
             log.info("join.bindingResult={}",bindingResult);
         }
         log.info("member={}",member);

@@ -1,15 +1,14 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.member.Member;
-import com.example.demo.repository.MemberQueryRepository;
-import com.example.demo.repository.MemberRepository;
-import com.example.demo.repository.MemberSearchCond;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.example.demo.repository.member.MemberQueryRepository;
+import com.example.demo.repository.member.MemberRepository;
+import com.example.demo.repository.member.MemberSearchCond;
+import com.example.demo.service.interfaces.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -52,7 +51,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<Member> findMembers(MemberSearchCond cond) {
-        return memberQueryRepository.findAll(cond);
+        return memberQueryRepository.search(cond);
     }
 
 

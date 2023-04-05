@@ -1,11 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.service.interfaces;
 
 
 import com.example.demo.domain.member.Member;
-import com.example.demo.repository.MemberRepository;
-import com.example.demo.repository.MemberSearchCond;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.example.demo.repository.member.MemberSearchCond;
 
 import java.util.List;
 import java.util.Optional;

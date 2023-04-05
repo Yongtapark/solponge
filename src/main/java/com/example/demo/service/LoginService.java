@@ -1,12 +1,10 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.member.Member;
-import com.example.demo.repository.MemberQueryRepository;
-import com.example.demo.repository.MemberRepository;
+import com.example.demo.repository.member.MemberQueryRepository;
+import com.example.demo.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package com.example.demo.repository;
+package com.example.demo.repository.member;
 
 import com.example.demo.domain.member.Member;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -22,7 +22,7 @@ public class MemberQueryRepository {
         this.memberRepository = memberRepository;
     }
 
-    public List<Member> findAll(MemberSearchCond cond){
+    public List<Member> search(MemberSearchCond cond){
         return query.select(member)
                 .from(member)
                 .where(likeMemberName(cond.getMemberName())
