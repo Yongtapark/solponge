@@ -68,14 +68,15 @@
     <table>
       <tr>
         <th>아이디</th>
-        <td><input type="text" id="memberId" name="MEMBER_ID" th:field="*{memberId}"/>
-          <span class="error" th:if="${#fields.hasErrors('memberId')}" th:errors="*{memberId}" style="color: red"></span>
+        <td><input type="text" id="memberId" name="MEMBER_ID" th:field="*{memberId}"
+        th:errorclass="field-error" class="form-control"/>
+          <div class="field-error" th:errors="*{memberId}" style="color: red">아이디가 존재합니다.</div>
         </td>
       </tr>
       <tr>
         <th>비밀번호</th>
-        <td><input type="password" id="memberPwd" name="MEMBER_PWD" th:field="*{memberPwd}"/>
-          <span class="error" th:if="${#fields.hasErrors('memberPwd')}" th:errors="*{memberPwd}" style="color: red"></span>
+        <td><input type="password" id="memberPwd" name="MEMBER_PWD" th:field="*{memberPwd}" th:errorclass="field-error"/>
+          <div class="field-error" th:errors="*{memberPwd}" style="color: red">비밀번호를 입력하세요</div>
         </td>
       </tr>
       <tr>
