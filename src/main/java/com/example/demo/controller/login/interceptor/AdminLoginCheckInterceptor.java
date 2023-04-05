@@ -1,6 +1,6 @@
-package com.example.demo.web.login.interceptor;
+package com.example.demo.controller.login.interceptor;
 
-import com.example.demo.web.login.session.SessionConst;
+import com.example.demo.controller.login.session.SessionConst;
 import com.example.demo.domain.member.Grade;
 import com.example.demo.domain.member.Member;
 import lombok.extern.slf4j.Slf4j;

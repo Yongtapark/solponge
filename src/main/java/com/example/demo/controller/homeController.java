@@ -3,9 +3,11 @@ package com.example.demo.controller;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.MemberJoinForm;
 import com.example.demo.service.interfaces.MemberService;
+import com.example.demo.service.interfaces.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -21,9 +24,31 @@ import java.util.List;
 @RequestMapping("/com.solponge")
 public class homeController {
     private final MemberService memberService;
+    private final ProductService productService;
+
+    @GetMapping("/main")
+    public String home(Model model, HttpServletRequest request){
+        //Member loginMember = getLoginMember(request);
+        model.addAttribute("newTop8List", productService.newTop8List());
+        model.addAttribute("popTop8List", productService.popTop8List());
+        //model.addAttribute("getJopInfoNewTop8List", jopinfoService.getJopInfoNewTop8List());
+       // model.addAttribute("member",loginMember);
+       /* try{
+            Long userNo = loginMember.getMEMBER_NO();
+            System.out.println(userNo);
+            String id = loginMember.getMEMBER_ID();
+            System.out.println(id);
+            if(id !=null) {
+                new responseScrap(model, userNo, jobscrapService, "JobScrap", "JobScrap2");
+            }
+        }catch (Exception e){
+            System.out.println("오류발생");
+        }*/
+        return "main";
+    }
 
     @GetMapping("/join")
-    String getJoin(@ModelAttribute("member") MemberJoinForm member){
+    public String getJoin(@ModelAttribute("member") MemberJoinForm member){
         log.info("==getJoin==");
         return "member/signup";
     }

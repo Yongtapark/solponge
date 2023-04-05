@@ -1,8 +1,8 @@
-package com.example.demo.web.login;
+package com.example.demo.controller.login;
 
-import com.example.demo.service.LoginService;
-import com.example.demo.web.login.session.SessionConst;
+import com.example.demo.controller.login.session.SessionConst;
 import com.example.demo.domain.member.Member;
+import com.example.demo.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -32,7 +32,7 @@ public class LoginController {
 
     /*로그인 검증*/
     @PostMapping("/login")
-    String loginPost(@Validated @ModelAttribute("loginForm")LoginForm form, BindingResult bindingResult, HttpServletRequest request, Model model,
+    String loginPost(@Validated @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult, HttpServletRequest request, Model model,
                      @RequestParam(defaultValue = "/com.solponge/main")String redirectURL){
 
         if(bindingResult.hasErrors()){

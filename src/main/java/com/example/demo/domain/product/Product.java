@@ -27,7 +27,6 @@ public class Product {
     private int productStock;
     private int productSale;
     private int productVisit;
-
     private int productGarbage;
 
 
