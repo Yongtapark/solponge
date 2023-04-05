@@ -15,4 +15,8 @@ public class MemberSearchCond {
         this.memberName = memberName;
         this.memberId = memberId;
     }
+
+
+
+
 }

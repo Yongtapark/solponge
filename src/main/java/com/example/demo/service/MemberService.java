@@ -20,4 +20,6 @@ public interface MemberService {
     List<Member> findAll();
 
     List<Member> findMembers(MemberSearchCond cond);
+
+
 }

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="kor" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/joinForm.css}">
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script th:src="@{/js/login.js}"></script>
+  <script>
+    function infocheck(){
+      var emailExp = /^[a-z0-9]{1}[a-z0-9\-]+[a-z0-9]{1}\.(([a-z]{1}[a-z.]+[a-z]{1}[a-z]+)|([a-z]+))$/;
+      var phonExp = /^[0-9]{4}$/;
+
+      if (document.frm.memberId.value == "") {
+        alert("아이디를 입력해주세요.");
+        document.frm.memberId.focus();
+        return false;
+      }
+      if (document.frm.memberPwd.value == ""){
+        alert("비밀번호를 입력해주세요.");
+        document.frm.memberPwd.focus();
+        return false;
+      }
+      if(document.frm.memberPwd.value != document.frm.memberPwdCheck.value){
+        alert("비밀번호가 틀렸습니다.");
+        document.frm.memberPwd.focus();
+        return false;
+      }
+      if (document.frm.memberName.value == ""){
+        alert("이름을 입력해주세요.");
+        document.frm.memberName.focus();
+        return false;
+      }
+      if (document.frm.MEMBER_EMAIL1.value == "" || document.frm.MEMBER_EMAIL2.value == ""){
+        alert("이메일을 입력해주세요.");
+        document.frm.MEMBER_EMAIL1.focus();
+        return false;
+      }
+      if (emailExp.test(document.frm.MEMBER_EMAIL2.value) == false){
+        alert("정확한 이메일 주소를 입력해주세요");
+        document.frm.MEMBER_EMAIL1.focus();
+        return false;
+      }
+      if (document.frm.MEMBER_PHONE2.value == "" || document.frm.MEMBER_PHONE3.value == ""){
+        alert("전화번호를 입력해주세요.");
+        document.frm.MEMBER_PHONE2.focus();
+        return false;
+      }
+      if (document.frm.secnum.value.match(phonExp) == null){
+        alert("전화번호가 틀렸습니다.");
+        document.frm.secnum.focus();
+        return false;
+      }
+      if (document.frm.sample6_postcode.value == "" || document.frm.MEMBER_ADDRESS2.value == "" || document.frm.MEMBER_ADDRESS3.value == ""){
+        alert("주소를 입력해주세요.");
+        document.frm.sample6_detailAddress.focus();
+        return false;
+      }
+      return true;
+    }
+  </script>
+</head>
+<body>
+<div th:insert="~{fragment/header :: header}"></div>
+<form th:action="@{/register}" th:object="${member}" method="post" name="frm" onsubmit="return infocheck()">
+  <input type="hidden" name="memberNo" th:field="*{memberNo}">
+  <div id="memberinfo">
+    <table>
+      <tr>
+        <th>아이디</th>
+        <td><input type="text" id="memberId" name="MEMBER_ID" th:field="*{memberId}"/>
+          <span class="error" th:if="${#fields.hasErrors('memberId')}" th:errors="*{memberId}" style="color: red"></span>
+        </td>
+      </tr>
+      <tr>
+        <th>비밀번호</th>
+        <td><input type="password" id="memberPwd" name="MEMBER_PWD" th:field="*{memberPwd}"/>
+          <span class="error" th:if="${#fields.hasErrors('memberPwd')}" th:errors="*{memberPwd}" style="color: red"></span>
+        </td>
+      </tr>
+      <tr>
+        <th>비밀번호 확인</th>
+        <td><input type="password" id="memberPwdCheck" name="MEMBER_PWD_CHECK" th:field="*{memberPwdCheck}"/>
+          <span class="error" th:if="${#fields.hasErrors('memberPwdCheck')}" th:errors="*{memberPwdCheck}" style="color: red"></span>
+        </td>
+      </tr>
+      <tr>
+        <th>이름</th>
+        <td>
+          <input type="text" name="MEMBER_NAME" id="memberName" th:field="*{memberName}"/>
+          <span class="error" th:if="${#fields.hasErrors('memberName')}" th:errors="*{memberName}" style="color: red"></span>
+        </td>
+      </tr>
+      <tr>
+        <th>이메일</th>
+        <td><input type="text" size="16" id="email1" name="MEMBER_EMAIL1" th:field="*{memberEmail1}"/> @
+          <input type="text" size="20" id="email2" name="MEMBER_EMAIL2" value="naver.com" th:field="*{memberEmail2}"/>
+          <select name="emails" id="emails" size="1" onchange="mailCheck()">
+            <option value="naver.com" selected>naver.com</option>
+            <option value="hanmail.net">hanmail.net</option>
+            <option value="gmail.com">gmail.com</option>
+            <option value="nate.com">nate.com</option>
+            <option value="1">직접입력</option>
+          </select></td>
+      </tr>
+      <tr>
+        <th>휴대폰 번호</th>
+        <td><select name="MEMBER_PHONE1" size="1" id="firstnum" th:field="*{memberPhone1}">
+          <option value="010">010</option>
+          <option value="011">011</option>
+          <option value="013">013</option>
+          <option value="017">017</option>
+          <option value="018">018</option>
+        </select>
+          <input type="text" size="4" maxlength="4" minlength="4" name="MEMBER_PHONE2" id="secnum" th:field="*{memberPhone2}"/>-
+          <input type="text" size="4" maxlength="4" minlength="4" name="MEMBER_PHONE3" id="thrnum" th:field="*{memberPhone3}"/></td>
+      </tr>
+      <tr>
+        <th>주소</th>
+        <td>
+          <input type="text" name="MEMBER_ADDRESS1" id="sample6_postcode" placeholder="우편번호" readonly th:field="*{memberAddress1}">
+          <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+          <input type="text" name="MEMBER_ADDRESS2" id="sample6_address" placeholder="주소" readonly th:field="*{memberAddress2}">
+          <input type="text" name="MEMBER_ADDRESS3" id="sample6_detailAddress" placeholder="상세주소" th:field="*{memberAddress3}">
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><input type="submit" value="회원가입"><input type="button" onclick="location.href='/com.solponge/main'" value="취소"></td>
+      </tr>
+    </table>
+  </div>
+</form>
+<div th:insert="~{fragment/footer :: footer}"></div>
+</body>
+</html>

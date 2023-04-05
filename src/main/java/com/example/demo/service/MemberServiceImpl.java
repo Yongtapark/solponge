@@ -54,4 +54,21 @@ public class MemberServiceImpl implements MemberService {
     public List<Member> findMembers(MemberSearchCond cond) {
         return memberQueryRepository.findAll(cond);
     }
+
+
+    public Optional<Member> findByMemberId(String memberId) {
+        /*List<Member> all = memberFindAll();
+        for (Member member : all) {
+
+            if(member.getMEMBER_ID().equals(memberId)){
+                return Optional.of(member);
+            }
+        }
+
+        return Optional.empty();*/
+
+            return memberRepository.findAll().stream()
+                    .filter(member -> member.getMemberId().equals(memberId)).findAny();
+
+    }
 }

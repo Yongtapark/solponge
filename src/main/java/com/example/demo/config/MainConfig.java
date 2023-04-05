@@ -25,7 +25,7 @@ public class MainConfig {
 
     @Bean
     public MemberQueryRepository memberQueryRepository(){
-        return new MemberQueryRepository(em);
+        return new MemberQueryRepository(em, memberRepository);
     }
 
 

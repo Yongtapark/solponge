@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+  <title th:replace="${title}">레이아웃 타이틀</title>
+</head>
+<body>
+<header th:fragment="header">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/headerFooter.css}">
+  <nav class="navbar nav-first navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" th:href="@{/com.solponge/main}">
+        <img th:src="@{/img/sponge.png}" alt="Logo" style="width: 100px;">
+      </a>
+      <!-- <ul class="navbar-nav ml-auto">
+         <li th:if="${loginMember == null}">
+           <a th:href="@{/com.solponge/login}" class="btn btn-primary btn-sm">로그인</a>
+           <a th:href="@{/com.solponge/join}" class="btn btn-primary btn-sm">회원가입</a>
+           <a th:href="@{/com.solponge/login}" class="btn btn-primary btn-sm"><img th:src="@{/img/basket.png}" style="width: 20px;" alt="basket">장바구니</a>
+         </li>
+         <li th:if="${loginMember.MEMBER_GRADE == 'BASIC'}">
+           <p th:text="${loginMember.MEMBER_NAME} + '님 환영합니다.'"></p>
+           <a th:href="@{/com.solponge/logout}" class="btn btn-primary btn-sm">로그아웃</a>
+           <a th:href="@{'/com.solponge/member/' + ${loginMember.MEMBER_NO} + '/myPage'}" class="btn btn-primary btn-sm">마이페이지</a>
+           <a th:href="@{'/com.solponge/member/' + ${loginMember.MEMBER_NO} + '/myPage/cart'}" class="btn btn-primary btn-sm"><img th:src="@{/img/basket.png}" style="width: 20px;" alt="basket">&nbsp;장바구니</a>
+         </li>
+         <li th:if="${loginMember.MEMBER_GRADE == 'ADMIN'}">
+           <p th:text="${loginMember.MEMBER_NAME} + '님 환영합니다.'"></p>
+           <a th:href="@{/com.solponge/logout}" class="btn btn-primary btn-sm">로그아웃</a>
+           <a th:href="@{/com.solponge/admin/member}" class="btn btn-primary btn-sm">회원관리</a>
+           <a th:href="@{/com.solponge/admin/order}" class="btn btn-primary btn-sm">주문관리</a>
+           <a th:href="@{/com.solponge/admin/product}" class="btn btn-primary btn-sm">상품관리</a>
+         </li>
+       </ul>-->
+    </div>
+  </nav>
+
+  <nav class="nav-second navbar custom-navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <button class="navbar-toggler ml-auto" type="button"
+              data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navnav-linkbarSupportedContent" aria-expanded="false"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li><a class="nav-link" th:href="@{/com.solponge/productList}">BOOK</a>
+          </li>
+          <li><a class="nav-link" th:href="@{/com.solponge/jobinfolist}">JOB</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+</header>
+<h1>레이아웃 H1</h1>
+<div th:replace="${content}">
+  <p>레이아웃 컨텐츠</p>
+</div>
+</header>
+</body>
+</html>
