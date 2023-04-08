@@ -63,6 +63,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> getproductList() {
+        return productQueryRepository.getProductList();
+    }
+
+    @Override
     public List<Product> newTop8List() {
         return productQueryRepository.findNewTop8Products();
     }

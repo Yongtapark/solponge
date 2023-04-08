@@ -61,7 +61,9 @@
   </script>
 </head>
 <body>
-<div th:insert="~{fragment/header :: header}"></div>
+<header>
+  <div th:insert="~{fragment/header :: header}"></div>
+</header>
 <form th:action="@{/com.solponge/join}" th:object="${member}" method="post" name="frm" onsubmit="return infocheck()">
   <input type="hidden" name="memberNo" th:field="*{memberNo}">
   <div id="memberinfo">
@@ -132,6 +134,8 @@
     </table>
   </div>
 </form>
-<div th:insert="~{fragment/footer :: footer}"></div>
+<footer>
+  <div th:insert="~{fragment/footer :: footer}"></div>
+</footer>
 </body>
 </html>

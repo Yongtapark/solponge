@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description"
+        content="Start your development with Pigga landing page.">
+  <meta name="author" content="Devcrud">
+  <title>Home Shopping Site</title>
+  <link rel="stylesheet" href="/css/hdcss.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <style>
+    /* Pagination container */
+    #paging {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    /* Pagination links */
+    .pagination {
+      display: inline-block;
+      margin-bottom: 0;
+    }
+
+    .pagination .page-item {
+      display: inline;
+    }
+
+    .pagination .page-link {
+      color: #007bff;
+      background-color: #ffffff;
+      border: 1px solid #dee2e6;
+      padding: 6px 12px;
+      margin: 0 4px;
+    }
+
+    .pagination .page-item.disabled .page-link {
+      color: #6c757d;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    .pagination .page-item.active .page-link {
+      color: #fff;
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    .pagination {
+      display: inline-block;
+      margin: 0 auto;
+    }
+
+    .pagination li {
+      display: inline;
+      margin: 0 1px;
+    }
+
+    .pagination li.active a {
+      color: #fff;
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    .pagination li a {
+      color: #007bff;
+      border: 1px solid #007bff;
+      padding: 6px 12px;
+    }
+
+    .pagination li a:hover {
+      background-color: #007bff;
+      color: #fff;
+      border-color: #007bff;
+    }
+
+    .pagination li.disabled a {
+      color: #6c757d;
+      cursor: not-allowed;
+      background-color: #fff;
+      border-color: #6c757d;
+    }
+    #container_booklist{
+      width: 1050px;
+      margin: 0 auto;
+    }
+    #row2{
+      width: 1050px;
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
+<header>
+  <div th:insert="~{fragment/header :: header}"></div>
+</header>
+
+<div id="container_booklist">
+  <div id="row2">
+    <form th:action="@{/com.solponge/productList/search}" accept-charset="utf-8" name = "book_info" method = "get">
+      <h3 id="newbook">
+        <span th:if="${status.equals('Yes')}">검색된 책</span>
+        <span th:unless="${status.equals('Yes')}">새로나온책</span>
+
+        <select name="SearchSelect">
+          <option value="all">전체</option>
+          <option value="product_title">도서명</option>
+          <option value="product_writer">저자</option>
+        </select>
+        <input type="text" name="SearchValue" size="15" value="검색 내용">
+        <button type="submit"><img src="/img/Magnifier.png" style="width: 20px;" alt="Search"></button>
+      </h3>
+    </form>
+    <div th:each="productNew : ${paginatedProducts}">
+      <div class="column2">
+        <a th:href="@{/com.solponge/product/{productNum}(productNum=${productNew.product_num})}">
+          <img
+                th:src="${productNew.product_img}"
+                th:alt="${productNew.product_title}"
+                style="width: 187px; height: 256px; align-items:center; display: flex; justify-content:center; margin: 0"
+        />
+        </a>
+        <span th:if="${#strings.length(productNew.product_title) >= 16}">
+                    <a th:href="@{/com.solponge/product/{productNum}(productNum=${productNew.product_num})}"><h2 th:text="${#strings.substring(productNew.product_title, 0, 13)}+'...'"></h2></a>
+                </span>
+        <span th:unless="${#strings.length(productNew.product_title) >= 16}">
+                    <a th:href="@{/com.solponge/product/{productNum}(productNum=${productNew.product_num})}"><h2 th:text="${productNew.product_title}"></h2></a>
+                </span>
+        <a th:href="@{/com.solponge/product/{productNum}(productNum=${productNew.product_num})}"><p th:text="${productNew.product_price}+'원'"></p></a>
+      </div>
+    </div>
+    <nav id="paging" aria-label="Page navigation example" style="clear: both;">
+      <ul class="pagination justify-content-center" style="padding: 0">
+        <li class="page-item" th:classappend="${currentPage == 1 ? 'disabled' : ''}">
+          <a class="page-link" th:href="@{${url}(page=${currentPage - 1})}" tabindex="-1"
+             th:aria-disabled="${currentPage == 1}">Previous</a>
+        </li>
+        <li class="page-item" th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
+            th:classappend="${currentPage == pageNum ? 'active' : ''}">
+          <a class="page-link" th:href="@{${url}(page=${pageNum})}" th:text="${pageNum}"></a>
+        </li>
+        <li class="page-item" th:classappend="${currentPage == totalPages ? 'disabled' : ''}" style="margin-right: 44px">
+          <a class="page-link" th:href="@{${url}(page=${currentPage + 1})}" th:aria-disabled="${currentPage == totalPages}">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+<footer>
+  <div th:insert="~{fragment/footer :: footer}"></div>
+</footer>
+</body>
+</html>

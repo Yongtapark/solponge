@@ -55,4 +55,28 @@ public class ProductQueryRepository {
                 .limit(8)
                 .fetch();
     }
+
+    public List<Product> getProductList() {
+        return query.selectFrom(product)
+                .where(product.productGarbage.eq(1))
+                .orderBy(product.productNum.asc())
+                .fetch();
+    }
+
+   /* public Product getProduct(int productNum) {
+        return query.selectFrom(product)
+                .where(product.productGarbage.eq(1).and(product.productNum.eq((long) productNum)))
+                .fetchOne();
+    }
+
+    public void deleteProduct(int productNum) {
+        query.update(product)
+                .set(product.productGarbage, 0)
+                .where(product.productNum.eq((long) productNum))
+                .execute();
+    }*/
+
+
+
+
 }

@@ -1,4 +1,4 @@
-package com.example.demo.controller.login.session;
+package com.example.demo.domain.member.login.session;
 
 public interface SessionConst {
     /**

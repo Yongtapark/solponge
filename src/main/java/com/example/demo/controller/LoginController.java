@@ -1,6 +1,7 @@
-package com.example.demo.controller.login;
+package com.example.demo.controller;
 
-import com.example.demo.controller.login.session.SessionConst;
+import com.example.demo.domain.member.login.LoginForm;
+import com.example.demo.domain.member.login.session.SessionConst;
 import com.example.demo.domain.member.Member;
 import com.example.demo.service.LoginService;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,7 @@ public class LoginController {
         HttpSession session = request.getSession();
         //세션에 로그인 회원정보 보관
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+        log.info("session={}",session);
 
 
         String prevPage = (String) session.getAttribute("prevPage");

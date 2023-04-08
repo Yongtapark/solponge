@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.MemberJoinForm;
+import com.example.demo.domain.member.login.session.SessionConst;
 import com.example.demo.service.interfaces.MemberService;
 import com.example.demo.service.interfaces.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -28,11 +30,11 @@ public class homeController {
 
     @GetMapping("/main")
     public String home(Model model, HttpServletRequest request){
-        //Member loginMember = getLoginMember(request);
+        Member loginMember = getLoginMember(request);
         model.addAttribute("newTop8List", productService.newTop8List());
         model.addAttribute("popTop8List", productService.popTop8List());
         //model.addAttribute("getJopInfoNewTop8List", jopinfoService.getJopInfoNewTop8List());
-       // model.addAttribute("member",loginMember);
+        model.addAttribute("loginMember",loginMember);
        /* try{
             Long userNo = loginMember.getMEMBER_NO();
             System.out.println(userNo);
@@ -108,11 +110,11 @@ public class homeController {
         member.setMemberPhone(phone);
     }
 
-   /* *//*세션 로그인 정보 받기*//*
+    //세션 로그인 정보 받기
     private Member getLoginMember(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         return session != null ? (Member) session.getAttribute(SessionConst.LOGIN_MEMBER) : null;
-    }*/
+    }
 
 }
 

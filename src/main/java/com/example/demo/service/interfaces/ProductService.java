@@ -14,6 +14,8 @@ public interface ProductService {
     Optional<Product> findByNo(Long productNo);
     List<Product> findAll();
     List<Product> findProducts(ProductSearchCond cond);
+
+    List<Product> getproductList();
     List<Product> newTop8List();
     List<Product> popTop8List();
 

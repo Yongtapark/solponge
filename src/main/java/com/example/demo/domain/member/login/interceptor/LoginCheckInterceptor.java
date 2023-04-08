@@ -1,5 +1,5 @@
-package com.example.demo.controller.login.interceptor;
-import com.example.demo.controller.login.session.SessionConst;
+package com.example.demo.domain.member.login.interceptor;
+import com.example.demo.domain.member.login.session.SessionConst;
 import com.example.demo.domain.member.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -33,7 +33,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             response.sendRedirect("/com.solponge/login?redirectURL="+requestURI);
             return  false;
         }
-        request.setAttribute("member",loginMember);// 이게 없으면, header 에서 로그인을 잡지 못한다.//추후 수정예정
+       // request.setAttribute("member",loginMember);// 이게 없으면, header 에서 로그인을 잡지 못한다.//추후 수정예정
         return true;
     }
 }

@@ -50,7 +50,7 @@
     }
   </style>
 
-  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/headerFooter.css">
+  <link rel="stylesheet" th:href="@{/../static/css/headerFooter.css}" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script language="JavaScript">
 
@@ -185,7 +185,7 @@
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
 <header>
-  <!-- header.html 파일 포함 -->
+  <div th:insert="~{fragment/header :: header}"></div>
 </header>
 <div id="container">
   <div class="container_left">
@@ -218,21 +218,21 @@
       <h3 class="newbook">
         새로나온책!!!<span><a href="/com.solponge/productList">전체보기</a></span>
       </h3>
-      <div th:each="productNew : ${getproductNewTop8List}" class="column">
-        <a th:href="@{/com.solponge/product/{productNum}(productNum=${productNew.product_num})}">
-          <img th:src="${productNew.product_img}" th:alt="${productNew.product_title}"
+      <div th:each="productNew : ${newTop8List}" class="column">
+        <a th:href="@{/com.solponge/product/{productNum}(productNum=${productNew.productNum})}">
+          <img th:src="${productNew.productImg}" th:alt="${productNew.productTitle}"
                style="width: 197px; height: 266px;" />
         </a>
-        <h2 th:text="${#strings.abbreviate(productNew.product_title, 12)}">
-          <a th:href="@{/com.solponge/product/{productNum}(productNum=${productNew.product_num})}"></a>
+        <h2 th:text="${#strings.abbreviate(productNew.getProductTitle(), 12)}">
+          <a th:href="@{/com.solponge/product/{productNum}(productNum=${productNew.productNum})}"></a>
         </h2>
-        <p th:text="${productNew.product_price + '원'}">
-          <a th:href="@{/com.solponge/product/{productNum}(productNum=${productNew.product_num})}"></a>
+        <p th:text="${productNew.productPrice + '원'}">
+          <a th:href="@{/com.solponge/product/{productNum}(productNum=${productNew.productNum})}"></a>
         </p>
       </div>
-      <div th:if="${#lists.isEmpty(getproductNewTop8List)}">새로운 책이 없습니다.</div>
+      <div th:if="${#lists.isEmpty(newTop8List)}">새로운 책이 없습니다.</div>
 
-      <!-- 새로 등록된 공고 섹션 -->
+      <hr style="clear:both;">
       <h3 class="newbook">
         새로 등록된 공고!!!<span><a href="/com.solponge/jobinfolist">전체보기</a></span>
       </h3>
@@ -272,33 +272,33 @@
       인기 상품!!!<span><a th:href="@{/com.solponge/productlist}">전체보기</a></span>
     </h3>
     <div id="bestbook">
-      <div class="row" th:each="product : ${popularProductList}">
+      <div class="row" th:each="product : ${popTop8List}">
         <div class="column">
-          <a th:href="@{/com.solponge/product/{productNum}(productNum=${product.product_num})}">
-            <img th:src="${product.product_img}" th:alt="${product.product_title}" style="width: 197px; height: 266px;"/>
+          <a th:href="@{/com.solponge/product/{productNum}(productNum=${product.productNum})}">
+            <img th:src="${product.productImg}" th:alt="${product.productTitle}" style="width: 197px; height: 266px;"/>
           </a>
-          <div th:if="${#strings.length(product.product_title) > 12}">
-            <a th:href="@{/com.solponge/product/{productNum}(productNum=${product.product_num})}">
-              <h2 th:text="${#strings.substring(product.product_title, 0, 9)} + '...'"></h2>
+          <div th:if="${#strings.length(product.productTitle) > 12}">
+            <a th:href="@{/com.solponge/product/{productNum}(productNum=${product.productNum})}">
+              <h2 th:text="${#strings.substring(product.productTitle, 0, 9)} + '...'"></h2>
             </a>
           </div>
-          <div th:if="${#strings.length(product.product_title) <= 12}">
-            <a th:href="@{/com.solponge/product/{productNum}(productNum=${product.product_num})}">
-              <h2 th:text="${product.product_title}"></h2>
+          <div th:if="${#strings.length(product.productTitle) <= 12}">
+            <a th:href="@{/com.solponge/product/{productNum}(productNum=${product.productNum})}">
+              <h2 th:text="${product.productTitle}"></h2>
             </a>
           </div>
-          <a th:href="@{/com.solponge/product/{productNum}(productNum=${product.product_num})}">
-            <p th:text="${product.product_price + '원'}"></p>
+          <a th:href="@{/com.solponge/product/{productNum}(productNum=${product.productNum})}">
+            <p th:text="${product.productPrice + '원'}"></p>
           </a>
         </div>
       </div>
     </div>
 
-    <div th:if="${#lists.isEmpty(getproductpopularTop8List)}">인기 상품이 없습니다.</div>
+    <div th:if="${#lists.isEmpty(popTop8List)}">인기 상품이 없습니다.</div>
   </div>
 </div>
 <footer class="border border-dark border-left-0 border-right-0 border-bottom-0 p-4 bg-dark">
-  <!-- footer.html 파일 포함 -->
+  <div th:insert="~{fragment/footer :: footer}"></div>
 </footer>
 </body>
 </html>
