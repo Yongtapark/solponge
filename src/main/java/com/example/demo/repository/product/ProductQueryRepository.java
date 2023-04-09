@@ -1,7 +1,12 @@
 package com.example.demo.repository.product;
 
 import com.example.demo.domain.product.Product;
+import com.example.demo.domain.product.QProduct;
+import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.util.StringUtils;
 
@@ -63,7 +68,19 @@ public class ProductQueryRepository {
                 .fetch();
     }
 
-   /* public Product getProduct(int productNum) {
+    public QueryResults<Product> findAllProductsByPage(int page, int size) {
+        QProduct product = QProduct.product;
+        OrderSpecifier<Long> orderSpecifier = Expressions.numberTemplate(Long.class, "function('rand')").asc();
+
+        JPAQuery<Product> query = this.query.selectFrom(product)
+                .orderBy(orderSpecifier)
+                .offset((page - 1) * size)
+                .limit(size);
+
+        return query.fetchResults();
+    }
+
+    public Product getProduct(int productNum) {
         return query.selectFrom(product)
                 .where(product.productGarbage.eq(1).and(product.productNum.eq((long) productNum)))
                 .fetchOne();
@@ -74,7 +91,7 @@ public class ProductQueryRepository {
                 .set(product.productGarbage, 0)
                 .where(product.productNum.eq((long) productNum))
                 .execute();
-    }*/
+    }
 
 
 

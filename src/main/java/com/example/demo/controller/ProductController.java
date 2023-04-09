@@ -5,6 +5,7 @@ import com.example.demo.domain.member.login.session.SessionConst;
 import com.example.demo.domain.product.Product;
 import com.example.demo.service.interfaces.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class ProductController {
     private final ProductService productService;
 
 
-    @GetMapping("/productList")
+   /* @GetMapping("/productList")
     public String produtslist(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) Member loginMember,
                               Model model, HttpServletRequest request){
         model.addAttribute("member",loginMember);
@@ -31,8 +32,23 @@ public class ProductController {
 
 
         return "product/productlist";
+    }*/
+
+    @GetMapping("/productList")
+    public String productsList(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+                               Model model,
+                               @RequestParam(value = "page", defaultValue = "1") int page,
+                               @RequestParam(value = "size", defaultValue = "20") int size) {
+        model.addAttribute("member", loginMember);
+        model.addAttribute("currentPage", page); // currentPage를 모델에 추가합니다.
+
+        Page<Product> paginatedProducts = productService.findAllProductsByPage(page, size);
+        model.addAttribute("paginatedProducts", paginatedProducts);
+
+        return "product/productlist";
     }
-    @GetMapping("/productList/search")
+
+    /*@GetMapping("/productList/search")
     public String produtsearchlist(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) Member loginMember,
                                    Model model, HttpServletRequest request,
                                    @RequestParam("SearchSelect") String SearchSelec,
@@ -46,13 +62,13 @@ public class ProductController {
 
         return "product/productlist";
 
-    }
+    }*/
 
     @GetMapping("/product/{productId}")
     public String produtpage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) Member loginMember,
                              @PathVariable int productId, Model model){
         model.addAttribute("member",loginMember);
-        Product vo = productService.getproduct(productId);
+        Product vo = productService.getProduct(productId);
         System.out.println(productId);
         model.addAttribute("productVo", vo);
         return "product/productpage";

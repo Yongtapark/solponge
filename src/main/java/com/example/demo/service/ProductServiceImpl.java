@@ -5,7 +5,11 @@ import com.example.demo.repository.product.ProductQueryRepository;
 import com.example.demo.repository.product.ProductRepository;
 import com.example.demo.repository.product.ProductSearchCond;
 import com.example.demo.service.interfaces.ProductService;
+import com.querydsl.core.QueryResults;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,5 +79,21 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> popTop8List() {
         return productQueryRepository.findPopularTop8Products();
+    }
+
+    @Override
+    public Page<Product> findAllProductsByPage(int page, int size) {
+        QueryResults<Product> results = productQueryRepository.findAllProductsByPage(page, size);
+        return new PageImpl<>(results.getResults(), PageRequest.of(page - 1, size), results.getTotal());
+    }
+
+    @Override
+    public Product getProduct(int productNum) {
+        return productQueryRepository.getProduct(productNum);
+    }
+
+    @Override
+    public void deleteProduct(int productNum) {
+        productQueryRepository.deleteProduct(productNum);
     }
 }

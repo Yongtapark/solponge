@@ -99,7 +99,7 @@
 
 <div id="container_booklist">
   <div id="row2">
-    <form th:action="@{/com.solponge/productList/search}" accept-charset="utf-8" name = "book_info" method = "get">
+    <!--<form th:action="@{/com.solponge/productList/search}" accept-charset="utf-8" name = "book_info" method = "get">
       <h3 id="newbook">
         <span th:if="${status.equals('Yes')}">검색된 책</span>
         <span th:unless="${status.equals('Yes')}">새로나온책</span>
@@ -112,40 +112,44 @@
         <input type="text" name="SearchValue" size="15" value="검색 내용">
         <button type="submit"><img src="/img/Magnifier.png" style="width: 20px;" alt="Search"></button>
       </h3>
-    </form>
-    <div th:each="productNew : ${paginatedProducts}">
-      <div class="column2">
-        <a th:href="@{/com.solponge/product/{productNum}(productNum=${productNew.product_num})}">
+    </form>-->
+    <div class="row">
+      <div th:each="productNew, iterStat : ${paginatedProducts}">
+        <div class="column2">
+        <a th:href="@{/com.solponge/product/{productNum}(productNum=${productNew.productNum})}">
           <img
-                th:src="${productNew.product_img}"
-                th:alt="${productNew.product_title}"
+                th:src="${productNew.productImg}"
+                th:alt="${productNew.productTitle}"
                 style="width: 187px; height: 256px; align-items:center; display: flex; justify-content:center; margin: 0"
         />
         </a>
-        <span th:if="${#strings.length(productNew.product_title) >= 16}">
-                    <a th:href="@{/com.solponge/product/{productNum}(productNum=${productNew.product_num})}"><h2 th:text="${#strings.substring(productNew.product_title, 0, 13)}+'...'"></h2></a>
+        <span th:if="${#strings.length(productNew.productTitle) >= 16}">
+                    <a th:href="@{/com.solponge/product/{productNum}(productNum=${productNew.productNum})}"><h2 th:text="${#strings.substring(productNew.productTitle, 0, 13)}+'...'"></h2></a>
                 </span>
-        <span th:unless="${#strings.length(productNew.product_title) >= 16}">
-                    <a th:href="@{/com.solponge/product/{productNum}(productNum=${productNew.product_num})}"><h2 th:text="${productNew.product_title}"></h2></a>
+        <span th:unless="${#strings.length(productNew.productTitle) >= 16}">
+                    <a th:href="@{/com.solponge/product/{productNum}(productNum=${productNew.productNum})}"><h2 th:text="${productNew.productTitle}"></h2></a>
                 </span>
-        <a th:href="@{/com.solponge/product/{productNum}(productNum=${productNew.product_num})}"><p th:text="${productNew.product_price}+'원'"></p></a>
+        <a th:href="@{/com.solponge/product/{productNum}(productNum=${productNew.productNum})}"><p th:text="${productNew.productPrice}+'원'"></p></a>
       </div>
+        </div>
     </div>
-    <nav id="paging" aria-label="Page navigation example" style="clear: both;">
-      <ul class="pagination justify-content-center" style="padding: 0">
-        <li class="page-item" th:classappend="${currentPage == 1 ? 'disabled' : ''}">
-          <a class="page-link" th:href="@{${url}(page=${currentPage - 1})}" tabindex="-1"
-             th:aria-disabled="${currentPage == 1}">Previous</a>
-        </li>
-        <li class="page-item" th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
-            th:classappend="${currentPage == pageNum ? 'active' : ''}">
-          <a class="page-link" th:href="@{${url}(page=${pageNum})}" th:text="${pageNum}"></a>
-        </li>
-        <li class="page-item" th:classappend="${currentPage == totalPages ? 'disabled' : ''}" style="margin-right: 44px">
-          <a class="page-link" th:href="@{${url}(page=${currentPage + 1})}" th:aria-disabled="${currentPage == totalPages}">Next</a>
-        </li>
-      </ul>
-    </nav>
+    <th:block th:with="currentPage=${paginatedProducts.number + 1}, totalPages=${paginatedProducts.totalPages}, startPage=${T(java.lang.Math).max(currentPage - 2, 1)}, endPage=${totalPages != null ? T(java.lang.Math).min(startPage + 4, totalPages) : 1}, url='/com.solponge/productList'">
+      <nav id="paging" aria-label="Page navigation example" style="clear: both;">
+        <ul class="pagination justify-content-center" style="padding: 0">
+          <li class="page-item" th:classappend="${currentPage == 1 ? 'disabled' : ''}">
+            <a class="page-link" th:href="@{${url}(page=${currentPage - 1})}" tabindex="-1"
+               th:aria-disabled="${currentPage == 1}">Previous</a>
+          </li>
+          <li class="page-item" th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
+              th:classappend="${currentPage == pageNum ? 'active' : ''}">
+            <a class="page-link" th:href="@{${url}(page=${pageNum})}" th:text="${pageNum}"></a>
+          </li>
+          <li class="page-item" th:classappend="${currentPage == totalPages ? 'disabled' : ''}" style="margin-right: 44px">
+            <a class="page-link" th:href="@{${url}(page=${currentPage + 1})}" th:aria-disabled="${currentPage == totalPages}">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </th:block>
   </div>
 </div>
 <footer>
