@@ -10,6 +10,8 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
@@ -27,11 +29,15 @@ public class ProductQueryRepository {
         this.productRepository = productRepository;
     }
 
-    public Page<Product> search(ProductSearchCond cond) {
-        return (Page<Product>) query.select(product)
+    public Page<Product> search(ProductSearchCond cond, Pageable pageable) {
+        QueryResults<Product> results = query.select(product)
                 .from(product)
                 .where(searchBySelect(cond.getSearchSelect(), cond.getSearchValue()))
-                .fetch();
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
     private BooleanExpression searchBySelect(String searchSelect, String searchValue) {
@@ -41,9 +47,9 @@ public class ProductQueryRepository {
                 case "all":
                     return product.productTitle.contains(searchValue)
                             .or(product.productWriter.contains(searchValue));
-                case "product_title":
+                case "productTitle":
                     return product.productTitle.contains(searchValue);
-                case "product_writer":
+                case "productWriter":
                     return product.productWriter.contains(searchValue);
             }
         }

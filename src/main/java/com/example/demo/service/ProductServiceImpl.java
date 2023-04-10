@@ -76,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> search(ProductSearchCond cond, Pageable pageable) {
-        return productQueryRepository.search(cond);
+        return productQueryRepository.search(cond,pageable);
     }
 
     @Override

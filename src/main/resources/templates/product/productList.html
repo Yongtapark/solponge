@@ -101,29 +101,17 @@
   <div id="row2">
     <form th:action="@{/com.solponge/productList}" accept-charset="utf-8" method="get">
       <h3 id="newbook">
-        <span th:text="${searchResult != null ? '검색된 책' : '새로나온책'}"></span>
-        <select name="SearchSelect">
+        <span th:text="${paginatedProducts != null ? '검색된 책' : '새로나온책'}"></span>
+        <select name="searchSelect">
           <option value="all">전체</option>
           <option value="productTitle">도서명</option>
           <option value="productWriter">저자</option>
         </select>
-        <input type="text" name="searchKeyword" size="15" placeholder="검색 내용">
+        <input type="text" name="searchValue" size="15" placeholder="검색 내용">
         <button type="submit"><img src="/img/Magnifier.png" style="width: 20px;" alt="Search"></button>
       </h3>
     </form>
 
-   <!-- <form th:action="@{/com.solponge/productList}" accept-charset="utf-8" method="get">
-      <h3 id="newbook">
-        <span th:text="${searchResult != null ? '검색된 책' : '새로나온책'}"></span>
-        <select name="SearchSelect">
-          <option value="all">전체</option>
-          <option value="productTitle">도서명</option>
-          <option value="productWriter">저자</option>
-        </select>
-        <input type="text" name="SearchValue" size="15" placeholder="검색 내용">
-        <button type="submit"><img src="/img/Magnifier.png" style="width: 20px;" alt="Search"></button>
-      </h3>
-    </form>-->
 
     <div class="row">
       <div th:each="productNew, iterStat : ${paginatedProducts}">
@@ -150,19 +138,18 @@
       <nav id="paging" aria-label="Page navigation example" style="clear: both;">
         <ul class="pagination justify-content-center" style="padding: 0">
           <!-- Previous button -->
-          <!-- Previous button -->
           <li class="page-item" th:classappend="${nowPage == 1 ? 'disabled' : ''}">
-            <a class="page-link" th:href="@{/com.solponge/productList(page=${nowPage - 2}, searchKeyword = ${param.searchKeyword})}" tabindex="-1"
+            <a class="page-link" th:href="@{/com.solponge/productList(page=${nowPage - 2}, searchSelect = ${param.searchSelect}, searchValue = ${param.searchValue})}" tabindex="-1"
                th:aria-disabled="${nowPage == 1}">Previous</a>
           </li>
           <!-- Page numbers -->
           <li class="page-item" th:each="page : ${#numbers.sequence(startPage,endPage)}"
               th:classappend="${nowPage == page ? 'active' : ''}">
-            <a class="page-link" th:href="@{/com.solponge/productList(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>
+            <a class="page-link" th:href="@{/com.solponge/productList(page = ${page - 1}, searchSelect = ${param.searchSelect}, searchValue = ${param.searchValue})}" th:text="${page}"></a>
           </li>
           <!-- Next button -->
           <li class="page-item" th:classappend="${nowPage == totalPages ? 'disabled' : ''}" style="margin-right: 44px">
-            <a class="page-link" th:href="@{/com.solponge/productList(page=${nowPage}, searchKeyword = ${param.searchKeyword})}" th:aria-disabled="${nowPage == totalPages}">Next</a>
+            <a class="page-link" th:href="@{/com.solponge/productList(page=${nowPage}, searchSelect = ${param.searchSelect}, searchValue = ${param.searchValue})}" th:aria-disabled="${nowPage == totalPages}">Next</a>
           </li>
         </ul>
       </nav>

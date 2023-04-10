@@ -8,7 +8,6 @@ import com.example.demo.service.interfaces.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -16,8 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Map;
 
 
@@ -29,27 +26,21 @@ public class ProductController {
     private final ProductService productService;
 
 
-   /* @GetMapping("/productList")
-    public String produtslist(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) Member loginMember,
-                              Model model, HttpServletRequest request){
-        model.addAttribute("member",loginMember);
-
-        List<Product> data = productService.getproductList();
-        new pageing(20, request, data, model, "paginatedProducts");
-
-
-        return "product/productlist";
-    }*/
 
     @GetMapping("/productList")
     public String productList(Model model,
                               @PageableDefault(page = 0, size = 20, sort ="productNum",direction = Sort.Direction.ASC) Pageable pageable,
-                              String searchKeyword) {
+                              String searchSelect, String searchValue) {
         Page<Product> paginatedProducts = null;
-        if (searchKeyword==null){
+        if (searchSelect==null && searchValue==null){
+            log.info("===검색어 없음===");
             paginatedProducts = productService.findAll(pageable);
         }else {
-            paginatedProducts = productService.productSearchList(searchKeyword,pageable);
+            log.info("===검색어 있음===");
+            ProductSearchCond cond = new ProductSearchCond(searchSelect, searchValue);
+            log.info("cond={}",cond);
+            paginatedProducts = productService.search(cond, pageable);
+            //paginatedProducts = productService.productSearchList(searchKeyword,pageable);
         }
 
         int nowPage= paginatedProducts.getPageable().getPageNumber()+1 ;
@@ -73,32 +64,32 @@ public class ProductController {
 
 
 
-    @GetMapping("/product/{productId}")
-    public String produtpage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) Member loginMember,
-                             @PathVariable int productId, Model model){
+    @GetMapping("/product/{productNum}")
+    public String getProductPage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) Member loginMember,
+                              @PathVariable int productNum, Model model){
         model.addAttribute("member",loginMember);
-        Product vo = productService.getProduct(productId);
-        System.out.println(productId);
-        model.addAttribute("productVo", vo);
-        return "product/productpage";
+        Product product = productService.getProduct(productNum);
+        model.addAttribute("product", product);
+        return "product/productPage";
     }
 
-    @PostMapping("/product/{productId}")
-    public String produtprocess(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) Member loginMember,
-                                @PathVariable int productId, Model model,
+    @PostMapping("/product/{productNum}")
+    public String postProductPage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) Member loginMember,
+                                @PathVariable Long productNum, Model model,
                                 @RequestParam Map<String,String> requestParams,
                                 @RequestParam("quantityinput") String quantityinput){
-        System.out.println("productId,"+productId);
+        log.info("=====productId 진입=====");
+        System.out.println("productId,"+ productNum);
         System.out.println("quantityinput,"+quantityinput);
         boolean check = requestParams.containsKey("button1");
-        model.addAttribute("product_num",productId);
+        model.addAttribute("product_num", productNum);
         model.addAttribute("quantityinput",quantityinput);
         model.addAttribute("member",loginMember);
         model.addAttribute("check",check);
         if (check) {
-            return "redirect:/com.solponge/member/"+loginMember.getMemberNo()+"/"+ productId + "/" + quantityinput + "/true";
+            return "redirect:/com.solponge/member/"+loginMember.getMemberNo()+"/"+ productNum + "/" + quantityinput + "/true";
         } else {
-            return "redirect:/com.solponge/member/"+loginMember.getMemberNo()+"/myPage/cart/"+ productId + "/" + quantityinput;
+            return "redirect:/com.solponge/member/"+loginMember.getMemberNo()+"/myPage/cart/"+ productNum + "/" + quantityinput;
         }
 
     }
