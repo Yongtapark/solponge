@@ -5,11 +5,9 @@ import com.example.demo.repository.product.ProductQueryRepository;
 import com.example.demo.repository.product.ProductRepository;
 import com.example.demo.repository.product.ProductSearchCond;
 import com.example.demo.service.interfaces.ProductService;
-import com.querydsl.core.QueryResults;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,11 +60,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findProducts(ProductSearchCond cond) {
-        return productQueryRepository.search(cond);
-    }
-
-    @Override
     public List<Product> getproductList() {
         return productQueryRepository.getProductList();
     }
@@ -82,9 +75,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> findAllProductsByPage(int page, int size) {
-        QueryResults<Product> results = productQueryRepository.findAllProductsByPage(page, size);
-        return new PageImpl<>(results.getResults(), PageRequest.of(page - 1, size), results.getTotal());
+    public Page<Product> search(ProductSearchCond cond, Pageable pageable) {
+        return productQueryRepository.search(cond);
     }
 
     @Override
@@ -95,5 +87,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(int productNum) {
         productQueryRepository.deleteProduct(productNum);
+    }
+
+    @Override
+    public Page<Product> findAll(Pageable pageable) {
+        return productRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Product> productSearchList(String searchKeyword, Pageable pageable) {
+        return productRepository.findByProductTitleContaining(searchKeyword,pageable);
     }
 }

@@ -8,13 +8,15 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.example.demo.domain.product.QProduct.*;
-
+@Slf4j
 public class ProductQueryRepository {
 
     private final JPAQueryFactory query;
@@ -25,14 +27,15 @@ public class ProductQueryRepository {
         this.productRepository = productRepository;
     }
 
-    public List<Product> search(ProductSearchCond cond) {
-        return query.select(product)
+    public Page<Product> search(ProductSearchCond cond) {
+        return (Page<Product>) query.select(product)
                 .from(product)
                 .where(searchBySelect(cond.getSearchSelect(), cond.getSearchValue()))
                 .fetch();
     }
 
     private BooleanExpression searchBySelect(String searchSelect, String searchValue) {
+        log.info("===Enter search===");
         if (StringUtils.hasText(searchSelect) && StringUtils.hasText(searchValue)) {
             switch (searchSelect) {
                 case "all":
@@ -66,18 +69,6 @@ public class ProductQueryRepository {
                 .where(product.productGarbage.eq(1))
                 .orderBy(product.productNum.asc())
                 .fetch();
-    }
-
-    public QueryResults<Product> findAllProductsByPage(int page, int size) {
-        QProduct product = QProduct.product;
-        OrderSpecifier<Long> orderSpecifier = Expressions.numberTemplate(Long.class, "function('rand')").asc();
-
-        JPAQuery<Product> query = this.query.selectFrom(product)
-                .orderBy(orderSpecifier)
-                .offset((page - 1) * size)
-                .limit(size);
-
-        return query.fetchResults();
     }
 
     public Product getProduct(int productNum) {

@@ -3,9 +3,15 @@ package com.example.demo.controller;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.login.session.SessionConst;
 import com.example.demo.domain.product.Product;
+import com.example.demo.repository.product.ProductSearchCond;
 import com.example.demo.service.interfaces.ProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +23,8 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/com.solponge")
-@RequiredArgsConstructor // 초기화 되지 않게 알아서 실행되는 녀석
+@RequiredArgsConstructor
+@Slf4j
 public class ProductController {
     private final ProductService productService;
 
@@ -35,34 +42,36 @@ public class ProductController {
     }*/
 
     @GetMapping("/productList")
-    public String productsList(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
-                               Model model,
-                               @RequestParam(value = "page", defaultValue = "1") int page,
-                               @RequestParam(value = "size", defaultValue = "20") int size) {
-        model.addAttribute("member", loginMember);
-        model.addAttribute("currentPage", page); // currentPage를 모델에 추가합니다.
+    public String productList(Model model,
+                              @PageableDefault(page = 0, size = 20, sort ="productNum",direction = Sort.Direction.ASC) Pageable pageable,
+                              String searchKeyword) {
+        Page<Product> paginatedProducts = null;
+        if (searchKeyword==null){
+            paginatedProducts = productService.findAll(pageable);
+        }else {
+            paginatedProducts = productService.productSearchList(searchKeyword,pageable);
+        }
 
-        Page<Product> paginatedProducts = productService.findAllProductsByPage(page, size);
+        int nowPage= paginatedProducts.getPageable().getPageNumber()+1 ;
+        int totalPages = paginatedProducts.getTotalPages();
+        int startPage = Math.max(nowPage - 5, 1);
+        int endPage = Math.min(startPage + 9, totalPages);
+
+        if (endPage - startPage < 9 && totalPages > 9) {
+            startPage = Math.max(endPage - 9, 1);
+        }
+
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("totalPages",totalPages);
+
         model.addAttribute("paginatedProducts", paginatedProducts);
-
-        return "product/productlist";
+        return "product/productList";
     }
 
-    /*@GetMapping("/productList/search")
-    public String produtsearchlist(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) Member loginMember,
-                                   Model model, HttpServletRequest request,
-                                   @RequestParam("SearchSelect") String SearchSelec,
-                                   @RequestParam("SearchValue") String SearchValue){
-        model.addAttribute("member",loginMember);
 
-        List<Product> data = productService.produtsearchlist(SearchSelec, SearchValue);
 
-        String url = request.getQueryString();
-        new pageing(20, request, data, model,"paginatedProducts", url);
-
-        return "product/productlist";
-
-    }*/
 
     @GetMapping("/product/{productId}")
     public String produtpage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) Member loginMember,
