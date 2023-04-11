@@ -8,13 +8,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Data
-@Entity
 @NoArgsConstructor
 public class CartList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cartNum;
-    @OneToOne
+    @ManyToOne
     private Member member;
     @ManyToOne
     private Product product;

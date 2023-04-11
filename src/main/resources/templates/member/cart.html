@@ -70,14 +70,14 @@
     }
   </style>
 </head>
-<body>
+<body th:object="${session.loginMember}">
 <header>
   <div th:insert="~{fragment/header :: header}"></div>
 </header>
 
 <!-- 장바구니가 비어있는 경우 메시지 출력 -->
-<div th:if="${#lists.isEmpty(cart.cartItems)}" class="cart" style="min-height: 500px">
-  <h1 th:text="${loginMember.MEMBER_NAME} + '님의 장바구니'"></h1>
+<div th:if="${#lists.isEmpty(cart.getCartItems)}" class="cart" style="min-height: 500px">
+  <h1 th:text="|*{memberName} + '님의 장바구니'|"></h1>
   <p style="text-align: center; font-size: 1.5rem; font-weight: bold;">장바구니가 비어있습니다</p>
   <div style="
   display: flex;
@@ -102,27 +102,26 @@
   </div>
 </div>
 <!-- 장바구니 아이템이 있는 경우 -->
-<div th:if="${not #lists.isEmpty(cart.cartItems)}" class="cart">
-  <h1 th:text="${loginMember.MEMBER_NAME} + '님의 장바구니'"></h1>
+<div th:if="${not #lists.isEmpty(cart.getCartItems)}" class="cart">
+  <h1 th:text="|*{memberName} 님의 장바구니|"></h1>
   <hr>
-  <form th:action="@{/com.solponge/member/${loginMember.MEMBER_NO}/myPage/cart}" method="post">
-    <div th:each="entry : ${cart.cartItems}" class="cart__item">
-      <th:block th:with="product=${entry.value.product}">
-        <img class="cart__item-img" th:src="${product.product_img}" th:alt="${cartItem.product.product_title}" th:onclick="'location.href=\'/com.solponge/product/' + ${product.product_num} + '\''">
+  <form th:action="@{'/com.solponge/member/' + ${session.loginMember.memberNum} + '/myPage/cart'}" method="post">
+    <div th:each="entry : ${cart.getCartItems}" class="cart__item">
+      <th:block th:with="product=${entry.product}">
+        <img class="cart__item-img" th:src="${product.productImg}" th:alt="${cart.getCartItems()}" th:onclick="'location.href=\'/com.solponge/product/' + ${product.productNum} + '\''">
         <div class="cart__item-info">
-          <div class="cart__item-num" th:text="${entry.value.CART_ITEM_NUM}"></div>
-          <div class="cart__item-title" th:text="${product.product_title}" th:onclick="'location.href=\'/com.solponge/product/' + ${product.product_num} + '\''"></div>
-          <div class="cart__item-price" th:text="'가격: ' + ${product.product_price} + '원'"></div>
-          <div class="cart__item-total-price" th:text="'소계: ' + ${entry.value.totalPrice} + '원'"></div>
-          <div class="cart__item-quantity">상태: <input type="text" th:value="${entry.value.CART_ITEM_STOCK}" style="width: 20px;"></div>
-          <input type="hidden" name="cartItems" th:value="${product.product_num} + ',' + ${entry.value.CART_ITEM_STOCK} + ',' + ${loginMember.MEMBER_NO} + ',' + ${entry.value.CART_ITEM_NUM}">
+          <div class="cart__item-num" th:text="${entry.cartItemNum}"></div>
+          <div class="cart__item-title" th:text="${product.productTitle}" th:onclick="'location.href=\'/com.solponge/product/' + ${product.productNum} + '\''"></div>
+          <div class="cart__item-price" th:text="'가격: ' + ${product.productPrice} + '원'"></div>
+          <div class="cart__item-total-price" th:text="'소계: ' + ${entry.totalPrice} + '원'"></div>
+          <div class="cart__item-quantity">상태: <input type="text" th:value="${entry.cartItemStock}" style="width: 20px;"></div>
+          <input type="hidden" name="cartItems" th:value="${product.productNum} + ',' + ${entry.cartItemStock} + ',' + *{getMemberNum} + ',' + ${entry.cartItemNum}">
         </div>
         <div class="cart_Item_check">
-          <input type="checkbox" checked name="order" th:value="${entry.key}"><img src="${pageContext.request.contextPath}/img/basket.png" alt="cart.ico" style="width: 25px;">
+          <input type="checkbox" checked name="order" th:value="${entry.cartItemNum}"><img th:src="@{/img/basket.png}" alt="cart.ico" style="width: 25px;">
         </div>
         <div class="cart__item-remove">
-          <button type="submit" class="deleteButton" th:formaction="@{/com.solponge/member/${loginMember.MEMBER_NO}/myPage/cart/deleteCartItem}" name="cartItemNum" th:value="${entry.value.CART_ITEM_NUM}">
-            <img src="${pageContext.request.contextPath}/img/delete.png" alt="delete.ico" style="width: 25px;"/>
+          <button type="submit" class="deleteButton" th:formaction="@{'/com.solponge/member/' + ${session.loginMember.memberNum} + '/myPage/cart/deleteCartItem'}" name="cartItemNum" th:value="${entry.cartItemNum}">            <img th:src="@{/img/delete.png}" alt="delete.ico" style="width: 25px;"/>
           </button>
         </div>
       </th:block>
@@ -142,8 +141,7 @@
       <div><span>총 결제 금액 :</span> <span th:text="${cart.totalPrice + 2500} + ' 원'"></span></div>
     </div>
     <br>
-    <button type="submit" th:formaction="/com.solponge/member/${loginMember.MEMBER_NO}/payments">주문하기</button>
-
+    <button type="submit" th:formaction="@{'/com.solponge/member/' + ${session.loginMember.memberNum} + '/payments'}">주문하기</button>
   </form>
 </div>
 <footer>

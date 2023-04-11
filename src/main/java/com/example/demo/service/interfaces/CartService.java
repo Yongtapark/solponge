@@ -2,7 +2,7 @@ package com.example.demo.service.interfaces;
 
 import com.example.demo.domain.cart.Cart;
 import com.example.demo.domain.cart.CartItem;
-import com.example.demo.domain.cart.CartList;
+
 
 import java.util.List;
 
@@ -11,24 +11,30 @@ public interface CartService {
      * cart_item
      * 상품 추가, 수정, 삭제, 확인
      */
-    int addItem(CartItem cartItem);
-    void updateItem(int cart_item_num, CartItem cartItem);
-    void deleteItem(int cartItem_num);
-    CartItem findItem(int cart_item_num);
+    CartItem addItem(CartItem cartItem);
+
+    void updateItem(Long cart_item_num, CartItem cartItem);
+
+    void deleteItem(CartItem cartItem);
+
+    CartItem findItem(Long cartItemNum);
 
     /**
      * cart
      * 상품 리스트 확인
      */
-    int createCart(Cart cartVo);
+    Cart createCart(Cart cart);
 
-    Cart getMyCart(int member_num);
+    Cart getMyCart(Long memberNo);
 
-    List<CartList> cartList(int member_num);
 
     /**
      * 서비스
      */
-    void deleteCartItemByMember(int MEMBER_NO);
-    void deleteCartByMember(int MEMBER_NUM);
+    void deleteCartItemByMember(Long MEMBER_NO);
+
+    void deleteCartByMember(Long MEMBER_NUM);
+
+   // List<CartList> showMyCart(int MEMBER_NUM);
+
 }

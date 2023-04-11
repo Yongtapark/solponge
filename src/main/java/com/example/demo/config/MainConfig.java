@@ -1,7 +1,6 @@
 package com.example.demo.config;
 
 import com.example.demo.repository.cart.CartItemRepository;
-import com.example.demo.repository.cart.CartQueryRepository;
 import com.example.demo.repository.cart.CartRepository;
 import com.example.demo.repository.member.MemberQueryRepository;
 import com.example.demo.repository.member.MemberRepository;
@@ -44,7 +43,7 @@ public class MainConfig {
 
     @Bean
     public CartService cartService(){
-        return new CartServiceImpl(cartItemRepository,cartRepository,cartQueryRepository());
+        return new CartServiceImpl(cartItemRepository,cartRepository);
     }
 
 
@@ -63,10 +62,7 @@ public class MainConfig {
         return new ProductQueryRepository(em, productRepository);
     }
 
-    @Bean
-    public CartQueryRepository cartQueryRepository(){
-        return new CartQueryRepository(em,cartRepository);
-    }
+
 
 
 

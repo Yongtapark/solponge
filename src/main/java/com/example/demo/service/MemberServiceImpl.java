@@ -21,7 +21,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Long join(Member member) {
-        return memberRepository.save(member).getMemberNo();
+        return memberRepository.save(member).getMemberNum();
     }
 
     @Override

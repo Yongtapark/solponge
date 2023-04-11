@@ -26,7 +26,7 @@ class MemberServiceImplTest {
         //when
         memberService.join(member);
         //then
-        Member findMember = memberService.findByNo(member.getMemberNo()).get();
+        Member findMember = memberService.findByNo(member.getMemberNum()).get();
         Assertions.assertThat(member).isEqualTo(findMember);
 
     }
@@ -38,7 +38,7 @@ class MemberServiceImplTest {
         Long memberNo = memberService.join(member);
         //when
         Member update = new Member("updatedPassword", "updatedAddress", "updatedEmail", "updatedPhone");
-        memberService.update(member.getMemberNo(),update);
+        memberService.update(member.getMemberNum(),update);
         //then
         Assertions.assertThat(memberService.findByNo(memberNo).get().getMemberAddress()).isEqualTo("updatedAddress");
         log.info("memberService.findByNo(memberNo).get()={}",memberService.findByNo(memberNo).get());

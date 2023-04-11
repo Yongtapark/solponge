@@ -2,19 +2,17 @@ package com.example.demo.domain.member;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.Setter;
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true)
-    private Long memberNo;
+    private Long memberNum;
     @Enumerated(EnumType.STRING)
     private Grade memberGrade = Grade.BASIC;
     private String memberId;
@@ -51,8 +49,8 @@ public class Member {
         this.memberPhone = memberPhone;
     }
 
-    public Member(Long memberNo, String memberId, String memberName) {
-        this.memberNo = memberNo;
+    public Member(Long memberNum, String memberId, String memberName) {
+        this.memberNum = memberNum;
         this.memberId = memberId;
         this.memberName = memberName;
     }

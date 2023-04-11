@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.cart.Cart;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.MemberJoinForm;
 import com.example.demo.domain.member.login.session.SessionConst;
+import com.example.demo.service.interfaces.CartService;
 import com.example.demo.service.interfaces.MemberService;
 import com.example.demo.service.interfaces.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+import static com.example.demo.domain.cart.QCart.cart;
+
 @Controller
 @Slf4j
 @RequiredArgsConstructor
@@ -27,6 +31,7 @@ import java.util.List;
 public class homeController {
     private final MemberService memberService;
     private final ProductService productService;
+    private final CartService cartService;
 
     @GetMapping("/main")
     public String home(Model model, HttpServletRequest request){
@@ -86,10 +91,10 @@ public class homeController {
         joindMember.setMemberPhone(member.getMemberPhone());
         Long join = memberService.join(joindMember);
         log.info("join={}",join);
-       /* log.info("joinedMember={}",join);
+        log.info("joinedMember={}",join);
         //회원가입 시 카트 생성
-        int cart = cartService.createCart(new CartVo(Math.toIntExact(join)));
-        log.info("cartCreated={}",cart);*/
+        Cart cart = cartService.createCart(new Cart(joindMember));
+        log.info("cartCreated={}",cart);
         return "member/addComplete";
     }
 

@@ -24,9 +24,9 @@ public class QCart extends EntityPathBase<Cart> {
 
     public final StringPath cartDate = createString("cartDate");
 
-    public final MapPath<Long, CartItem, QCartItem> cartItems = this.<Long, CartItem, QCartItem>createMap("cartItems", Long.class, CartItem.class, QCartItem.class);
+    public final ListPath<CartItem, QCartItem> cartItems = this.<CartItem, QCartItem>createList("cartItems", CartItem.class, QCartItem.class, PathInits.DIRECT2);
 
-    public final NumberPath<Integer> cartNum = createNumber("cartNum", Integer.class);
+    public final NumberPath<Long> cartNum = createNumber("cartNum", Long.class);
 
     public final com.example.demo.domain.member.QMember member;
 
