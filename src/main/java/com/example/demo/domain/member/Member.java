@@ -1,4 +1,5 @@
 package com.example.demo.domain.member;
+import com.example.demo.domain.cart.Cart;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,6 +23,9 @@ public class Member {
     private String memberEmail;
     private String memberPhone;
     private LocalDateTime memberDate = LocalDateTime.now();
+
+    @OneToOne(mappedBy = "member")
+    private Cart cart;
 
 
 
@@ -53,6 +57,14 @@ public class Member {
         this.memberNum = memberNum;
         this.memberId = memberId;
         this.memberName = memberName;
+    }
+
+    // 장바구니와 연결하는 메소드
+    public void setCart(Cart cart) {
+        this.cart = cart;
+        if (cart.getMember() != this) {
+            cart.setMember(this);
+        }
     }
 
 }

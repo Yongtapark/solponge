@@ -86,4 +86,12 @@ public class Cart {
         return totalPrice;
     }
 
+    // 연관 관계 편의 메소드
+    public void setMember(Member member) {
+        this.member = member;
+        if (member.getCart() != this) {
+            member.setCart(this);
+        }
+    }
+
 }
