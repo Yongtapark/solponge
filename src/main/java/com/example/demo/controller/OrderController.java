@@ -42,18 +42,15 @@ public class OrderController {
         // 체크박스가 선택된 상품만 걸러내기
         log.info("cart={}",cart);
 
-
-        return "redirect:/success";
-    }
-    /*@PostMapping("/payments")
-    public String processPayments(@ModelAttribute("cart")List<CartItem> cart, Model model) {
-        // 체크박스가 선택된 상품만 걸러내기
-        log.info("cartItems={}",cart);
+        List<CartItem> selectedItems = cart.getCartItems().stream()
+                .filter(CartItem::isSelected)
+                .collect(Collectors.toList());
+        log.info("selectedItems={}",selectedItems);
 
 
         return "redirect:/success";
     }
-*/
+
 
 
 

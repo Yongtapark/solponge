@@ -115,16 +115,8 @@
           <div class="cart__item-price" th:text="'가격: ' + ${product.productPrice} + '원'" th:field="${cartItem.product.productPrice}"></div>
           <div class="cart__item-total-price" th:text="'소계: ' + ${cartItem.totalPrice} + '원'"></div>
           <div class="cart__item-quantity">상태: <input type="text" th:value="${cartItem.cartItemStock}"style="width: 20px;"></div>
-
-          <!--<input type="hidden" th:field="*{cartItems[__${itemStat.index}__].cartItemNum}"  />
-          <input type="hidden" th:field="*{cartItems[__${itemStat.index}__].member}"  />
-          <input type="hidden" th:field="*{cartItems[__${itemStat.index}__].product}"  />
-          <input type="hidden" th:field="*{cartItems[__${itemStat.index}__].selected}"  />
-          <input type="hidden" th:field="*{cartItems[__${itemStat.index}__].cartItemStock}"  />-->
         </div>
         <div class="cart_Item_check">
-          <!-- isSelected 속성을 바인딩하는 것이 중요합니다. -->
-          <!--<input type="checkbox" th:field="*{cartItems[__${itemStat.index}__].selected}" />-->
           <input type="checkbox" th:field="${cart.cartItems[__${itemStat.index}__].selected}" id="selected" />
         </div>
         <div class="cart__item-remove">
