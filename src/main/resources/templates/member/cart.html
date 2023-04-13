@@ -115,10 +115,7 @@
           <div class="cart__item-price" th:text="'가격: ' + ${product.productPrice} + '원'" th:field="${cartItem.product.productPrice}"></div>
           <div class="cart__item-total-price" th:text="'소계: ' + ${cartItem.totalPrice} + '원'"></div>
           <div class="cart__item-quantity">상태: <input type="text" th:value="${cartItem.cartItemStock}"style="width: 20px;"></div>
-          <input type="hidden" th:field="${cart.member}">
-          <input type="hidden" th:field="${cart.cartNum}">
-          <input type="hidden" th:field="${cart.cartItems}">
-          <i
+
           <!--<input type="hidden" th:field="*{cartItems[__${itemStat.index}__].cartItemNum}"  />
           <input type="hidden" th:field="*{cartItems[__${itemStat.index}__].member}"  />
           <input type="hidden" th:field="*{cartItems[__${itemStat.index}__].product}"  />
@@ -154,6 +151,9 @@
       </div>
     </div>
     <br>
+    <input type="hidden" th:field="${cart.member}">
+    <input type="hidden" th:field="${cart.cartNum}">
+    <input type="hidden" th:field="${cart.cartItems}">
     <button type="submit" th:formaction="@{'/com.solponge/member/' + ${session.loginMember.memberNum} + '/payments'}">
       주문하기</button>
   </form>
