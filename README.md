@@ -1,11 +1,9 @@
 # SOLPONGE 프로젝트 JPA 리펙토링
 
-### 시작하기
+### 웹 실행 전 사전준비 (데이터 세팅)
 1. `scarpData` 디렉토리로 이동합니다.
-
+2. 
 cd scarpData
-
-
 
 2. H2 DB에 `TableQuery`를 사용하여 테이블을 생성합니다.
 
@@ -18,9 +16,9 @@ python bookDataForH2.py
 
 python JobDataForH2.py
 
-5. `main.java`를 실행합니다.(서버포트=8081)
+5. 이제 준비가 끝났습니다.
 
-javac main.java
+
 
 java main
 ### 사전 요구 사항
