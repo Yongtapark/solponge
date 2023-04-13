@@ -1,5 +1,5 @@
-# 프로젝트 제목
-SOLPONGE 프로젝트 JPA 리펙토링
+# SOLPONGE 프로젝트 JPA 리펙토링
+
 
 ### 사전 요구 사항
 Java 11
