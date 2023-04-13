@@ -3,12 +3,15 @@ package com.example.demo.domain.cart;
 
 import com.example.demo.domain.member.Member;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Cart {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

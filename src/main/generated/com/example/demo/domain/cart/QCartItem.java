@@ -48,7 +48,7 @@ public class QCartItem extends EntityPathBase<CartItem> {
 
     public QCartItem(Class<? extends CartItem> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new com.example.demo.domain.member.QMember(forProperty("member")) : null;
+        this.member = inits.isInitialized("member") ? new com.example.demo.domain.member.QMember(forProperty("member"), inits.get("member")) : null;
         this.product = inits.isInitialized("product") ? new com.example.demo.domain.product.QProduct(forProperty("product")) : null;
     }
 

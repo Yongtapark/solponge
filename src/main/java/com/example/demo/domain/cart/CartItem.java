@@ -20,6 +20,8 @@ public class CartItem {
     @JoinColumn(name = "product_num")
     private Product product;
     private int cartItemStock;
+    @Transient
+    private boolean selected;
 
 
     public CartItem(Member member, Product product, int cartItemStock) {

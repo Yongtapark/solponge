@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.cart.CartItem;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.login.session.SessionConst;
 import com.example.demo.service.interfaces.CartService;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,14 +36,15 @@ public class OrderController {
 
 
     @PostMapping("/payments")
-    public String postItem(HttpServletRequest request, @RequestParam("cartItems") List<String> cartItems, @RequestParam(value = "order", required = false) List<String> orderProductNums,
+    public String postItem(HttpServletRequest request, @ModelAttribute("cartItems") List<CartItem> cartItems, @RequestParam(value = "order", required = false) List<String> orderProductNums,
                            Model model) {
 
         Member loginMember = getLoginMember(request);//사용자 확인
+        List<CartItem> cartItemList = cartItems;
+        log.info("cartItemList={}",cartItemList);
 
-        List<String> cartItems1 = cartItems;
-        log.info("cartItems1={}",cartItems1);
-return null;
+
+        return null;
     }
 
 
