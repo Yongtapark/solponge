@@ -2,7 +2,7 @@
 
 ### 웹 실행 전 사전준비 (데이터 세팅)
 1. `scarpData` 디렉토리로 이동합니다.
-2. 
+
 cd scarpData
 
 2. H2 DB에 `TableQuery`를 사용하여 테이블을 생성합니다.
