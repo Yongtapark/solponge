@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.cart.Cart;
 import com.example.demo.domain.cart.CartItem;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.login.session.SessionConst;
@@ -21,13 +22,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Controller
 @Slf4j
 @RequiredArgsConstructor
 
-@RequestMapping("/com.solponge/member/{MEMBER_NO}")
+@RequestMapping("/com.solponge/member/{memberNum}")
 public class OrderController {
     private final ProductService productService;
     private final MemberService memberService;
@@ -36,16 +38,22 @@ public class OrderController {
 
 
     @PostMapping("/payments")
-    public String postItem(HttpServletRequest request, @ModelAttribute("cartItems") List<CartItem> cartItems, @RequestParam(value = "order", required = false) List<String> orderProductNums,
-                           Model model) {
-
-        Member loginMember = getLoginMember(request);//사용자 확인
-        List<CartItem> cartItemList = cartItems;
-        log.info("cartItemList={}",cartItemList);
+    public String processPayments(@ModelAttribute("cart")Cart cart, Model model) {
+        // 체크박스가 선택된 상품만 걸러내기
+        log.info("cart={}",cart);
 
 
-        return null;
+        return "redirect:/success";
     }
+    /*@PostMapping("/payments")
+    public String processPayments(@ModelAttribute("cart")List<CartItem> cart, Model model) {
+        // 체크박스가 선택된 상품만 걸러내기
+        log.info("cartItems={}",cart);
+
+
+        return "redirect:/success";
+    }
+*/
 
 
 

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -39,12 +41,11 @@ public class CartController {
         //---------------------------------------------------------
 
         //회원의 카트 조회
-        Cart myCart = cartService.getMyCart(member.getMemberNum());
-
+        Cart cart = cartService.getMyCart(member.getMemberNum());
 
         //cartItem 을 넣은 cart 를 model 에 저장
-        model.addAttribute("cart",myCart);
-        log.info("myCart={}",myCart);
+        model.addAttribute("cart",cart);
+        log.info("myCart={}",cart);
         return "member/cart";
     }
 
