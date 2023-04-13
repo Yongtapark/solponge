@@ -1,11 +1,39 @@
 # SOLPONGE 프로젝트 JPA 리펙토링
 
+### 시작하기
+1. `scarpData` 디렉토리로 이동합니다.
+cd scarpData
 
+markdown
+Copy code
+
+2. H2 DB에 `TableQuery`를 사용하여 테이블을 생성합니다.
+
+3. `bookDataForH2.py`를 실행합니다.
+python bookDataForH2.py
+
+markdown
+Copy code
+
+4. `JobDataForH2.py`를 실행합니다.
+python JobDataForH2.py
+
+markdown
+Copy code
+
+5. `main.java`를 실행합니다.(서버포트=8081)
+javac main.java
+java main
 ### 사전 요구 사항
 Java 11
+
 SpringBoot
+
 JPA
+
 QueryDsl
+
+H2 DB
 
 ### 변경점
 
