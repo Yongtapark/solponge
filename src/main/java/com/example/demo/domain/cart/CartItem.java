@@ -21,7 +21,7 @@ public class CartItem {
     private Product product;
     private int cartItemStock;
     @Transient
-    private boolean selected = true;
+    private boolean selected=true;
 
 
     public CartItem(Member member, Product product, int cartItemStock) {

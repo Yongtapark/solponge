@@ -47,7 +47,6 @@ public class OrderController {
                 .collect(Collectors.toList());
         log.info("selectedItems={}",selectedItems);
 
-
         return "redirect:/success";
     }
 

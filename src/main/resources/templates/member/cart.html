@@ -117,7 +117,7 @@
           <div class="cart__item-quantity">상태: <input type="text" th:value="${cartItem.cartItemStock}"style="width: 20px;"></div>
         </div>
         <div class="cart_Item_check">
-          <input type="checkbox" th:field="${cart.cartItems[__${itemStat.index}__].selected}" id="selected"/> <img th:src="@{/img/basket.png}" alt="cart.ico" style="width: 25px;"/>
+          <input type="checkbox" th:field="${cart.cartItems[__${itemStat.index}__].selected}" id="selected" />
         </div>
         <div class="cart__item-remove">
           <button type="submit" class="deleteButton" th:formaction="@{'/com.solponge/member/' + ${session.loginMember.memberNum} + '/myPage/cart/deleteCartItem'}" name="cartItemNum" th:value="${cartItem.cartItemNum}">            <img th:src="@{/img/delete.png}" alt="delete.ico" style="width: 25px;"/>
