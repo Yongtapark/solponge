@@ -73,4 +73,22 @@ CREATE TABLE cart (
     FOREIGN KEY (member_num) REFERENCES MEMBER(MEMBER_NUM)
 );
 
+CREATE TABLE payment (
+    payment_num VARCHAR(50),
+    member_num INT,
+    product_num INT,
+    payment_stock INT,
+    payment_date TIMESTAMP,
+    payment_phone VARCHAR(13),
+    payment_email VARCHAR(50),
+    payment_address VARCHAR(150),
+    delivery_info VARCHAR(200),
+    delivery_num INT,
+    visible TINYINT,
+    success TINYINT,
+    FOREIGN KEY (member_num) REFERENCES member(member_num),
+    FOREIGN KEY (product_num) REFERENCES product(product_num)
+);
+
+
 
