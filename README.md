@@ -23,7 +23,7 @@ H2 DB
 ![제목 없음](https://user-images.githubusercontent.com/91367204/231708363-cea85c7b-f97d-440d-89bc-705868a334bb.png)
 ##### 2. 도메인
 ![제목 없음2](https://user-images.githubusercontent.com/91367204/231709970-4c1b6b95-ef58-431d-a074-37a133ee6f7b.png)
-##### 3.로직 단순화.
+##### 3.로직 단순화(예시 : 장바구니의 상품을 Order로 넘기는 값을 기본 자료형 -> 객체로 받을수 있게 변경)
 ![1](https://user-images.githubusercontent.com/91367204/231712186-10ea61e7-d266-46ed-9e5d-8d61d33e7aee.PNG)
 ## 작성자
 박용타
