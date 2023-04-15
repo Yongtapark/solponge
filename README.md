@@ -12,7 +12,6 @@ python bookDataForH2.py
 python JobDataForH2.py
 5. 이제 준비가 끝났습니다.
 
-java main
 ### 사전 요구 사항
 Java 11
 SpringBoot
