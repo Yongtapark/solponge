@@ -2,15 +2,11 @@
 
 ### 웹 실행 전 사전준비 (데이터 세팅) !! 현재 '사람인_공고별_데이터_03.csv' 가 깃에 올라가지 않아 작업중 !!
 1. `scarpData` 디렉토리로 이동합니다.
-
 cd scarpData
-
 2. H2 DB에 `TableQuery`를 사용하여 테이블을 생성합니다.
 3. `bookDataForH2.py`를 실행합니다.
-
 python bookDataForH2.py
 4. `JobDataForH2.py`를 실행합니다.
-
 python JobDataForH2.py
 5. 이제 준비가 끝났습니다.
 
