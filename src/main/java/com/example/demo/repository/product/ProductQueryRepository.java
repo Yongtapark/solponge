@@ -1,12 +1,9 @@
 package com.example.demo.repository.product;
 
+import com.example.demo.domain.payment.QPayment;
 import com.example.demo.domain.product.Product;
-import com.example.demo.domain.product.QProduct;
 import com.querydsl.core.QueryResults;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -17,6 +14,7 @@ import org.springframework.util.StringUtils;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static com.example.demo.domain.payment.QPayment.payment;
 import static com.example.demo.domain.product.QProduct.*;
 @Slf4j
 public class ProductQueryRepository {
@@ -86,6 +84,26 @@ public class ProductQueryRepository {
     public void deleteProduct(int productNum) {
         query.update(product)
                 .set(product.productGarbage, 0)
+                .where(product.productNum.eq((long) productNum))
+                .execute();
+    }
+
+
+    /**
+     * Payment
+     */
+    /*재고 감소*/
+    public  void subtractStock(Long productNum, Long paymentStock){
+        query.update(product)
+                .set(product.productStock, product.productStock.subtract(paymentStock))
+                .where(product.productNum.eq(productNum))
+                .execute();
+    }
+
+    /*재고 증가*/
+    public void addStock(Long productNum, Long paymentStock){
+        query.update(product)
+                .set(product.productStock, product.productStock.add(paymentStock))
                 .where(product.productNum.eq((long) productNum))
                 .execute();
     }

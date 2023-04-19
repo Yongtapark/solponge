@@ -31,14 +31,6 @@ public class CartServiceImpl implements CartService {
         return cartItemRepository.save(cartItem);
     }
 
-    @Override
-    public void updateItem(Long cart_item_num, CartItem cartItem) {
-        CartItem item = findItem(cart_item_num);
-        item.setCartItemNum(cartItem.getCartItemNum());
-        item.setMember(cartItem.getMember());
-        item.setProduct(cartItem.getProduct());
-        item.setCartItemStock(cartItem.getCartItemStock());
-    }
 
     @Override
     public void deleteItem(CartItem cartItem) {
@@ -60,25 +52,4 @@ public class CartServiceImpl implements CartService {
         return cartRepository.findByMemberMemberNum(memberNo).get();
     }
 
-    /*@Override
-    public List<CartList> cartList(int member_num) {
-        return cartQueryRepository.showMyCart(member_num);
-    }*/
-
-    @Override
-    public void deleteCartItemByMember(Long MEMBER_NO) {
-        CartItem item = findItem(MEMBER_NO);
-        cartItemRepository.delete(item);
-    }
-
-    @Override
-    public void deleteCartByMember(Long memberNo) {
-        Cart myCart = getMyCart(memberNo);
-        cartRepository.delete(myCart);
-    }
-
-   /* @Override
-    public List<CartList> showMyCart(int MEMBER_NUM) {
-        return cartQueryRepository.showMyCart(MEMBER_NUM);
-    }*/
 }

@@ -11,37 +11,37 @@
       var emailExp = /^[a-z0-9]{1}[a-z0-9\-]+[a-z0-9]{1}\.(([a-z]{1}[a-z.]+[a-z]{1}[a-z]+)|([a-z]+))$/;
       var phonExp = /^[0-9]{4}$/;
 
-      if (document.frm.memberId.value == "") {
+      if (document.frm.memberId.value === "") {
         alert("아이디를 입력해주세요.");
         document.frm.memberId.focus();
         return false;
       }
-      if (document.frm.memberPwd.value == ""){
+      if (document.frm.memberPwd.value === ""){
         alert("비밀번호를 입력해주세요.");
         document.frm.memberPwd.focus();
         return false;
       }
-      if(document.frm.memberPwd.value != document.frm.memberPwdCheck.value){
+      if(document.frm.memberPwd.value !== document.frm.memberPwdCheck.value){
         alert("비밀번호가 틀렸습니다.");
         document.frm.memberPwd.focus();
         return false;
       }
-      if (document.frm.memberName.value == ""){
+      if (document.frm.memberName.value === ""){
         alert("이름을 입력해주세요.");
         document.frm.memberName.focus();
         return false;
       }
-      if (document.frm.MEMBER_EMAIL1.value == "" || document.frm.MEMBER_EMAIL2.value == ""){
+      if (document.frm.MEMBER_EMAIL1.value === "" || document.frm.MEMBER_EMAIL2.value === ""){
         alert("이메일을 입력해주세요.");
         document.frm.MEMBER_EMAIL1.focus();
         return false;
       }
-      if (emailExp.test(document.frm.MEMBER_EMAIL2.value) == false){
+      if (emailExp.test(document.frm.MEMBER_EMAIL2.value) === false){
         alert("정확한 이메일 주소를 입력해주세요");
         document.frm.MEMBER_EMAIL1.focus();
         return false;
       }
-      if (document.frm.MEMBER_PHONE2.value == "" || document.frm.MEMBER_PHONE3.value == ""){
+      if (document.frm.MEMBER_PHONE2.value === "" || document.frm.MEMBER_PHONE3.value === ""){
         alert("전화번호를 입력해주세요.");
         document.frm.MEMBER_PHONE2.focus();
         return false;
@@ -51,7 +51,7 @@
         document.frm.secnum.focus();
         return false;
       }
-      if (document.frm.sample6_postcode.value == "" || document.frm.MEMBER_ADDRESS2.value == "" || document.frm.MEMBER_ADDRESS3.value == ""){
+      if (document.frm.sample6_postcode.value === "" || document.frm.MEMBER_ADDRESS2.value === "" || document.frm.MEMBER_ADDRESS3.value === ""){
         alert("주소를 입력해주세요.");
         document.frm.sample6_detailAddress.focus();
         return false;

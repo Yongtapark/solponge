@@ -4,13 +4,16 @@ import com.example.demo.repository.cart.CartItemRepository;
 import com.example.demo.repository.cart.CartRepository;
 import com.example.demo.repository.member.MemberQueryRepository;
 import com.example.demo.repository.member.MemberRepository;
+import com.example.demo.repository.payment.PaymentRepository;
 import com.example.demo.repository.product.ProductQueryRepository;
 import com.example.demo.repository.product.ProductRepository;
 import com.example.demo.service.CartServiceImpl;
+import com.example.demo.service.PaymentServiceImpl;
 import com.example.demo.service.ProductServiceImpl;
 import com.example.demo.service.interfaces.CartService;
 import com.example.demo.service.interfaces.MemberService;
 import com.example.demo.service.MemberServiceImpl;
+import com.example.demo.service.interfaces.PaymentService;
 import com.example.demo.service.interfaces.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +30,8 @@ public class MainConfig {
     private final ProductRepository productRepository;
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
+
+    private final PaymentRepository paymentRepository;
 
     /**
      * 서비스
@@ -46,11 +51,14 @@ public class MainConfig {
         return new CartServiceImpl(cartItemRepository,cartRepository);
     }
 
+    @Bean
+    public PaymentService paymentService(){return new PaymentServiceImpl(paymentRepository,productQueryRepository());}
+
 
 
 
     /**
-     * 레포지토리
+     * dsl
      */
 
     @Bean
@@ -62,6 +70,7 @@ public class MainConfig {
     public ProductQueryRepository productQueryRepository(){
         return new ProductQueryRepository(em, productRepository);
     }
+
 
 
 

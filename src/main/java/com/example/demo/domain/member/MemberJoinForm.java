@@ -28,10 +28,13 @@ public class MemberJoinForm {
 
     private String memberAddress;
     @Transient
+    @NotEmpty
     private String memberAddress1;
     @Transient
+    @NotEmpty
     private String memberAddress2;
     @Transient
+    @NotEmpty
     private String memberAddress3;
     /**
      * 이메일

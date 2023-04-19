@@ -10,9 +10,9 @@ import java.util.Optional;
 public interface MemberService {
 
     Long join(Member member);
-    void update(Long memberNo, Member member);
-    void delete(Long memberNo);//탈퇴
-    Optional<Member> findByNo(Long memberNo);
+    void update(Long memberNum, Member member);
+    void delete(Long memberNum);//탈퇴
+    Optional<Member> findByNo(Long memberNum);
 
     List<Member> findAll();
 

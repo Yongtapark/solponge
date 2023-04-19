@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/order.css}">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+  <!-- iamport.payment.js -->
+  <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script th:inline="javascript">
+
+    //체크박스 클릭시 멤버 정보 뿌려줌
+    $(document).ready(function(){
+      var memberInfo = [[${session.loginMember.memberName}]];
+      var memberPhone1 = [[${#strings.arraySplit(session.loginMember.memberPhone,'-')[1]}]];
+      var memberPhone2 = [[${#strings.arraySplit(session.loginMember.memberPhone,'-')[2]}]];
+      var memberAddress1 = [[${#strings.arraySplit(session.loginMember.memberAddress,'/')[0]}]];
+      var memberAddress2 = [[${#strings.arraySplit(session.loginMember.memberAddress,'/')[1]}]];
+      var memberAddress3 = [[${#strings.arraySplit(session.loginMember.memberAddress,'/')[2]}]];
+      console.log("name : " + memberInfo);
+      console.log(memberPhone1);
+      $("#checkboxs").change(function(){
+        if($("#checkboxs").is(":checked")){
+          $("#m_name").attr("value", memberInfo);
+          $("#secnum2").attr("value", memberPhone1);
+          $("#thrnum2").attr("value", memberPhone2);
+          $("#sample6_postcode").attr("value",memberAddress1);
+          $("#sample6_address").attr("value", memberAddress2);
+          $("#sample6_detailAddress").attr("value", memberAddress3);
+        }
+        else{
+          $("#m_name").attr("value", "");
+          $("#secnum2").attr("value", "");
+          $("#thrnum2").attr("value", "");
+          $("#sample6_postcode").attr("value", "");
+          $("#sample6_address").attr("value", "");
+          $("#sample6_detailAddress").attr("value", "");
+        }
+      });
+
+
+
+    });
+
+    //주소찾기 스크립트
+    function sample6_execDaumPostcode() {
+      new daum.Postcode({
+        oncomplete: function(data) {
+          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+          // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+          // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+          var addr = ''; // 주소 변수
+          var extraAddr = ''; // 참고항목 변수
+
+          //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+          if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+            addr = data.roadAddress;
+          } else { // 사용자가 지번 주소를 선택했을 경우(J)
+            addr = data.jibunAddress;
+          }
+
+          // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+          if(data.userSelectedType === 'R'){
+            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+              extraAddr += data.bname;
+            }
+            // 건물명이 있고, 공동주택일 경우 추가한다.
+            if(data.buildingName !== '' && data.apartment === 'Y'){
+              extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+            }
+            // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+            if(extraAddr !== ''){
+              extraAddr = ' (' + extraAddr + ')';
+            }
+            // 조합된 참고항목을 해당 필드에 넣는다.
+            document.getElementById("sample6_address").value += extraAddr;
+
+          } else {
+            document.getElementById("sample6_extraAddress").value = '';
+          }
+
+          // 우편번호와 주소 정보를 해당 필드에 넣는다.
+          document.getElementById('sample6_postcode').value = data.zonecode;
+          document.getElementById("sample6_address").value = addr;
+          // 커서를 상세주소 필드로 이동한다.
+          document.getElementById("sample6_detailAddress").focus();
+        }
+      }).open();
+    }
+    var member = [[${session.loginMember.memberNum}]];
+    var time = new Date();
+    var yyyy = time.getFullYear();
+    var mm = time.getMonth()+1;
+    var dd = time.getDay();
+    var hh = time.getHours();
+    var MM = time.getMinutes();
+    var ss = time.getSeconds();
+    var ms = time.getMilliseconds();
+    var total = ''+yyyy + mm+dd+hh+MM+ss+ms+member;
+    $(document).ready(function(){
+      console.log(total);
+      // $('payment_num').val(total);
+      document.getElementById("payment_num").value = total;
+    });
+
+    function delivering(){
+      if(document.frm.memo.value === "6"){
+        document.frm.email2.readOnly = false;
+        frm.delivery_info.value = "";
+        frm.delivery_info.type = "text"
+        frm.delivery_info.focus();
+      }else if(document.frm.memo.value === "1"){
+        frm.delivery_info.readOnly = true;
+        frm.delivery_info.type = "text"
+        frm.delivery_info.value = "직접 수령하겠습니다.";
+      }else if(document.frm.memo.value === "2"){
+        frm.delivery_info.readOnly = true;
+        frm.delivery_info.type = "text"
+        frm.delivery_info.value = "배송 전 연락바랍니다.";
+      }else if(document.frm.memo.value === "3"){
+        frm.delivery_info.readOnly = true;
+        frm.delivery_info.type = "text"
+        frm.delivery_info.value = "부재 시 경비실에 맡겨주세요.";
+      }else if(document.frm.memo.value === "4"){
+        frm.delivery_info.readOnly = true;
+        frm.delivery_info.type = "text"
+        frm.delivery_info.value = "부재 시 문 앞에 놓아주세요.";
+      }else if(document.frm.memo.value === "5"){
+        frm.delivery_info.readOnly = true;
+        frm.delivery_info.type = "text"
+        frm.delivery_info.value = "부재 시 택배함에 넣어주세요.";
+      }else{
+        frm.delivery_info.readOnly = true;
+        frm.delivery_info.type = "hidden"
+        frm.delivery_info.value = "";
+      }
+    }
+    function emailchang(){
+      if(frm.emails.value === "1"){
+        document.frm.email2.readOnly = false;
+        frm.delivery_info.value = "";
+        frm.delivery_info.focus();
+      }else {
+        frm.email2.readOnly = true;
+        frm.email2.value = frm.emails.value;
+      }
+    }
+
+    $(document).ready(function (){
+      $("#paybutton").click(function (){
+        var m_name = document.getElementById("m_name").value;
+        var secnum2 = document.getElementById("secnum2").value;
+        var thrnum2 = document.getElementById("thrnum2").value;
+        var sample6_postcode = document.getElementById("sample6_postcode").value;
+        var sample6_address = document.getElementById("sample6_address").value;
+        var sample6_detailAddress = document.getElementById("sample6_detailAddress").value;
+        var delivery_info = document.getElementById("delivery_info").value;
+        if(m_name.length===0||secnum2.length===0||thrnum2.length===0||sample6_postcode.length===0||
+                sample6_address.length===0|| sample6_detailAddress.length===0||delivery_info.length===0){
+          alert("배송지 정보를 잘 입력해 주세요")
+          return false;
+        }
+      })
+    })
+  </script>
+</head>
+<body>
+<header>
+  <div th:insert="~{fragment/header :: header}"></div>
+</header>
+<div id="shopbody">
+  <form id="frm" name="frm" method="post" th:action="@{/com.solponge/member/{memberNum}/payments/pay(memberNum=${session.loginMember.memberNum})}">
+    <div class="box">
+      <h2>주문상품</h2>
+      <input id="payment_num" name="paymentNum" type="hidden"/>
+      <div id="payinfo">
+        <div th:each="order, iterStat : ${selectedItems}" class="paymentItems">
+
+          <div rowspan="2" class="product_image"><img th:src="${order.product.productImg}" class="product_images"></div>
+          <div class="product_title" th:text="${order.product.productTitle}"></div>
+
+          <div class="product_title"><span th:text="|${order.product.productPrice} 원|"></span></div>
+          <div class="stock" th:text="${order.cartItemStock}"></div>
+          <input type="hidden" th:value="${order.product.productNum}" class="product_num" th:name="|orderList[${iterStat.index}].productNum|">
+          <input type="hidden" th:value="${order.cartItemStock}" class="payment_stock" th:name="|orderList[${iterStat.index}].paymentStock|">
+          <input type="hidden" th:value="${order.product.productPrice}" class="product_price" th:name="|orderList[${iterStat.index}].productPrice|">
+          <input type="hidden" th:value="${order.cartItemNum}" class="cartItem_num" th:name="|orderList[${iterStat.index}].cartItemNum|">
+        </div>
+        <tr>
+          <td colspan="3" style="text-align: right; padding-right: 50px;">합계 금액 : <span th:text="${cart.totalPrice}"></span>(배송비 포함)</td>
+          <input type="hidden" th:value="${cart.totalPrice}" name="totalPrice">
+        </tr>
+      </div>
+    </div>
+
+    <div class="box">
+      <h2>
+        주문자 정보
+      </h2>
+      <table>
+        <tr>
+          <td class="fff">주문자 명</td>
+          <td class="eee">
+            <input type="text" th:value="${session.loginMember.getMemberName()}" size="20" id="member_name"/>
+          </td>
+        </tr>
+        <tr>
+          <td class="fff">연락처</td>
+          <td class="eee">
+            <select name="firstnum" size="1" id="firstnum">
+              <option value="010">010</option>
+              <option value="011">011</option>
+              <option value="013">013</option>
+              <option value="017">017</option>
+              <option value="018">018</option>
+            </select>-&nbsp;<input type="text" size="4" maxlength="4" minlength="4" name="secnum" id="secnum" th:value="${#strings.arraySplit(session.loginMember.memberPhone,'-')[1]}">-
+            <input type="text" size="4" maxlength="4" minlength="4" name="thrnum" id="thrnum" th:value="${#strings.arraySplit(session.loginMember.memberPhone,'-')[2]}">
+          </td>
+        </tr>
+        <tr>
+          <td class="fff">이메일주소</td>
+          <td class="eee">
+            <input type="text" th:value="${#strings.arraySplit(session.loginMember.memberEmail,'@')[0]}" size="16" id="email1" name="email1"/> @
+            <input type="text" size="20" id="email2" th:value="${#strings.arraySplit(session.loginMember.memberEmail,'@')[1]}" name="email2"/>
+            <select name="emails" id="emails" size="1" onchange="emailchang()">
+              <option value="" selected>선택하세요</option>
+              <option value="naver.com">naver.com</option>
+              <option value="hanmail.net">hanmail.net</option>
+              <option value="gmail.com">gmail.com</option>
+              <option value="nate.com">nate.com</option>
+              <option value="1">직접입력</option>
+            </select>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="box">
+      <h2>
+        배송지 정보
+      </h2>
+      <table>
+        <tr>
+          <td colspan="2">
+            <input type="checkbox" id="checkboxs"/> 주문자 정보와 동일
+          </td>
+        </tr>
+        <tr>
+          <td class="fff">이름</td>
+          <td class="eee">
+            <input type="text" size="20" id="m_name" name="memberName" th:path="${session.loginMember.memberName}"/>
+          </td>
+        </tr>
+        <tr>
+          <td class="fff">연락처</td>
+          <td class="eee">
+            <select size="1" id="firstnum2"  name="memberPhone1">
+              <option value="010">010</option>
+              <option value="011">011</option>
+              <option value="013">013</option>
+              <option value="017">017</option>
+              <option value="018">018</option>
+            </select> -&nbsp;<input type="text" size="4" maxlength="4" minlength="4"  id="secnum2" name="memberPhone2">-
+            <input type="text" size="4" maxlength="4" minlength="4"  id="thrnum2" name="memberPhone3">
+          </td>
+        </tr>
+        <tr>
+          <td class="fff">주소</td>
+          <td class="eee">
+            <input type="text" id="sample6_postcode" placeholder="우편번호" readonly name="memberAddress1">
+            <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"/><br/>
+            <input type="text" id="sample6_address" placeholder="주소" readonly name="memberAddress2">
+            <input type="text" id="sample6_detailAddress" placeholder="상세주소" name="memberAddress3">
+          </td>
+        </tr>
+        <tr>
+          <td class="fff">요청사항</td>
+          <td class="eee">
+            <select id="memo" name="memo" onchange="delivering()">
+              <option value="0" selected>배송시 요청사항을 선택해 주세요.</option>
+              <option value="1">직접 수령하겠습니다.
+              </option>
+              <option value="2">배송 전 연락바랍니다.
+              </option>
+              <option value="3">부재 시 경비실에 맡겨주세요.
+              </option>
+              <option value="4">부재 시 문 앞에 놓아주세요.
+              </option>
+              <option value="5">부재 시 택배함에 넣어주세요.
+              </option>
+              <option value="6">직접 입력</option>
+            </select>
+            <input type="hidden" placeholder="최대 50자 입력이 가능합니다." id="delivery_info" name="deliveryInfo"/>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div>
+      <button id="paybutton" type="submit"> 결제하기 </button>
+    </div>
+  </form>
+</div>
+<footer>
+  <div th:insert="~{fragment/footer :: footer}"></div>
+</footer>
+</body>
+</html>

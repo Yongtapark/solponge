@@ -13,8 +13,6 @@ public interface CartService {
      */
     CartItem addItem(CartItem cartItem);
 
-    void updateItem(Long cart_item_num, CartItem cartItem);
-
     void deleteItem(CartItem cartItem);
 
     CartItem findItem(Long cartItemNum);
@@ -28,13 +26,5 @@ public interface CartService {
     Cart getMyCart(Long memberNo);
 
 
-    /**
-     * 서비스
-     */
-    void deleteCartItemByMember(Long MEMBER_NO);
-
-    void deleteCartByMember(Long MEMBER_NUM);
-
-   // List<CartList> showMyCart(int MEMBER_NUM);
 
 }
