@@ -1,0 +1,239 @@
+[33mcommit 48ea15ddb19d9e5b8c86e3fbad0d4b7b1f922805[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Kim Jae Hyun <84066112+takingtheback@users.noreply.github.com>
+Date:   Fri Apr 14 12:47:43 2023 +0900
+
+    Remove unwanted large file
+
+[33mcommit 00ae38ea874148e1f7c730d6a46336a35f602b46[m
+Author: Kim Jae Hyun <84066112+takingtheback@users.noreply.github.com>
+Date:   Fri Apr 14 12:37:25 2023 +0900
+
+    payment
+
+[33mcommit f93778a6182500f59739223077615a141a881325[m
+Author: Kim Jae Hyun <84066112+takingtheback@users.noreply.github.com>
+Date:   Fri Apr 14 12:36:05 2023 +0900
+
+    payment
+
+[33mcommit 040776a314aee60e8650bb643ecebc9b874b3d50[m[33m ([m[1;32m1[m[33m)[m
+Author: Kim Jae Hyun <84066112+takingtheback@users.noreply.github.com>
+Date:   Fri Apr 14 10:28:56 2023 +0900
+
+    체크박스 속성에 boolean을 연결해놓으면, 아무리 뷰에서 check속성써봐야 안먹힌다. 도메인에서 true표시 해놔야함
+
+[33mcommit adee4ad69ccc395112dd9259fd3493ee31e73874[m
+Author: Kim Jae Hyun <84066112+takingtheback@users.noreply.github.com>
+Date:   Fri Apr 14 10:07:20 2023 +0900
+
+    체크박스 속성에 boolean을 연결해놓으면, 아무리 뷰에서 check속성써봐야 안먹힌다. 도메인에서 true표시 해놔야함
+
+[33mcommit 81cbfab83bfc021cf7174580b7a4c3ff7b1c8086[m
+Merge: a892c02 2d1e795
+Author: Kim Jae Hyun <84066112+takingtheback@users.noreply.github.com>
+Date:   Fri Apr 14 09:47:06 2023 +0900
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit a892c023c7092eef9ea1e8bd7a29517b8f8b3eea[m
+Author: Kim Jae Hyun <84066112+takingtheback@users.noreply.github.com>
+Date:   Fri Apr 14 09:46:46 2023 +0900
+
+    체크박스 속성에 boolean을 연결해놓으면, 아무리 뷰에서 check속성써봐야 안먹힌다. 도메인에서 true표시 해놔야함
+
+[33mcommit 62c445e2f1145e4fc74c34598ca7a25e6ff3b064[m
+Merge: 49eb94e e3bce30
+Author: Kim Jae Hyun <84066112+takingtheback@users.noreply.github.com>
+Date:   Fri Apr 14 09:44:42 2023 +0900
+
+    체크박스 속성에 boolean을 연결해놓으면, 아무리 뷰에서 check속성써봐야 안먹힌다. 도메인에서 true표시 해놔야함
+
+[33mcommit 2d1e7958f343fd278c9f391d7b6120f153c84395[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 20:18:35 2023 +0900
+
+    Update README.md
+
+[33mcommit d375b56d47b3f3b1b4c8252e3182818c6a935967[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 20:18:17 2023 +0900
+
+    Update README.md
+
+[33mcommit a57d389d82336d8e49406cc964998238321acb1f[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 20:14:26 2023 +0900
+
+    Delete 사람인_공고별_데이터_03.csv
+
+[33mcommit 49eb94ea73706b11582e0b1d5ad214a79e31dde1[m
+Author: Kim Jae Hyun <84066112+takingtheback@users.noreply.github.com>
+Date:   Thu Apr 13 20:10:52 2023 +0900
+
+    메시지
+
+[33mcommit e3bce306fc5507350ba27a52fd5c7a9d273bfbb4[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 19:59:30 2023 +0900
+
+    Add files via upload
+
+[33mcommit 1588b59264faf09dfba2f2157f4bc22a9760140f[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 19:49:16 2023 +0900
+
+    Add files via upload
+
+[33mcommit 5fa33208fc84aefbaad96303927924dae165749c[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 19:48:49 2023 +0900
+
+    Add files via upload
+
+[33mcommit 1f83cb6f8f5eef21eae7d3ab40ba793ec7ea7688[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 19:42:36 2023 +0900
+
+    Delete scarpData directory
+
+[33mcommit caef5121ac0ed1186c12680314e24181828fe446[m
+Merge: f68de6f c7f8d61
+Author: Kim Jae Hyun <84066112+takingtheback@users.noreply.github.com>
+Date:   Thu Apr 13 19:09:48 2023 +0900
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       scarpData/tableQuerry.txt
+    #       scarpData/사람인_공고별_데이터_01.csv
+    #       scarpData/한빛네트워크IT책정보_02_17.csv
+    #       scarpData/한빛네트워크IT책정보_새부사항_02_17.csv
+
+[33mcommit c7f8d619722bdc0bab2fa9d585ba3deaf45baac6[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 19:08:21 2023 +0900
+
+    Add files via upload
+
+[33mcommit 5c4547ac83064d0a7b04a261c3bda5a3b6748411[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 19:07:34 2023 +0900
+
+    Add files via upload
+
+[33mcommit 4b96df2209b353d0c5f2e4acb26e4fe41401162b[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 19:07:00 2023 +0900
+
+    Add files via upload
+
+[33mcommit f68de6f1ab35cf058ed4c78cab6b657ed24814d4[m
+Merge: 8ec6361 ce48d89
+Author: Kim Jae Hyun <84066112+takingtheback@users.noreply.github.com>
+Date:   Thu Apr 13 19:05:50 2023 +0900
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 8ec6361362af35fdac382c6d91521b0201b62c0a[m
+Author: Kim Jae Hyun <84066112+takingtheback@users.noreply.github.com>
+Date:   Thu Apr 13 19:05:32 2023 +0900
+
+    db
+
+[33mcommit ce48d893ba34cf8daec032976714f75210e56599[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 19:04:30 2023 +0900
+
+    Update README.md
+
+[33mcommit 959826b2b3ceb813a343e22f5c7ffd2738afe5bd[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 19:04:18 2023 +0900
+
+    Update README.md
+
+[33mcommit 9a84bd7787de747e19bdda6d12670bca93240669[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 18:59:19 2023 +0900
+
+    Update README.md
+
+[33mcommit d37fdda819e02c3a3bcf57c7de5f1d7d6a3a7ace[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 18:58:28 2023 +0900
+
+    Update README.md
+
+[33mcommit 5dc5987c0dc25d35a37d20ad92c0628caa6118b3[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 18:15:03 2023 +0900
+
+    Update README.md
+
+[33mcommit 65717cfdf47fd954c2747c23e574d93690e877ea[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 18:14:27 2023 +0900
+
+    Update README.md
+
+[33mcommit 3bb7160d37036d2fe52948ae631eed63060a23d8[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 18:14:11 2023 +0900
+
+    Update README.md
+
+[33mcommit aa59a723c240f2a9d396aa0f1c962691fcb2ab4c[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 18:13:45 2023 +0900
+
+    Update README.md
+
+[33mcommit 8fb50e702f89e5613b279cd6a6d8d6b76e4e8187[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 18:12:21 2023 +0900
+
+    Update README.md
+
+[33mcommit 072863570e8788a390cc1bdd8706d330b0385cfb[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 18:11:43 2023 +0900
+
+    Update README.md
+
+[33mcommit 25f46a1b4e49e9e9c88c3d6f68f1685d5059f1d6[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 17:52:41 2023 +0900
+
+    Update README.md
+
+[33mcommit 5070d5e089043aa4547b88ea21c48847371e26da[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 17:41:10 2023 +0900
+
+    Create README.md
+
+[33mcommit 6bb50d2dd7a3a1de793ae1da983ff9af0bcca16f[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 17:31:30 2023 +0900
+
+    Delete readMe.md
+
+[33mcommit fc4686237bebcf311974b1572337af7b2be2cb10[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 17:30:01 2023 +0900
+
+    Create readMe.md
+
+[33mcommit 19510e104db513eb2189d435c84ef54344a7085c[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 17:29:46 2023 +0900
+
+    Delete read.me
+
+[33mcommit 7d570201317a1a584bed0ab8f8620cd674c14b3c[m
+Author: Yongtapark <91367204+Yongtapark@users.noreply.github.com>
+Date:   Thu Apr 13 17:29:20 2023 +0900
+
+    Create read.me
+
+[33mcommit 1cb2f70a6bf9455

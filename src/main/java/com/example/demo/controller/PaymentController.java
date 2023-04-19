@@ -48,40 +48,12 @@ public class PaymentController {
     }
 
     @PostMapping("/payments/pay")
-    public String payinfo(@ModelAttribute("loginMember") PayForm payForm,
+    public String payinfo(@ModelAttribute("payForm") PayForm payForm,
                           Model model, HttpServletRequest request){
         Member loginMember = getLoginMember(request);
-
         combineString(payForm);
-
-
         log.info("payForm={}",payForm);
-
-        String[] product_num = request.getParameterValues("product_num");
-        String[] payment_stock = request.getParameterValues("payment_stock");
-        String[] cartItem_num = request.getParameterValues("cartItem_num");
-       /* for (int i = 0; i < product_num.length; i++){
-            int product_stock = productService.getproduct(Integer.parseInt(product_num[i])).getProduct_stock();
-            try{
-                if(product_stock - Integer.parseInt(payment_stock[i]) < 0){
-                    throw new OutOfStockException("상품의 재고가 부족합니다.");
-                }
-            }catch (Exception e){
-                return "product/stockfail";
-            }
-        }*/
-       /* model.addAttribute("member_No", loginMember.getMemberNum());
-        model.addAttribute("payment_num", payment_num);
-        model.addAttribute("total_price", total_price);
-        model.addAttribute("address", payForm.getMemberAddress());
-        model.addAttribute("phone", payForm.getMemberPhone());
-        model.addAttribute("email", loginMember.getMemberEmail());
-        model.addAttribute("m_name", payForm.getMemberName());
-        model.addAttribute("delivery_info", delivery_info);
-        model.addAttribute("product_num", product_num);
-        model.addAttribute("payment_stock", payment_stock);
-        model.addAttribute("cartItem_num", cartItem_num);*/
-        return "product/pay";
+        return "payment/pay";
     }
 
 

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <head>
+    <title>Title</title>
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script>
+      var lists = {
+        payment_num: [[${payForm.paymentNum}]],
+        address:[[${payForm.memberAddress}]],
+        phone:[[${payForm.memberPhone}]],
+        email:[[${session.loginMember.memberEmail}]],
+        delivery_info:[[${payForm.deliveryInfo}]],
+        oderList: [[${payForm.orderList}]]
+      }
+      console.log("${product_num}");
+      console.log(lists);
+
+      const IMP = window.IMP;   // 생략 가능
+      IMP.init("imp32154105"); // 예: imp00000000
+      //결제 및 입력검증
+      window.onload = function requestPay() {
+        IMP.request_pay({
+          pg: "html5_inicis.INIpayTest",
+          pay_method: "card",
+          merchant_uid: [[${payForm.paymentNum}]],   // 주문번호
+          name: "결제하기",
+          amount: 100,                         // 숫자 타입
+          buyer_email: [[${session.loginMember.memberEmail}]],
+          buyer_name: [[${session.loginMember.memberName}]],
+          buyer_tel: [[${session.loginMember.memberPhone}]],
+          buyer_addr: [[${session.loginMember.memberAddress}]],
+          buyer_postcode: [[${#strings.arraySplit(session.loginMember.memberAddress,'/')[0]}]]
+        }, function (res) { // callback
+          if (true) {
+            /*if (rsp.success) {*/
+            // axios로 HTTP 요청
+            jQuery.ajax({
+              url: "/com.solponge/member/${memberNu}/payments/su",
+              method: "post",
+              contentType: "application/json;charset=UTF-8",
+              data: JSON.stringify(lists),
+              success: function(res){
+                alert("결제 성공했습니다.");
+                location.replace("/com.solponge/member/${member_No}/payments/success")
+              },
+              error: function (res){
+                alert("결제 실패했습니다.");
+                location.replace('/com.solponge/member/${member_No}/payments/fail');
+              }
+            });
+          }else {
+            window.location.href ='/com.solponge/member/${memberNum}/payments/fail';
+          }
+        });
+      }
+      console.log("${payment_num}"+"${email}"+"${m_name}"+"${phone}")
+    </script>
+  </head>
+</head>
+<body>
+</body>
+</html>
