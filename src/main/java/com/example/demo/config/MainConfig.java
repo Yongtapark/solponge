@@ -48,6 +48,7 @@ public class MainConfig {
 
 
 
+
     /**
      * 레포지토리
      */
@@ -61,6 +62,7 @@ public class MainConfig {
     public ProductQueryRepository productQueryRepository(){
         return new ProductQueryRepository(em, productRepository);
     }
+
 
 
 

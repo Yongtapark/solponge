@@ -16,15 +16,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/com.solponge/member/{MEMBER_NUM}/myPage/cart")
 public class CartController {
-    private final MemberService memberService;
     private final ProductService productService;
     private final CartService cartService;
 
@@ -42,6 +39,7 @@ public class CartController {
 
         //회원의 카트 조회
         Cart cart = cartService.getMyCart(member.getMemberNum());
+
 
         //cartItem 을 넣은 cart 를 model 에 저장
         model.addAttribute("cart",cart);
