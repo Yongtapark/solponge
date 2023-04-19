@@ -27,11 +27,10 @@ public class Payment {
     private String paymentAddress;
     private  String deliveryInfo;
     private long deliveryNum;
-    private int visible;
-    private int success;
+    private int visible=1;
+    private int success=0;
 
-    public Payment(Long paymentNum, Member member, Product product, Long paymentStock, String paymentDate, String paymentPhone, String paymentEmail, String paymentAddress, String deliveryInfo, long deliveryNum, int visible, int success) {
-        this.paymentNum = paymentNum;
+    public Payment(Member member, Product product, Long paymentStock, String paymentDate, String paymentPhone, String paymentEmail, String paymentAddress, String deliveryInfo) {
         this.member = member;
         this.product = product;
         this.paymentStock = paymentStock;
@@ -40,8 +39,5 @@ public class Payment {
         this.paymentEmail = paymentEmail;
         this.paymentAddress = paymentAddress;
         this.deliveryInfo = deliveryInfo;
-        this.deliveryNum = deliveryNum;
-        this.visible = visible;
-        this.success = success;
     }
 }
