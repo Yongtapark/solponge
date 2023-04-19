@@ -9,12 +9,12 @@
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
     <script>
       var lists = {
-        payment_num: [[${payForm.paymentNum}]],
-        address:[[${payForm.memberAddress}]],
-        phone:[[${payForm.memberPhone}]],
-        email:[[${session.loginMember.memberEmail}]],
-        delivery_info:[[${payForm.deliveryInfo}]],
-        oderList: [[${payForm.orderList}]]
+        payment_num:"[[${payForm.paymentNum}]]",
+        address:"[[${payForm.memberAddress}]]",
+        phone:"[[${payForm.memberPhone}]]",
+        email:"[[${session.loginMember.memberEmail}]]",
+        delivery_info:"[[${payForm.deliveryInfo}]]",
+        oderList: "[[${payForm.orderList}]]"
       }
       console.log("${product_num}");
       console.log(lists);
@@ -26,14 +26,14 @@
         IMP.request_pay({
           pg: "html5_inicis.INIpayTest",
           pay_method: "card",
-          merchant_uid: [[${payForm.paymentNum}]],   // 주문번호
+          merchant_uid: "[[${payForm.paymentNum}]]",   // 주문번호
           name: "결제하기",
           amount: 100,                         // 숫자 타입
-          buyer_email: [[${session.loginMember.memberEmail}]],
-          buyer_name: [[${session.loginMember.memberName}]],
-          buyer_tel: [[${session.loginMember.memberPhone}]],
-          buyer_addr: [[${session.loginMember.memberAddress}]],
-          buyer_postcode: [[${#strings.arraySplit(session.loginMember.memberAddress,'/')[0]}]]
+          buyer_email: "[[${session.loginMember.memberEmail}]]",
+          buyer_name: "[[${session.loginMember.memberName}]]",
+          buyer_tel: "[[${session.loginMember.memberPhone}]]",
+          buyer_addr: "[[${session.loginMember.memberAddress}]]",
+          buyer_postcode: "[[${#strings.arraySplit(session.loginMember.memberAddress,'/')[0]}]]"
         }, function (res) { // callback
           if (true) {
             /*if (rsp.success) {*/
