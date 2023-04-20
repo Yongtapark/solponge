@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/success.css}">
 </head>
 <body>
 <header>
@@ -14,7 +15,6 @@
         <td onclick="location.href='/com.solponge/main'" id="left">메인으로</td>
         <td onclick="location.href='/com.solponge/member/${member_No}/myPage/cart'">장바구니</td>
     </tr>
-
 </table>
 <footer>
     <div th:insert="~{fragment/footer :: footer}"></div>

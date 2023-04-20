@@ -65,7 +65,7 @@
   <div th:insert="~{fragment/header :: header}"></div>
 </header>
 <form th:action="@{/com.solponge/join}" th:object="${member}" method="post" name="frm" onsubmit="return infocheck()">
-  <input type="hidden" name="memberNo" th:field="*{memberNo}">
+  <input type="hidden" name="memberNo" th:field="*{getMemberNum}">
   <div id="memberinfo">
     <table>
       <tr>

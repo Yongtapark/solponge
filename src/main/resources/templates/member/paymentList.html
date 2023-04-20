@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/paymentList.css}">
+</head>
+<body>
+<header>
+  <div th:insert="~{fragment/header :: header}"></div>
+</header>
+<div id="paymentlist">
+  <div id="sidebar">
+    <table>
+      <tr>
+        <td><a class="link" th:href="@{'/com.solponge/member/' + ${session.loginMember.memberNum} + '/myPage'}">정보수정</a></td>
+      </tr>
+      <tr>
+        <td class="link" style="background-color: #007bff;"><a th:href="@{'/com.solponge/member/' + ${session.loginMember.memberNum} + '/paymentList'}" style="color:white;">구매목록</a></td>
+      </tr>
+      <tr>
+        <td class="link"><a th:href="@{'/com.solponge/member/' + ${session.loginMember.memberNum} + '/myPage/jobScrap'}">스크랩</a></td>
+      </tr>
+    </table>
+  </div>
+
+  <div th:if="${#lists.isEmpty(paymentList)}" class="cart" style="min-height: 500px">
+    <h1 th:text="|${session.loginMember.getMemberName()}  님의 장바구니|"></h1>
+    <p style="text-align: center; font-size: 1.5rem; font-weight: bold;">주문목록이 비어있습니다</p>
+    <div style="
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+">
+      <button onclick="location.href='/com.solponge/productList'"
+              style="
+      width: 500px;
+      padding: 10px;
+      background-color: rgb(102,153,255);
+      color: #fff;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 10px;
+    ">
+        상품 보러 가기
+      </button>
+    </div>
+  </div>
+  <div th:if="${not #lists.isEmpty(paymentList)}" class="cart">
+
+    <div th:each="paymentList : ${paymentList}" class="cart__item">
+      <th:block th:with="order=${paymentList}">
+      <img class="cart__item-img" th:src="${order.product.productImg}" th:onclick="'location.href=\'/com.solponge/product/' + ${product.productNum} + '\''">
+      <div class="cart__item-info">
+        <div class="cart__item-title" th:text="${product.productTitle}" th:field="${order.product.productTitle}" th:onclick="'location.href=\'/com.solponge/product/' + ${product.productNum} + '\''"></div>
+        <div class="cart__item-price" th:text="'가격: ' + ${product.productPrice} + '원'" th:field="${cartItem.product.productPrice}"></div>
+        <div class="cart__item-total-price" th:text="'소계: ' + ${cartItem.totalPrice} + '원'"></div>
+        <div class="cart__item-quantity">수량: <input type="text" readonly th:value="${order}"style="width: 20px;"></div></div>
+      </th:block>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<footer>
+  <div th:insert="~{fragment/footer :: footer}"></div>
+</footer>
+</body>
+</html>
