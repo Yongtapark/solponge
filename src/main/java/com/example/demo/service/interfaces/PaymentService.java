@@ -12,5 +12,5 @@ public interface PaymentService {
     List<Payment> getPaymentList(Long memberNum);
 
     void addStock(Long paymentNum, Long productNum);
-    void subtractStock(Long paymentNum, Long productNum);
+    void subtractStock(Long productNum, Long paymentStock);
 }

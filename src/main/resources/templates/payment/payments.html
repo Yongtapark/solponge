@@ -176,6 +176,7 @@
     <div class="box">
       <h2>주문상품</h2>
       <input id="payment_num" name="paymentNum" type="hidden"/>
+      <input type="hidden" name="memberNum" th:value="${session.loginMember.memberNum}">
       <div id="payinfo">
         <div th:each="order, iterStat : ${selectedItems}" class="paymentItems">
 
@@ -223,8 +224,8 @@
         <tr>
           <td class="fff">이메일주소</td>
           <td class="eee">
-            <input type="text" th:value="${#strings.arraySplit(session.loginMember.memberEmail,'@')[0]}" size="16" id="email1" name="email1"/> @
-            <input type="text" size="20" id="email2" th:value="${#strings.arraySplit(session.loginMember.memberEmail,'@')[1]}" name="email2"/>
+            <input type="text" th:value="${#strings.arraySplit(session.loginMember.memberEmail,'@')[0]}" size="16" id="email1" name="memberEmail1"/> @
+            <input type="text" size="20" id="email2" th:value="${#strings.arraySplit(session.loginMember.memberEmail,'@')[1]}" name="memberEmail2"/>
             <select name="emails" id="emails" size="1" onchange="emailchang()">
               <option value="" selected>선택하세요</option>
               <option value="naver.com">naver.com</option>

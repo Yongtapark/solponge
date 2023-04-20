@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -21,7 +22,7 @@ public class Payment {
     @JoinColumn(name = "product_num")
     private Product product;
     private Long paymentStock;
-    private String paymentDate;
+    private LocalDateTime paymentDate = LocalDateTime.now();
     private String paymentPhone;
     private  String paymentEmail;
     private String paymentAddress;
@@ -30,11 +31,10 @@ public class Payment {
     private int visible=1;
     private int success=0;
 
-    public Payment(Member member, Product product, Long paymentStock, String paymentDate, String paymentPhone, String paymentEmail, String paymentAddress, String deliveryInfo) {
+    public Payment(Member member, Product product, Long paymentStock, String paymentPhone, String paymentEmail, String paymentAddress, String deliveryInfo) {
         this.member = member;
         this.product = product;
         this.paymentStock = paymentStock;
-        this.paymentDate = paymentDate;
         this.paymentPhone = paymentPhone;
         this.paymentEmail = paymentEmail;
         this.paymentAddress = paymentAddress;

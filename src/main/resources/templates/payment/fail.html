@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header>
+    <div th:insert="~{fragment/header :: header}"></div>
+</header>
+<h2>결제 실패!</h2>
+<table>
+    <tr>
+        <td onclick="location.href='/com.solponge/main'" id="left">메인으로</td>
+        <td onclick="location.href='/com.solponge/member/${member_No}/myPage/cart'">장바구니</td>
+    </tr>
+
+</table>
+<footer>
+    <div th:insert="~{fragment/footer :: footer}"></div>
+</footer>
+</body>
+</html>

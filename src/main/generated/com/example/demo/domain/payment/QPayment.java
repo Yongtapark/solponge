@@ -30,7 +30,7 @@ public class QPayment extends EntityPathBase<Payment> {
 
     public final StringPath paymentAddress = createString("paymentAddress");
 
-    public final StringPath paymentDate = createString("paymentDate");
+    public final DateTimePath<java.time.LocalDateTime> paymentDate = createDateTime("paymentDate", java.time.LocalDateTime.class);
 
     public final StringPath paymentEmail = createString("paymentEmail");
 

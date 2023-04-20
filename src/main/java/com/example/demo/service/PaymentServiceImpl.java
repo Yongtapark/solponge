@@ -33,7 +33,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void subtractStock(Long paymentNum, Long productStock) {
-        productQueryRepository.subtractStock(paymentNum,productStock);
+    public void subtractStock(Long productNum, Long paymentStock) {
+        productQueryRepository.subtractStock(productNum,paymentStock);
     }
 }
