@@ -4,6 +4,44 @@
   <meta charset="UTF-8">
   <title>Title</title>
   <link rel="stylesheet" type="text/css" th:href="@{/css/paymentList.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/cart.css}">
+  <style>
+    .order-group {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: rgb(102,153,255);
+    }
+
+    .product-image {
+      width: 50px;
+      height: auto;
+    }
+
+    h3 {
+      margin-bottom: 20px;
+    }
+
+
+
+
+
+  </style>
 </head>
 <body>
 <header>
@@ -24,7 +62,7 @@
     </table>
   </div>
 
-  <div th:if="${#lists.isEmpty(paymentList)}" class="cart" style="min-height: 500px">
+  <div th:if="${#maps.isEmpty(paymentListMap)}" class="cart" style="min-height: 500px">
     <h1 th:text="|${session.loginMember.getMemberName()}  님의 장바구니|"></h1>
     <p style="text-align: center; font-size: 1.5rem; font-weight: bold;">주문목록이 비어있습니다</p>
     <div style="
@@ -49,20 +87,37 @@
       </button>
     </div>
   </div>
-  <div th:if="${not #lists.isEmpty(paymentList)}" class="cart">
-
-    <div th:each="paymentList : ${paymentList}" class="cart__item">
-      <th:block th:with="order=${paymentList}">
-      <img class="cart__item-img" th:src="${order.product.productImg}" th:onclick="'location.href=\'/com.solponge/product/' + ${product.productNum} + '\''">
-      <div class="cart__item-info">
-        <div class="cart__item-title" th:text="${product.productTitle}" th:field="${order.product.productTitle}" th:onclick="'location.href=\'/com.solponge/product/' + ${product.productNum} + '\''"></div>
-        <div class="cart__item-price" th:text="'가격: ' + ${product.productPrice} + '원'" th:field="${cartItem.product.productPrice}"></div>
-        <div class="cart__item-total-price" th:text="'소계: ' + ${cartItem.totalPrice} + '원'"></div>
-        <div class="cart__item-quantity">수량: <input type="text" readonly th:value="${order}"style="width: 20px;"></div></div>
-      </th:block>
+  <div th:if="${not #maps.isEmpty(paymentListMap)}" class="cart">
+    <div th:each="paymentGroup : ${paymentListMap.entrySet()}" class="order-group">
+      <div>
+        <td th:text="|주문번호 : ${paymentGroup.key}|"></td>
       </div>
+      <table>
+        <thead>
+        <tr>
+          <th colspan="2">상품</th>
+          <th>가격</th>
+          <th>수량</th>
+          <th>주문일</th>
+          <th>배송조회</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${paymentGroup.value}">
+          <td><img class="product-image" th:src="${order.product.productImg}" th:onclick="'location.href=\'/com.solponge/product/' + ${order.product.productNum} + '\''"></td>
+          <td th:text="${order.product.productTitle}" th:field="${order.product.productTitle}" th:onclick="'location.href=\'/com.solponge/product/' + ${order.product.productNum} + '\''"></td>
+          <td th:text="${order.product.productPrice} + '원'" th:field="${order.product.productPrice}"></td>
+          <td th:text="${order.paymentStock}"></td>
+          <td th:text="${#temporals.format(order.paymentDate, 'yyyy.MM.dd')}"></td>
+          <td onclick="window.open('https://tracker.delivery/#/kr.cjlogistics/${i.delivery_num}','배송조회','width=430, height=600')" class="del">배송조회</td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+
+
+
 </div>
 
 

@@ -14,10 +14,5 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-	/*@Bean
-	@Profile("local")
-	public TestDataInit testDataInit(MemberRepository memberRepository) {
-		return new TestDataInit(memberRepository);
-	}*/
 
 }

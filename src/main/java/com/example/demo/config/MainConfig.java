@@ -4,6 +4,7 @@ import com.example.demo.repository.cart.CartItemRepository;
 import com.example.demo.repository.cart.CartRepository;
 import com.example.demo.repository.member.MemberQueryRepository;
 import com.example.demo.repository.member.MemberRepository;
+import com.example.demo.repository.payment.PaymentQueryRepository;
 import com.example.demo.repository.payment.PaymentRepository;
 import com.example.demo.repository.product.ProductQueryRepository;
 import com.example.demo.repository.product.ProductRepository;
@@ -52,7 +53,7 @@ public class MainConfig {
     }
 
     @Bean
-    public PaymentService paymentService(){return new PaymentServiceImpl(paymentRepository,productQueryRepository());}
+    public PaymentService paymentService(){return new PaymentServiceImpl(paymentRepository,productQueryRepository(),paymentQueryRepository());}
 
 
 
@@ -69,6 +70,11 @@ public class MainConfig {
     @Bean
     public ProductQueryRepository productQueryRepository(){
         return new ProductQueryRepository(em, productRepository);
+    }
+
+    @Bean
+    public PaymentQueryRepository paymentQueryRepository(){
+        return new PaymentQueryRepository(em,paymentRepository);
     }
 
 

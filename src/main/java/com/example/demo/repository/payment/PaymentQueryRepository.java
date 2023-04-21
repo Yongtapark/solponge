@@ -2,14 +2,18 @@ package com.example.demo.repository.payment;
 
 import com.example.demo.domain.payment.Payment;
 
-import com.querydsl.core.types.dsl.BooleanExpression;
+import java.util.LinkedHashMap;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 
 
 import javax.persistence.EntityManager;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.example.demo.domain.payment.QPayment.*;
 
@@ -22,6 +26,17 @@ public class PaymentQueryRepository {
         this.queryFactory = new JPAQueryFactory(em);
         this.paymentRepository = paymentRepository;
     }
+
+    public Map<Long, List<Payment>> showPaymentList(Long memberNum) {
+        List<Payment> payments = queryFactory.selectFrom(payment)
+                .where(payment.member.memberNum.eq(memberNum))
+                .orderBy(payment.paymentGroup.desc())
+                .fetch();
+
+        return payments.stream()
+                .collect(Collectors.groupingBy(Payment::getPaymentGroup, LinkedHashMap::new, Collectors.toList()));
+    }
+
 
     public void cancelPayment(Long paymentNum, Long memberNum) {
         queryFactory.update(payment)

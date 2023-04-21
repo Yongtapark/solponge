@@ -15,6 +15,7 @@ public class Payment {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentNum; //내부용 주문번호
     private String paymentOrderNum = ""; //외부용 주문번호
+    private Long paymentGroup;
     @ManyToOne
     @JoinColumn(name = "member_num")
     private Member member;
@@ -31,7 +32,7 @@ public class Payment {
     private int visible=1;
     private int success=0;
 
-    public Payment(Member member, Product product, Long paymentStock, String paymentPhone, String paymentEmail, String paymentAddress, String deliveryInfo) {
+    public Payment(Member member, Product product, Long paymentStock, String paymentPhone, String paymentEmail, String paymentAddress, String deliveryInfo, Long paymentGroup) {
         this.member = member;
         this.product = product;
         this.paymentStock = paymentStock;
@@ -39,5 +40,6 @@ public class Payment {
         this.paymentEmail = paymentEmail;
         this.paymentAddress = paymentAddress;
         this.deliveryInfo = deliveryInfo;
+        this.paymentGroup = paymentGroup;
     }
 }

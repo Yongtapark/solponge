@@ -62,22 +62,6 @@ public class PaymentController {
         return "payment/pay";
     }
 
-    @GetMapping(value = "/payments/success")
-    public String successmove(HttpServletRequest request,
-                              Model model) {
-        Member loginMember = getLoginMember(request);
-        model.addAttribute("memberNum",loginMember.getMemberNum());
-        return "payment/success";
-    }
-
-    @GetMapping(value = "/payments/fail")
-    public String failmove(HttpServletRequest request,
-                           Model model) {
-        Member loginMember = getLoginMember(request);
-        model.addAttribute("member_No",loginMember.getMemberNum());
-        return "payment/fail";
-    }
-
     @PostMapping(value = "/payments/su")
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -86,6 +70,7 @@ public class PaymentController {
         getLoginMember(request);
 
         List<OrderList> orderList = payForm.getOrderList();
+        long paymentGroup = System.currentTimeMillis();
         for (OrderList list : orderList) {
             Product product = productService.findByNo(list.getProductNum()).get();
             Member member = memberService.findByNo(payForm.getMemberNum()).get();
@@ -101,7 +86,8 @@ public class PaymentController {
                     payForm.getMemberPhone(),
                     payForm.getMemberEmail(),
                     payForm.getMemberAddress(),
-                    payForm.getDeliveryInfo());
+                    payForm.getDeliveryInfo(),
+                    paymentGroup);
 
             Long save = paymentService.save(payment);
             log.info("saveNum={}",save);
@@ -109,6 +95,22 @@ public class PaymentController {
 
         }
 
+    }
+
+    @GetMapping(value = "/payments/success")
+    public String successmove(HttpServletRequest request,
+                              Model model) {
+        Member loginMember = getLoginMember(request);
+        model.addAttribute("memberNum",loginMember.getMemberNum());
+        return "payment/success";
+    }
+
+    @GetMapping(value = "/payments/fail")
+    public String failmove(HttpServletRequest request,
+                           Model model) {
+        Member loginMember = getLoginMember(request);
+        model.addAttribute("member_No",loginMember.getMemberNum());
+        return "payment/fail";
     }
 
 

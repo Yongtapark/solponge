@@ -86,14 +86,9 @@ public class MemberController {
     @GetMapping("/paymentList")
     public String produtslist(Model model, HttpServletRequest request){
         Member loginMember = getLoginMember(request);
-        List<Payment> paymentList = paymentService.getPaymentList(loginMember.getMemberNum());
-        for (Payment payment : paymentList) {
-            Product product = payment.getProduct();
-            Long paymentStock = payment.getPaymentStock();
-            model.addAttribute("product",product);
-
-        }
-        model.addAttribute("paymentList",paymentList);
+        Map<Long, List<Payment>> paymentListMap = paymentService.showPaymentList(loginMember.getMemberNum());
+        log.info("paymentListMap={}",paymentListMap.size());
+        model.addAttribute("paymentListMap",paymentListMap);
 
         return "member/paymentList";
     }

@@ -3,72 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>장바구니</title>
-  <style>
-    /* 장바구니 스타일 */
-    .cart {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .cart__item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
-      padding: 10px;
-      border: 1px solid #ccc;
-    }
-
-    .cart__item-img {
-      width: 100px;
-      height: 100px;
-      margin-right: 20px;
-    }
-
-    .cart__item-info {
-      flex-grow: 1;
-    }
-
-    .cart__item-title {
-      font-weight: bold;
-      font-size: 1.2rem;
-    }
-
-    .cart__item-price {
-      margin-top: 10px;
-    }
-
-    .cart__item-quantity {
-      margin-top: 10px;
-    }
-
-    .cart__item-total-price {
-      margin-top: 10px;
-    }
-
-    .cart__item-remove {
-      margin-left: 20px;
-      cursor: pointer;
-    }
-
-    .deleteButton{
-      border: none;
-      background-color: snow;
-    }
-    .cart-total-price {
-      width: 500px;
-      padding: 10px;
-      margin: 30px 0px 30px 0px;
-      font-weight: normal;
-      font-size: larger;
-    }
-
-    .cart-total-price div {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 5px;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/cart.css}">
 </head>
 <body>
 <header>

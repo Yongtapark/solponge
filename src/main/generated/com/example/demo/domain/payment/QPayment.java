@@ -34,6 +34,8 @@ public class QPayment extends EntityPathBase<Payment> {
 
     public final StringPath paymentEmail = createString("paymentEmail");
 
+    public final NumberPath<Long> paymentGroup = createNumber("paymentGroup", Long.class);
+
     public final NumberPath<Long> paymentNum = createNumber("paymentNum", Long.class);
 
     public final StringPath paymentOrderNum = createString("paymentOrderNum");
