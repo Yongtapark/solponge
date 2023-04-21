@@ -49,11 +49,7 @@ public class PaymentServiceImpl implements PaymentService {
         return paymentQueryRepository.showPaymentList(memberNum);
     }
 
-    @Override
-    public Page<PaymentGroup> pagingPayment(PaymentGroup paymentGroup, Pageable pageable) {
 
-        return ;
-    }
 
 
 }

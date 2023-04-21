@@ -20,5 +20,4 @@ public interface PaymentService {
 
     Map<Long, List<Payment>> showPaymentList(Long memberNum);
 
-    Page<PaymentGroup> pagingPayment(PaymentGroup paymentGroup, Pageable pageable);
 }
