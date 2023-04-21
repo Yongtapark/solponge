@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/proStyle.css}">
+</head>
+<body>
+<header>
+  <div th:insert="~{fragment/header :: header}"></div>
+</header>
+<div class="container" style="max-width: 600px">
+  <div class="py-5 text-center">
+    <h2>회원 수정</h2>
+  </div>
+  <form class = "member-form" method="post" th:action="@{/com.solponge/admin/member/{memberNum}/update(memberNum=${member.memberNum})}">
+    <div>
+      <label class = "member-se" for="member_id">아이디</label>
+      <p><input class = "member-label"  type="text" id="member_Id" name="memberId" th:value="${member.memberId}" readonly/></p>
+    </div>
+    <div>
+      <label class = "member-se" for="member_pwd">비밀번호</label>
+      <p><input class = "member-label" type="password" id="member_Pwd" name="memberPwd" th:value="${member.memberPwd}"/></p>
+    </div>
+    <div>
+      <label class = "member-se" for="member_name">이름</label>
+      <p><input class = "member-label" type="text" id="member_Name" name="memberName" th:value="${member.memberName}" readonly/></p>
+    </div>
+    <div>
+      <label class = "member-se" for="member_address">주소</label>
+      <p><input class = "member-label" type="text" id="member_Address" name="memberAddress"th:value="${member.memberAddress}" /></p>
+    </div>
+    <div>
+      <label class = "member-se" for="member_phone">전화번호</label>
+      <p><input class = "member-label" type="text" id="member_Phone" name="memberPhone" th:value="${member.memberPhone}" /></p>
+    </div>
+    <div>
+      <label class = "member-se" for="member_email">이메일</label>
+      <p><input class = "member-label" type="email" id="member_Email" name="memberEmail" th:value="${member.memberEmail}" /></p>
+    </div>
+    </table>
+    <hr class="my-4">
+    <div class="row">
+      <div class = "padding-left1">
+        <button class = "button" type="submit">저장</button>
+      </div>&nbsp
+      <div>
+        <button class = "button" onclick="location.href='/com.solponge/admin/member'" type="button">목록</button>
+      </div>&nbsp
+      <div>
+        <button class="button" th:onclick="'javascript:location.href=\'' + @{/com.solponge/admin/member/{memberNum}/delete(memberNum=${member.memberNum})} + '\''" type="button">삭제</button>
+      </div>
+      <div></div>
+    </div>
+  </form>
+  <table>
+    <tr>
+      <th></th>
+    </tr>
+  </table>
+</div> <!-- /container -->
+<footer>
+  <div th:insert="~{fragment/footer :: footer}"></div>
+</footer>
+</body>
+</html>

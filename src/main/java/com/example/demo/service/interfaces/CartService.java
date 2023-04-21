@@ -23,7 +23,9 @@ public interface CartService {
      */
     Cart createCart(Cart cart);
 
-    Cart getMyCart(Long memberNo);
+    Cart getMyCart(Long memberNum);
+
+    void deleteCartByMemberNum(Long memberNum);
 
 
 

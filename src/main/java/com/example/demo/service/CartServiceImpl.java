@@ -52,4 +52,9 @@ public class CartServiceImpl implements CartService {
         return cartRepository.findByMemberMemberNum(memberNo).get();
     }
 
+    @Override
+    public void deleteCartByMemberNum(Long memberNum) {
+        cartRepository.deleteByMemberMemberNum(memberNum);
+    }
+
 }
