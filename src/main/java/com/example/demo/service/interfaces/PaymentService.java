@@ -1,7 +1,10 @@
 package com.example.demo.service.interfaces;
 
 import com.example.demo.domain.payment.Payment;
+import com.example.demo.domain.payment.PaymentGroup;
 import com.example.demo.domain.product.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,4 +19,6 @@ public interface PaymentService {
     void subtractStock(Long productNum, Long paymentStock);
 
     Map<Long, List<Payment>> showPaymentList(Long memberNum);
+
+    Page<PaymentGroup> pagingPayment(PaymentGroup paymentGroup, Pageable pageable);
 }

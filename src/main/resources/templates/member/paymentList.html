@@ -62,7 +62,7 @@
     </table>
   </div>
 
-  <div th:if="${#maps.isEmpty(paymentListMap)}" class="cart" style="min-height: 500px">
+  <div th:if="${#lists.isEmpty(paymentListMap)}" class="cart" style="min-height: 500px">
     <h1 th:text="|${session.loginMember.getMemberName()}  님의 장바구니|"></h1>
     <p style="text-align: center; font-size: 1.5rem; font-weight: bold;">주문목록이 비어있습니다</p>
     <div style="
@@ -87,8 +87,8 @@
       </button>
     </div>
   </div>
-  <div th:if="${not #maps.isEmpty(paymentListMap)}" class="cart">
-    <div th:each="paymentGroup : ${paymentListMap.entrySet()}" class="order-group">
+  <div th:if="${not #lists.isEmpty(paymentListMap)}" class="cart">
+    <div th:each="paymentGroup : ${paymentListMap.payments}" class="order-group">
       <div>
         <td th:text="|주문번호 : ${paymentGroup.key}|"></td>
       </div>

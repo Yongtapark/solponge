@@ -4,6 +4,7 @@ import com.example.demo.domain.payment.Payment;
 
 import java.util.LinkedHashMap;
 
+import com.example.demo.domain.payment.PaymentGroup;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,6 +37,7 @@ public class PaymentQueryRepository {
         return payments.stream()
                 .collect(Collectors.groupingBy(Payment::getPaymentGroup, LinkedHashMap::new, Collectors.toList()));
     }
+
 
 
     public void cancelPayment(Long paymentNum, Long memberNum) {

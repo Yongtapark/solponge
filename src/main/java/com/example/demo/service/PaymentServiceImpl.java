@@ -1,11 +1,14 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.payment.Payment;
+import com.example.demo.domain.payment.PaymentGroup;
 import com.example.demo.repository.payment.PaymentQueryRepository;
 import com.example.demo.repository.payment.PaymentRepository;
 import com.example.demo.repository.product.ProductQueryRepository;
 import com.example.demo.service.interfaces.PaymentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,4 +48,12 @@ public class PaymentServiceImpl implements PaymentService {
     public Map<Long, List<Payment>> showPaymentList(Long memberNum) {
         return paymentQueryRepository.showPaymentList(memberNum);
     }
+
+    @Override
+    public Page<PaymentGroup> pagingPayment(PaymentGroup paymentGroup, Pageable pageable) {
+
+        return ;
+    }
+
+
 }

@@ -4,11 +4,16 @@ import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.MemberJoinForm;
 import com.example.demo.domain.member.login.session.SessionConst;
 import com.example.demo.domain.payment.Payment;
+import com.example.demo.domain.payment.PaymentGroup;
 import com.example.demo.domain.product.Product;
 import com.example.demo.service.interfaces.MemberService;
 import com.example.demo.service.interfaces.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,9 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @Slf4j
@@ -84,11 +87,12 @@ public class MemberController {
     }
 
     @GetMapping("/paymentList")
-    public String produtslist(Model model, HttpServletRequest request){
+    public String produtslist(Model model,
+                              HttpServletRequest request,
+                              @PageableDefault(page = 0,size = 5,sort = "paymentGroup",direction = Sort.Direction.ASC)Pageable pageable){
         Member loginMember = getLoginMember(request);
-        Map<Long, List<Payment>> paymentListMap = paymentService.showPaymentList(loginMember.getMemberNum());
-        log.info("paymentListMap={}",paymentListMap.size());
-        model.addAttribute("paymentListMap",paymentListMap);
+        PaymentGroup paymentGroup = new PaymentGroup(paymentService.showPaymentList(loginMember.getMemberNum()));
+        model.addAttribute("paymentListMap",paymentGroup);
 
         return "member/paymentList";
     }
