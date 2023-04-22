@@ -2,7 +2,9 @@ package com.example.demo.service.interfaces;
 
 
 import com.example.demo.domain.member.Member;
-import com.example.demo.repository.member.MemberSearchCond;
+import com.example.demo.domain.utils.SearchCond;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,8 +17,9 @@ public interface MemberService {
     Optional<Member> findByNo(Long memberNum);
 
     List<Member> findAll();
+    Page<Member> findAll(Pageable pageable);
 
-    List<Member> findMembers(MemberSearchCond cond);
+    Page<Member> search(SearchCond cond, Pageable pageable);
 
 
 }

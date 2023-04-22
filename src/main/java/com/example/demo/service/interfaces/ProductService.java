@@ -1,9 +1,7 @@
 package com.example.demo.service.interfaces;
 
-import com.example.demo.domain.member.Member;
 import com.example.demo.domain.product.Product;
-import com.example.demo.repository.product.ProductSearchCond;
-import com.querydsl.core.types.dsl.BooleanExpression;
+import com.example.demo.domain.utils.SearchCond;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -20,7 +18,7 @@ public interface ProductService {
     List<Product> newTop8List();
     List<Product> popTop8List();
 
-    public Page<Product> search(ProductSearchCond cond,Pageable pageable);
+    public Page<Product> search(SearchCond cond, Pageable pageable);
     public Product getProduct(int productNum);
     public void deleteProduct(int productNum);
     Page<Product> findAll(Pageable pageable);

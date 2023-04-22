@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.login.session.SessionConst;
 import com.example.demo.domain.product.Product;
-import com.example.demo.repository.product.ProductSearchCond;
+import com.example.demo.domain.utils.SearchCond;
 import com.example.demo.service.interfaces.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class ProductController {
             paginatedProducts = productService.findAll(pageable);
         }else {
             log.info("===검색어 있음===");
-            ProductSearchCond cond = new ProductSearchCond(searchSelect, searchValue);
+            SearchCond cond = new SearchCond(searchSelect, searchValue);
             log.info("cond={}",cond);
             paginatedProducts = productService.search(cond, pageable);
             //paginatedProducts = productService.productSearchList(searchKeyword,pageable);

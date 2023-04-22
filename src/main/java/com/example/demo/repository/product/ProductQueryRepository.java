@@ -1,7 +1,7 @@
 package com.example.demo.repository.product;
 
-import com.example.demo.domain.payment.QPayment;
 import com.example.demo.domain.product.Product;
+import com.example.demo.domain.utils.SearchCond;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -14,7 +14,6 @@ import org.springframework.util.StringUtils;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.example.demo.domain.payment.QPayment.payment;
 import static com.example.demo.domain.product.QProduct.*;
 @Slf4j
 public class ProductQueryRepository {
@@ -27,7 +26,7 @@ public class ProductQueryRepository {
         this.productRepository = productRepository;
     }
 
-    public Page<Product> search(ProductSearchCond cond, Pageable pageable) {
+    public Page<Product> search(SearchCond cond, Pageable pageable) {
         QueryResults<Product> results = query.select(product)
                 .from(product)
                 .where(searchBySelect(cond.getSearchSelect(), cond.getSearchValue()))

@@ -4,14 +4,12 @@ import com.example.demo.domain.payment.Payment;
 
 import java.util.LinkedHashMap;
 
-import com.example.demo.domain.payment.PaymentGroup;
+
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 
 
 import javax.persistence.EntityManager;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

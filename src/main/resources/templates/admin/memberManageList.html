@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/proStyle.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/pagination.css}">
 </head>
 <body>
 <header>
@@ -14,13 +15,13 @@
         <h2>회원목록</h2>
     </div>
     <div class="row">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form th:action="@{/com.solponge/admin/member/search}" method="get">
-        <select name="SearchSelect" class="search-select">
-            <option value="ALL">전체</option>
-            <option value="MEMBER_NAME">이름</option>
-            <option value="MEMBER_ID">아이디</option>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form th:action="@{/com.solponge/admin/member}" method="get">
+        <select name="searchSelect" class="search-select">
+            <option value="all">전체</option>
+            <option value="memberName">이름</option>
+            <option value="memberId">아이디</option>
         </select>
-        <input type="text" name="SearchValue">
+        <input type="text" name="searchValue">
         <button type="submit">검색</button>
     </form>
     </div>
@@ -44,7 +45,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="member : ${members}">
+            <tr th:each="member : ${paginatedMember}">
                 <form th:action="@{/com.solponge/admin/member/{memberNum}/update(memberNum=${member.memberNum})}">
                 <td width="10%"></td>
                 <td th:text="${member.memberNum}"></td>
@@ -68,6 +69,27 @@
         <br>
     </div>
 </div> <!-- /container -->
+<th:block>
+    <!-- Paging navigation component -->
+    <nav id="paging" aria-label="Page navigation example" style="clear: both;">
+        <ul class="pagination justify-content-center" style="padding: 0">
+            <!-- Previous button -->
+            <li class="page-item" th:classappend="${nowPage == 1 ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/com.solponge/admin/member(page=${nowPage - 2}, searchSelect = ${param.searchSelect}, searchValue = ${param.searchValue})}" tabindex="-1"
+                   th:aria-disabled="${nowPage == 1}">Previous</a>
+            </li>
+            <!-- Page numbers -->
+            <li class="page-item" th:each="page : ${#numbers.sequence(startPage,endPage)}"
+                th:classappend="${nowPage == page ? 'active' : ''}">
+                <a class="page-link" th:href="@{/com.solponge/admin/member(page = ${page - 1}, searchSelect = ${param.searchSelect}, searchValue = ${param.searchValue})}" th:text="${page}"></a>
+            </li>
+            <!-- Next button -->
+            <li class="page-item" th:classappend="${nowPage == totalPages ? 'disabled' : ''}" style="margin-right: 44px">
+                <a class="page-link" th:href="@{/com.solponge/admin/member(page=${nowPage}, searchSelect = ${param.searchSelect}, searchValue = ${param.searchValue})}" th:aria-disabled="${nowPage == totalPages}">Next</a>
+            </li>
+        </ul>
+    </nav>
+</th:block>
 
 <footer>
     <div th:insert="~{fragment/footer :: footer}"></div>

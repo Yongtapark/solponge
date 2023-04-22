@@ -3,7 +3,7 @@ package com.example.demo.service;
 import com.example.demo.domain.product.Product;
 import com.example.demo.repository.product.ProductQueryRepository;
 import com.example.demo.repository.product.ProductRepository;
-import com.example.demo.repository.product.ProductSearchCond;
+import com.example.demo.domain.utils.SearchCond;
 import com.example.demo.service.interfaces.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -75,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> search(ProductSearchCond cond, Pageable pageable) {
+    public Page<Product> search(SearchCond cond, Pageable pageable) {
         return productQueryRepository.search(cond,pageable);
     }
 

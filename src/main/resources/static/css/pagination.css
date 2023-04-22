@@ -1,0 +1,78 @@
+/* Pagination container */
+#paging {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Pagination links */
+.pagination {
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.pagination .page-item {
+    display: inline;
+}
+
+.pagination .page-link {
+    color: #007bff;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    padding: 6px 12px;
+    margin: 0 4px;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: default;
+}
+
+.pagination .page-item.active .page-link {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.pagination {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+.pagination li {
+    display: inline;
+    margin: 0 1px;
+}
+
+.pagination li.active a {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.pagination li a {
+    color: #007bff;
+    border: 1px solid #007bff;
+    padding: 6px 12px;
+}
+
+.pagination li a:hover {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.pagination li.disabled a {
+    color: #6c757d;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #6c757d;
+}
+#container_booklist{
+    width: 1050px;
+    margin: 0 auto;
+}
+#row2{
+    width: 1050px;
+    margin-bottom: 40px;
+}
