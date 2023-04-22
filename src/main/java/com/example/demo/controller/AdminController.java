@@ -2,10 +2,12 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.login.session.SessionConst;
+import com.example.demo.domain.payment.Payment;
 import com.example.demo.domain.product.Product;
 import com.example.demo.domain.utils.SearchCond;
 import com.example.demo.service.interfaces.CartService;
 import com.example.demo.service.interfaces.MemberService;
+import com.example.demo.service.interfaces.PaymentService;
 import com.example.demo.service.interfaces.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,7 @@ public class AdminController {
     private final MemberService memberService;
     private final CartService cartService;
     private final ProductService productService;
+    private final PaymentService paymentService;
 
     /**
      * 회원관리
@@ -97,6 +100,18 @@ public class AdminController {
     }
 
     /**
+     * 주문관리
+     */
+    @GetMapping("/order")
+    public String order(Model model, HttpServletRequest request) {
+        List<Payment> paymentList = paymentService.getPaymentList();
+        model.addAttribute("paymentList",paymentList);
+        return "admin/orderManageList";
+
+    }
+
+
+    /**
      * 상품관리
      */
     @GetMapping("/product") //수정완료
@@ -136,6 +151,12 @@ public class AdminController {
         model.addAttribute("product", product);
         return "admin/productManagePage";
     }
+
+    @GetMapping("/product/add")
+    public String addProduct(@ModelAttribute("product") Product product) {
+        return "admin/productManageAdd";
+    }
+
 
 
 

@@ -13,7 +13,7 @@ import java.util.Map;
 
 public interface PaymentService {
     Long save(Payment payment);
-    List<Payment> getPaymentList(Long memberNum);
+    List<Payment> getPaymentList();
 
     void addStock(Long paymentNum, Long productNum);
     void subtractStock(Long productNum, Long paymentStock);

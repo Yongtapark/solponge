@@ -30,8 +30,8 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<Payment> getPaymentList(Long memberNum) {
-        return paymentRepository.findByMemberMemberNum(memberNum);
+    public List<Payment> getPaymentList() {
+        return paymentRepository.findAll();
     }
 
     @Override
