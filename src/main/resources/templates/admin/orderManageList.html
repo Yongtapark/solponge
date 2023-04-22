@@ -1,97 +1,159 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-  <link rel="stylesheet" type="text/css" th:href="@{/css/proStyle.css}">
-  <link rel="stylesheet" type="text/css" th:href="@{/css/pagination.css}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/proStyle.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/pagination.css}">
 </head>
 <body>
 <header>
-  <div th:insert="~{fragment/header :: header}"></div>
+    <div th:insert="~{fragment/header :: header}"></div>
 </header>
-<div class="container" style="max-width: 100%;padding-right: 0px;padding-left: 0px;">
-  <div class="py-5 text-center">
-    <h2>회원목록</h2>
-  </div>
-  <div class="row">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form th:action="@{/com.solponge/admin/member}" method="get">
-    <select name="searchSelect" class="search-select">
-      <option value="all">전체</option>
-      <option value="memberName">이름</option>
-      <option value="memberId">아이디</option>
-    </select>
-    <input type="text" name="searchValue">
-    <button type="submit">검색</button>
-  </form>
-  </div>
-  <hr class="my-4">
-  <div>
-    <table class="yogi">
-      <thead>
-      <tr>
-        <th width="10%">주문번호</th>
-        <th width="7%">아이디</th>
-        <th width="10%">상품명</th>
-        <th width="4%">수량</th>
-        <th width="10%">주문일자</th>
-        <th width="10%">주문자번호</th>
-        <th width="13%">주소</th>
-        <th width="10%">배송메세지</th>
-        <th width="10%">운송장번호</th>
-        <th width="7%">상태</th>
-        <th width="10%"></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="member : ${paginatedMember}">
-        <form th:action="@{/com.solponge/admin/member/{memberNum}/update(memberNum=${member.memberNum})}">
-          <td width="10%"></td>
-          <td th:text="${member.memberNum}"></td>
-          <td th:text="${member.memberId}"></td>
-          <td th:text="${member.memberPwd}"></td>
-          <td th:text="${member.memberAddress}"></td>
-          <td th:text="${member.memberEmail}"></td>
-          <td th:text="${member.memberPhone}"></td>
-          <td th:text="${member.memberName}"></td>
-          <td th:text="${member.memberGrade}"></td>
-          <td th:text="${#strings.substring(member.memberDate, 0, 10)}"></td>
-          <td>
-            <div class="col">
-              <button class="w-100 btn btn-primary btn-lg" type="submit">정보수정</button>
-            </div>
-          <td width="10%"></td>
-        </form>
-      </tr>
-      </tbody>
-    </table>
-    <br>
-  </div>
+<div class="container" style="max-width: 100%; padding-right: 0px; padding-left: 0px;">
+    <div class="py-5 text-center">
+        <h2>주문목록</h2>
+    </div>
+    <div class="row">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form th:action="@{/com.solponge/admin/order}" method="get">
+        <select name="searchSelect" class="search-select">
+            <option value="all">전체</option>
+            <option value="paymentGroup">주문번호</option>
+            <option value="memberId">아이디</option>
+        </select>
+        <input type="text" name="searchValue">
+        <button type="submit">검색</button>
+    </form>
+    </div>
+    <hr class="my-4">
+    <div>
+        <table class="yogi">
+            <thead>
+            <tr>
+                <th width="10%">주문번호</th>
+                <th width="7%">아이디</th>
+                <th width="10%">상품명</th>
+                <th width="4%">수량</th>
+                <th width="10%">주문일자</th>
+                <th width="10%">연락처</th>
+                <th width="13%">주소</th>
+                <th width="10%">배송메세지</th>
+                <th width="10%">운송장번호</th>
+                <th width="7%">상태</th>
+                <th></th>
+            </tr>
+            </thead>
+
+            <tr th:each="order : ${paginatedPayment}" th:if="${order.success == 0}">
+                <form method="post" th:action="@{/com.solponge/admin/order/{paymentNum}/update(paymentNum=${order.paymentNum})}">
+                    <td th:text="${order.paymentGroup}"></td>
+                    <td th:text="${order.member.memberId}"></td>
+                    <td th:text="${order.product.productTitle}"></td>
+                    <td th:text="${order.paymentStock}"></td>
+                    <td th:text="${order.paymentDate}"></td>
+                    <td th:text="${order.paymentPhone}"></td>
+                    <td th:text="${order.paymentAddress}"></td>
+                    <td th:text="${order.deliveryInfo}"></td>
+                    <td>
+                        <input type="hidden" name="paymentNum" th:value="${order.paymentNum}">
+                        <input type="text" id="deliveryNum" name="deliveryNum" th:value="${order.deliveryNum}">
+                    </td>
+                    <td>
+                        <p id="demo">
+                            <span th:switch="${order.success}">
+                                <span th:case="0">결제완료</span>
+                                <span th:case="1">발송완료</span>
+                                <span th:case="*">알수없음</span>
+                            </span>
+                        </p></td>
+                    <td>
+                        <div>
+                            <button type="submit">발송</button>
+                        </div>
+                    </td>
+                </form>
+            </tr>
+        </table>
+        <br>
+    </div>
+    <div>
+        <table class="yogi">
+            <thead>
+            <tr>
+                <th width="10%">주문번호</th>
+                <th width="7%">아이디</th>
+                <th width="10%">상품명</th>
+                <th width="4%">수량</th>
+                <th width="10%">주문일자</th>
+                <th width="10%">연락처</th>
+                <th width="13%">주소</th>
+                <th width="10%">배송메세지</th>
+                <th width="10%">운송장번호</th>
+                <th width="7%">상태</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${paginatedPayment}" th:if="${order.success == 1}">
+                <td th:text="${order.paymentGroup}"></td>
+                <td th:text="${order.member.memberId}"></td>
+                <td th:text="${order.product.productTitle}"></td>
+                <td th:text="${order.paymentStock}"></td>
+                <td th:text="${order.paymentDate}"></td>
+                <td th:text="${order.paymentPhone}"></td>
+                <td th:text="${order.paymentAddress}"></td>
+                <td th:text="${order.deliveryInfo}"></td>
+                <td th:text="${order.deliveryNum}"></td>
+                <td>
+                    <p id="Completion">
+                      <span th:switch="${order.success}">
+                      <span th:case="0">결제완료</span>
+                      <span th:case="1">발송완료</span>
+                      <span th:case="*">알수없음</span>
+                      </span>
+                    </p></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+    </div>
+</div>
+
 </div> <!-- /container -->
+
 <th:block>
-  <!-- Paging navigation component -->
-  <nav id="paging" aria-label="Page navigation example" style="clear: both;">
-    <ul class="pagination justify-content-center" style="padding: 0">
-      <!-- Previous button -->
-      <li class="page-item" th:classappend="${nowPage == 1 ? 'disabled' : ''}">
-        <a class="page-link" th:href="@{/com.solponge/admin/member(page=${nowPage - 2}, searchSelect = ${param.searchSelect}, searchValue = ${param.searchValue})}" tabindex="-1"
-           th:aria-disabled="${nowPage == 1}">Previous</a>
-      </li>
-      <!-- Page numbers -->
-      <li class="page-item" th:each="page : ${#numbers.sequence(startPage,endPage)}"
-          th:classappend="${nowPage == page ? 'active' : ''}">
-        <a class="page-link" th:href="@{/com.solponge/admin/member(page = ${page - 1}, searchSelect = ${param.searchSelect}, searchValue = ${param.searchValue})}" th:text="${page}"></a>
-      </li>
-      <!-- Next button -->
-      <li class="page-item" th:classappend="${nowPage == totalPages ? 'disabled' : ''}" style="margin-right: 44px">
-        <a class="page-link" th:href="@{/com.solponge/admin/member(page=${nowPage}, searchSelect = ${param.searchSelect}, searchValue = ${param.searchValue})}" th:aria-disabled="${nowPage == totalPages}">Next</a>
-      </li>
-    </ul>
-  </nav>
+    <!-- Paging navigation component -->
+    <nav id="paging" aria-label="Page navigation example" style="clear: both;">
+        <ul class="pagination justify-content-center" style="padding: 0">
+            <!-- Previous button -->
+            <li class="page-item" th:classappend="${nowPage == 1 ? 'disabled' : ''}">
+                <a class="page-link"
+                   th:href="@{/com.solponge/admin/order(page=${nowPage - 2}, searchSelect = ${param.searchSelect}, searchValue = ${param.searchValue})}"
+                   tabindex="-1"
+                   th:aria-disabled="${nowPage == 1}">Previous</a>
+            </li>
+            <!-- Page numbers -->
+            <li class="page-item" th:each="page : ${#numbers.sequence(startPage,endPage)}"
+                th:classappend="${nowPage == page ? 'active' : ''}">
+                <a class="page-link"
+                   th:href="@{/com.solponge/admin/order(page = ${page - 1}, searchSelect = ${param.searchSelect}, searchValue = ${param.searchValue})}"
+                   th:text="${page}"></a>
+            </li>
+            <!-- Next button -->
+            <li class="page-item" th:classappend="${nowPage == totalPages ? 'disabled' : ''}"
+                style="margin-right: 44px">
+                <a class="page-link"
+                   th:href="@{/com.solponge/admin/order(page=${nowPage}, searchSelect = ${param.searchSelect}, searchValue = ${param.searchValue})}"
+                   th:aria-disabled="${nowPage == totalPages}">Next</a>
+            </li>
+        </ul>
+    </nav>
 </th:block>
 
 <footer>
-  <div th:insert="~{fragment/footer :: footer}"></div>
+    <div th:insert="~{fragment/footer :: footer}"></div>
 </footer>
+
 </body>
 </html>

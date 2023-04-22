@@ -58,6 +58,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+
     public Page<Member> search(SearchCond cond, Pageable pageable) {
         return memberQueryRepository.search(cond,pageable);
     }

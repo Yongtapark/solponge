@@ -80,12 +80,12 @@ public class PaymentQueryRepository {
         if(StringUtils.hasText(searchSelect)&& StringUtils.hasText(searchValue)){
             switch (searchSelect){
                 case "all":
-                    return payment.paymentOrderNum.contains(searchValue)
-                            .or(payment.member.memberName.contains(searchValue));
-                case "paymentOrderNum":
-                    return payment.paymentOrderNum.contains(searchValue);
+                    return payment.paymentGroup.stringValue().contains(searchValue)
+                            .or(payment.member.memberId.contains(searchValue));
+                case "paymentGroup":
+                    return payment.paymentGroup.stringValue().contains(searchValue);
                 case"memberName":
-                    return payment.member.memberName.contains(searchValue);
+                    return payment.member.memberId.contains(searchValue);
             }
         }
         return null;

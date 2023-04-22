@@ -18,6 +18,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -103,11 +104,41 @@ public class AdminController {
      * 주문관리
      */
     @GetMapping("/order")
-    public String order(Model model, HttpServletRequest request) {
-        List<Payment> paymentList = paymentService.getPaymentList();
-        model.addAttribute("paymentList",paymentList);
+    public String order(Model model, HttpServletRequest request,
+                        @PageableDefault(page = 0,size = 20, sort = "paymentNum", direction = Sort.Direction.ASC) Pageable pageable,
+                        String searchSelect, String searchValue) {
+        getLoginMember(request);
+        Page<Payment> paginatedPayment = null;
+        if(searchSelect==null && searchValue==null){
+            paginatedPayment =paymentService.findAll(pageable);
+        }else {
+            SearchCond cond = new SearchCond(searchSelect, searchValue);
+            paginatedPayment = paymentService.search(cond, pageable);
+        }
+
+        int nowPage = paginatedPayment.getPageable().getPageNumber() + 1;
+        int totalPages = paginatedPayment.getTotalPages();
+        int startPage = Math.max(nowPage - 5, 1);
+        int endPage = Math.min(startPage + 9, totalPages);
+
+        if(endPage - startPage <9 && totalPages>9){
+            startPage = Math.max(endPage - 9, 1);
+        }
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("totalPages",totalPages);
+        model.addAttribute("paginatedPayment",paginatedPayment);
+        log.info("paginatedPayment={}",paginatedPayment);
         return "admin/orderManageList";
 
+    }
+
+    @PostMapping("/order/{paymentNum}/update")
+    public String orderUpdate(@RequestParam Long paymentNum,
+                         @RequestParam String deliveryNum) {
+        paymentService.updateDeliveryNum(paymentNum, Long.valueOf(deliveryNum));
+        return "redirect:/com.solponge/admin/order";
     }
 
 
