@@ -47,7 +47,7 @@
       </thead>
       <tbody>
       <tr th:each="product : ${paginatedProduct}">
-        <form th:action="@{/com.solponge/admin/product}">
+        <form th:action="@{/com.solponge/admin/product/{productNum}(productNum=${product.productNum})}">
           <td width="10%"></td>
           <td th:text="${product.productNum}"></td>
           <td> <img th:src="${product.productImg}" style="width: 50px;" alt="img"></td>

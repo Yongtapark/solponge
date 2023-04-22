@@ -129,7 +129,19 @@ public class AdminController {
         return "admin/productManageList";
     }
 
+    @GetMapping("/product/{productNum}")
+    public String deProduct(@PathVariable Long productNum, Model model) {
+        log.info("productNum={}",productNum);
+        Product product = productService.findByNo(productNum).get();
+        model.addAttribute("product", product);
+        return "admin/productManagePage";
+    }
 
+
+
+    /**
+     * 메서드
+     */
     private Member getLoginMember(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         return session != null ? (Member) session.getAttribute(SessionConst.LOGIN_MEMBER) : null;

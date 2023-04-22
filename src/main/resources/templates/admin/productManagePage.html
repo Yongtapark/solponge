@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/proStyle.css}">
+</head>
+<body>
+<header>
+    <div th:insert="~{fragment/header :: header}"></div>
+</header>
+<div style="max-width: 100%">
+    <div>
+        <h2 style='padding-left: 20%';>상품 상세 정보</h2>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="padding-left">
+            <button class="button" th:onclick="'window.location.href=\'/com.solponge/admin/product\''" type="button">상품 목록</button>
+        </div>&nbsp
+        <div>
+            <button class="button" th:onclick="'window.location.href=\'' + ${product.productNum} + '/edit\''" type="button">상품 수정</button>
+        </div>&nbsp
+        <div>
+            <form id="delete" th:action="@{'/com.solponge/admin/product/' + ${product.productNum} + '/delete'}" method="post">
+                <input type="hidden" name="_method" value="DELETE"/>
+                <button class="button" onclick="return confirm('정말 삭제하시겠습니까?')" type="submit">상품 삭제</button>
+            </form>
+        </div>
+    </div>
+</div> <!-- /container -->
+<div>
+    <table>
+        <tr>
+            <th width="15%"></th>
+            <th width="10%">번호</th>
+            <td width="40%" th:text="${product.productNum}"></td>
+            <th width="10%"></th>
+        </tr>
+        <tr>
+            <th width="15%"></th>
+            <th>상품명</th>
+            <td width="40%" th:text="${product.productTitle}"></td>
+            <th width="10%"></th>
+        </tr>
+        <tr>
+            <th width="15%"></th>
+            <th>부제목</th>
+            <td width="40%" th:text="${product.productSubtitle}"></td>
+            <th width="10%"></th>
+        </tr>
+        <tr>
+            <th width="15%"></th>
+            <th>작가</th>
+            <td width="40%" th:text="${product.productWriter}"></td>
+            <th width="10%"></th>
+        </tr>
+        <tr>
+            <th width="15%"></th>
+            <th>가격</th>
+            <td width="40%" th:text="${product.productPrice}"></td>
+            <th width="10%"></th>
+        </tr>
+        <tr>
+            <th width="15%"></th>
+            <th>이미지</th>
+            <td width="40%"><img th:src="${product.productImg}" alt="img"></td>
+            <th width="10%"></th>
+        </tr>
+        <tr>
+            <th width="15%"></th>
+            <th>출간일</th>
+            <td width="40%" th:text="${product.productDate}"></td>
+            <th width="10%"></th>
+        </tr>
+        <tr>
+            <th width="15%"></th>
+            <th>페이지 수</th>
+            <td width="40%" th:text="${product.productPage}"></td>
+            <th width="10%"></th>
+        </tr>
+        <tr>
+            <th width="15%"></th>
+            <th>재고</th>
+            <td width="40%" th:text="${product.productStock}"></td>
+            <th width="10%"></th>
+        </tr>
+        <tr>
+            <th width="15%"></th>
+            <th>판매량</th>
+            <td width="40%" th:text="${product.productSale}"></td>
+            <th width="10%"></th>
+        </tr>
+        <tr>
+            <th width="15%"></th>
+            <th>방문 수</th>
+            <td width="40%" th:text="${product.productVisit}"></td>
+            <th width="10%"></th>
+        </tr>
+        <tr>
+            <th width="15%"></th>
+            <th>내용</th>
+            <td width = "40%" th:utext="${product.productCode}"></td>
+            <th width="10%"></th>
+        </tr>
+    </table>
+</div>
+<footer>
+    <div th:insert="~{fragment/footer :: footer}"></div>
+</footer>
+</body>
+</html>
