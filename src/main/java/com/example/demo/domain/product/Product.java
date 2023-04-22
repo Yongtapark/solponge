@@ -28,25 +28,10 @@ public class Product {
     private int productStock;
     private int productSale;
     private int productVisit;
-    private int productGarbage;
+    private Boolean isDeleted = true;
 
 
     //생성자 오버로딩
-    public Product(int productGarbage, Long productNum, String productTitle, String productSubtitle, String productWriter, int productPrice, String productImg, Date productDate, int productStock, int productSale, int productVisit, String productPage, String productCode) {
-        this.productNum = productNum;
-        this.productTitle = productTitle;
-        this.productSubtitle = productSubtitle;
-        this.productWriter = productWriter;
-        this.productPrice = productPrice;
-        this.productImg = productImg;
-        this.productDate = productDate;
-        this.productStock = productStock;
-        this.productSale = productSale;
-        this.productVisit = productVisit;
-        this.productPage = productPage;
-        this.productCode = productCode;
-        this.productGarbage = productGarbage;
-    }
 
     public Product(Long productNum, String productTitle, int productPrice, int productStock) {
         this.productNum = productNum;
@@ -55,17 +40,6 @@ public class Product {
         this.productStock = productStock;
     }
 
-    /**
-     * db에서 받아온 정보를 productVo 객체로 만드는 생성자
-     * @param product_num
-     * @param product_title
-     * @param product_price
-     */
-    public Product(Long product_num, String product_title, int product_price) {
-        this.productNum = product_num;
-        this.productTitle = product_title;
-        this.productPrice = product_price;
-    }
 
 
 }

@@ -24,6 +24,7 @@ public class Cart {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CartItem> cartItems = new ArrayList<>(); // 카트 아이템 리스트
     private String cartDate;
+    private Boolean isDeleted = true;
 
    // private Long cartItemNumCounter = 1L;// 카트 아이템 번호 시퀀스
 

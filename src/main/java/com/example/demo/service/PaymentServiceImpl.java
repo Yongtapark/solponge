@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.payment.Payment;
-import com.example.demo.domain.payment.PaymentGroup;
 import com.example.demo.domain.utils.SearchCond;
 import com.example.demo.repository.payment.PaymentQueryRepository;
 import com.example.demo.repository.payment.PaymentRepository;
@@ -39,7 +38,6 @@ public class PaymentServiceImpl implements PaymentService {
     public Payment updateDeliveryNum(Long paymentNum, Long deliverNum) {
         Payment payment = paymentRepository.findById(paymentNum).get();
         payment.setSuccess(1);
-
         payment.setDeliveryNum(deliverNum);
         return payment;
     }

@@ -7,7 +7,9 @@ import com.example.demo.domain.utils.SearchCond;
 import com.example.demo.service.interfaces.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,22 +82,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getProduct(int productNum) {
+    public Product getProduct(Long productNum) {
         return productQueryRepository.getProduct(productNum);
     }
 
     @Override
-    public void deleteProduct(int productNum) {
-        productQueryRepository.deleteProduct(productNum);
+    public void deleteProduct(Long productNum) {
+        productQueryRepository.deleteLogical(productNum);
     }
 
     @Override
     public Page<Product> findAll(Pageable pageable) {
-        return productRepository.findAll(pageable);
-    }
-
-    @Override
-    public Page<Product> productSearchList(String searchKeyword, Pageable pageable) {
-        return productRepository.findByProductTitleContaining(searchKeyword,pageable);
+        PageRequest productNumDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("productDate").descending());
+        return productRepository.findAllByIsDeletedFalse(productNumDesc);
     }
 }

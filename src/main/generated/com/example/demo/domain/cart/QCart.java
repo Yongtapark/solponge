@@ -28,6 +28,8 @@ public class QCart extends EntityPathBase<Cart> {
 
     public final NumberPath<Long> cartNum = createNumber("cartNum", Long.class);
 
+    public final BooleanPath isDeleted = createBoolean("isDeleted");
+
     public final com.example.demo.domain.member.QMember member;
 
     public QCart(String variable) {

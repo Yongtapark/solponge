@@ -95,7 +95,6 @@ public class AdminController {
     @GetMapping("/member/{memberNum}/delete")
     public String deleteMember(@PathVariable Long memberNum,HttpServletRequest request) {
         getLoginMember(request);
-        cartService.deleteCartByMemberNum(memberNum);
         memberService.delete(memberService.findByNo(memberNum).get().getMemberNum());
         return "redirect:/com.solponge/admin/member";
     }
@@ -145,7 +144,7 @@ public class AdminController {
     /**
      * 상품관리
      */
-    @GetMapping("/product") //수정완료
+    @GetMapping("/product")
     public String product(Model model,
                           HttpServletRequest request,
                           @PageableDefault(page = 0,size = 10, sort = "productNum", direction = Sort.Direction.ASC) Pageable pageable,
@@ -176,7 +175,7 @@ public class AdminController {
     }
 
     @GetMapping("/product/{productNum}")
-    public String deProduct(@PathVariable Long productNum, Model model) {
+    public String productDetail(@PathVariable Long productNum, Model model) {
         log.info("productNum={}",productNum);
         Product product = productService.findByNo(productNum).get();
         model.addAttribute("product", product);
@@ -186,6 +185,21 @@ public class AdminController {
     @GetMapping("/product/add")
     public String addProduct(@ModelAttribute("product") Product product) {
         return "admin/productManageAdd";
+    }
+
+    @PostMapping("/product/add")
+    public String addProduct(@ModelAttribute Product product, HttpServletRequest request) {
+        String productcode = request.getParameter("myInput");
+       productService.save(product);
+
+        return "redirect:/com.solponge/admin/product";
+    }
+
+    @GetMapping("/product/{productNum}/delete")
+    public String deleteProduct(@PathVariable Long productNum) {
+        log.info("productNum----delete={}",productNum);
+        productService.deleteProduct(productNum);
+        return "redirect:/com.solponge/admin/product";
     }
 
 

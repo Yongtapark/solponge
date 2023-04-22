@@ -19,10 +19,9 @@ public interface ProductService {
     List<Product> popTop8List();
 
     public Page<Product> search(SearchCond cond, Pageable pageable);
-    public Product getProduct(int productNum);
-    public void deleteProduct(int productNum);
+    public Product getProduct(Long productNum);
+    public void deleteProduct(Long productNum);
     Page<Product> findAll(Pageable pageable);
-    Page<Product> productSearchList(String searchKeyword,Pageable pageable);
 
 
 

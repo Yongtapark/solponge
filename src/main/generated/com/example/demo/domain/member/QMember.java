@@ -24,6 +24,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final com.example.demo.domain.cart.QCart cart;
 
+    public final BooleanPath isDeleted = createBoolean("isDeleted");
+
     public final StringPath memberAddress = createString("memberAddress");
 
     public final DateTimePath<java.time.LocalDateTime> memberDate = createDateTime("memberDate", java.time.LocalDateTime.class);

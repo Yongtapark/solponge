@@ -2,7 +2,6 @@ package com.example.demo.repository.product;
 
 import com.example.demo.domain.product.Product;
 import com.example.demo.domain.utils.SearchCond;
-import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -26,15 +25,25 @@ public class ProductQueryRepository {
         this.productRepository = productRepository;
     }
 
-    public Page<Product> search(SearchCond cond, Pageable pageable) {
-        QueryResults<Product> results = query.select(product)
-                .from(product)
-                .where(searchBySelect(cond.getSearchSelect(), cond.getSearchValue()))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetchResults();
+    private List<Product> searchProducts(SearchCond cond){
+        return query.selectFrom(product)
+                .where(product.isDeleted
+                        .eq(Boolean.FALSE)
+                        .and(searchBySelect((cond.getSearchSelect()), cond.getSearchValue())))
+                .orderBy(product.productDate.desc())
+                .fetch();
+    }
 
-        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    private List<Product> paginateProducts(List<Product> products, Pageable pageable){
+        int start = (int)pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), products.size());
+        return products.subList(start,end);
+    }
+
+    public Page<Product> search(SearchCond cond, Pageable pageable) {
+        List<Product> searchedMembers = searchProducts(cond);
+        List<Product> paginatedMembers = paginateProducts(searchedMembers, pageable);
+        return new PageImpl<>(paginatedMembers, pageable, searchedMembers.size());
     }
 
     private BooleanExpression searchBySelect(String searchSelect, String searchValue) {
@@ -53,8 +62,16 @@ public class ProductQueryRepository {
         return null;
     }
 
+    public List<Product> findAll(Pageable pageable){
+        return query.selectFrom(product)
+                .where(product.isDeleted.eq(Boolean.FALSE))
+                .orderBy(product.productDate.desc())
+                .fetch();
+    }
+
     public List<Product> findNewTop8Products() {
         return query.selectFrom(product)
+                .where(product.isDeleted.eq(Boolean.FALSE))
                 .orderBy(product.productDate.desc())
                 .limit(8)
                 .fetch();
@@ -62,6 +79,7 @@ public class ProductQueryRepository {
 
     public List<Product> findPopularTop8Products() {
         return query.selectFrom(product)
+                .where(product.isDeleted.eq(Boolean.FALSE))
                 .orderBy(product.productVisit.desc())
                 .limit(8)
                 .fetch();
@@ -69,21 +87,21 @@ public class ProductQueryRepository {
 
     public List<Product> getProductList() {
         return query.selectFrom(product)
-                .where(product.productGarbage.eq(1))
+                .where(product.isDeleted.eq(Boolean.FALSE))
                 .orderBy(product.productNum.asc())
                 .fetch();
     }
 
-    public Product getProduct(int productNum) {
+    public Product getProduct(Long productNum) {
         return query.selectFrom(product)
-                .where(product.productGarbage.eq(1).and(product.productNum.eq((long) productNum)))
+                .where(product.isDeleted.eq(Boolean.FALSE).and(product.productNum.eq(productNum)))
                 .fetchOne();
     }
 
-    public void deleteProduct(int productNum) {
+    public void deleteLogical(Long productNum) {
         query.update(product)
-                .set(product.productGarbage, 0)
-                .where(product.productNum.eq((long) productNum))
+                .set(product.isDeleted, Boolean.TRUE)
+                .where(product.productNum.eq(productNum))
                 .execute();
     }
 

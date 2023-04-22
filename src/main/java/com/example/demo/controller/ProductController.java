@@ -66,7 +66,7 @@ public class ProductController {
 
     @GetMapping("/product/{productNum}")
     public String getProductPage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER,required = false) Member loginMember,
-                              @PathVariable int productNum, Model model){
+                              @PathVariable Long productNum, Model model){
         model.addAttribute("member",loginMember);
         Product product = productService.getProduct(productNum);
         model.addAttribute("product", product);

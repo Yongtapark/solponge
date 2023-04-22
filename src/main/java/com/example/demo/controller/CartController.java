@@ -75,8 +75,7 @@ public class CartController {
         Member loginMember = getLoginMember(request);
         log.info("delete.loginMember={}",loginMember);
         log.info("cartItem_num={}",cartItemNum);
-        CartItem item = cartService.findItem((long) cartItemNum);
-        cartService.deleteItem(item);
+        cartService.deleteItem(cartItemNum);
 
         return "redirect:/com.solponge/member/" + loginMember.getMemberNum() + "/myPage/cart";
     }

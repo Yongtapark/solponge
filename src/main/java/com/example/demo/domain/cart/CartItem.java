@@ -23,6 +23,8 @@ public class CartItem {
     @Transient
     private boolean selected=true;
 
+    private Boolean isDeleted=false;
+
 
     public CartItem(Member member, Product product, int cartItemStock) {
         this.member = member;

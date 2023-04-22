@@ -19,11 +19,11 @@ public class QProduct extends EntityPathBase<Product> {
 
     public static final QProduct product = new QProduct("product");
 
+    public final BooleanPath isDeleted = createBoolean("isDeleted");
+
     public final StringPath productCode = createString("productCode");
 
     public final DatePath<java.sql.Date> productDate = createDate("productDate", java.sql.Date.class);
-
-    public final NumberPath<Integer> productGarbage = createNumber("productGarbage", Integer.class);
 
     public final StringPath productImg = createString("productImg");
 

@@ -26,18 +26,21 @@ public class MemberQueryRepository {
         this.query = new JPAQueryFactory(em);
         this.memberRepository = memberRepository;
     }
-
-    private List<Member> searchMembers(SearchCond cond){
-        return query.selectFrom(member)
-                .where(searchBySelect((cond.getSearchSelect()), cond.getSearchValue()))
-                .fetch();
-    }
+    /**
+     * 검색
+     */
 
     private List<Member> paginateMembers(List<Member> members, Pageable pageable){
         int start = (int)pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), members.size());
         return members.subList(start,end);
     }
+    private List<Member> searchMembers(SearchCond cond){
+        return query.selectFrom(member)
+                .where(member.isDeleted.eq(Boolean.FALSE).and(searchBySelect((cond.getSearchSelect()), cond.getSearchValue())))
+                .fetch();
+    }
+
 
     public Page<Member> search(SearchCond cond, Pageable pageable) {
         List<Member> searchedMembers = searchMembers(cond);
@@ -45,17 +48,6 @@ public class MemberQueryRepository {
         return new PageImpl<>(paginatedMembers, pageable, searchedMembers.size());
     }
 
-
-    /*public Page<Member> search(SearchCond cond, Pageable pageable){
-        QueryResults<Member> results = query.select(member)
-                .from(member)
-                .where(searchBySelect(cond.getSearchSelect(), cond.getSearchValue()))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetchResults();
-
-        return new PageImpl<>(results.getResults(),pageable,results.getTotal());
-    }*/
 
     private BooleanExpression searchBySelect(String searchSelect, String searchValue){
         if(StringUtils.hasText(searchSelect)&& StringUtils.hasText(searchValue)){
@@ -72,17 +64,14 @@ public class MemberQueryRepository {
         return null;
     }
 
+    public void deleteLogical(Long memberNum){
+        query.update(member)
+                .set(member.isDeleted,Boolean.TRUE)
+                .where(member.memberNum.eq(memberNum))
+                .execute();
+    }
+
     public Optional<Member> findByMemberId(String memberId){
-        /*List<Member> all = memberFindAll();
-        for (Member member : all) {
-
-            if(member.getMEMBER_ID().equals(memberId)){
-                return Optional.of(member);
-            }
-        }
-
-        return Optional.empty();*/
-
         return memberRepository.findAll().stream()
                 .filter(member -> member.getMemberId().equals(memberId)).findAny();
     }

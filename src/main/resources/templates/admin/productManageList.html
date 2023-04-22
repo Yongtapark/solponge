@@ -19,7 +19,7 @@
       <tr>
         <td width="1%"></td>
         <td><div>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form th:action="@{/com.solponge/admin/member}" method="get">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form th:action="@{/com.solponge/admin/product}" method="get">
             <select name="searchSelect" class="search-select">
               <option value="all">전체</option>
               <option value="productTitle">도서명</option>
@@ -79,10 +79,8 @@
           </td>
           <td>
             <div class="col">
-              <form id="delete" th:action="@{'/com.solponge/admin/product/' + ${product.productNum} + '/delete'}" method="post">
-                <input type="hidden" name="_method" value="DELETE"/>
-                <button onclick="return confirm('정말 삭제하시겠습니까?')" type="submit">삭제</button>
-              </form>
+              <input type="hidden" name="productNum" th:value="${product.productNum}"/>
+              <button th:formaction="@{'/com.solponge/admin/product/'+${product.productNum}+'/delete'}" onclick="return confirm('정말 삭제하시겠습니까?')" type="submit">삭제</button>
             </div>
           </td>
 

@@ -24,6 +24,7 @@ public class Member {
     private String memberEmail;
     private String memberPhone;
     private LocalDateTime memberDate = LocalDateTime.now();
+    private Boolean isDeleted = true;
 
     @OneToOne(mappedBy = "member")
     private Cart cart;

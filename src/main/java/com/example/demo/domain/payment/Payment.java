@@ -14,8 +14,7 @@ import java.time.LocalDateTime;
 public class Payment {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentNum; //내부용 주문번호
-    private String paymentOrderNum = ""; //외부용 주문번호
-    private Long paymentGroup;
+    private Long paymentOrderNum; //외부용 주문번호
     @ManyToOne
     @JoinColumn(name = "member_num")
     private Member member;
@@ -29,10 +28,10 @@ public class Payment {
     private String paymentAddress;
     private  String deliveryInfo;
     private long deliveryNum;
-    private int visible=1;
+    private Boolean isDeleted = true;
     private int success=0;
 
-    public Payment(Member member, Product product, Long paymentStock, String paymentPhone, String paymentEmail, String paymentAddress, String deliveryInfo, Long paymentGroup) {
+    public Payment(Member member, Product product, Long paymentStock, String paymentPhone, String paymentEmail, String paymentAddress, String deliveryInfo, Long paymentOrderNum) {
         this.member = member;
         this.product = product;
         this.paymentStock = paymentStock;
@@ -40,6 +39,6 @@ public class Payment {
         this.paymentEmail = paymentEmail;
         this.paymentAddress = paymentAddress;
         this.deliveryInfo = deliveryInfo;
-        this.paymentGroup = paymentGroup;
+        this.paymentOrderNum = paymentOrderNum;
     }
 }

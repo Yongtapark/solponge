@@ -1,12 +1,10 @@
 package com.example.demo.repository.payment;
 
-import com.example.demo.domain.member.Member;
 import com.example.demo.domain.payment.Payment;
 
 import java.util.LinkedHashMap;
 
 
-import com.example.demo.domain.payment.PaymentGroup;
 import com.example.demo.domain.utils.SearchCond;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -39,27 +37,24 @@ public class PaymentQueryRepository {
      */
     public Map<Long, List<Payment>> showPaymentList(Long memberNum) {
         List<Payment> payments = query.selectFrom(payment)
-                .where(payment.member.memberNum.eq(memberNum))
-                .orderBy(payment.paymentGroup.desc())
+                .where(payment.isDeleted.eq(Boolean.FALSE).and(payment.member.memberNum.eq(memberNum)))
+                .orderBy(payment.paymentOrderNum.desc())
                 .fetch();
 
         return payments.stream()
-                .collect(Collectors.groupingBy(Payment::getPaymentGroup, LinkedHashMap::new, Collectors.toList()));
+                .collect(Collectors.groupingBy(Payment::getPaymentOrderNum, LinkedHashMap::new, Collectors.toList()));
     }
 
-    /*private List<PaymentGroup> paginatePayment(List<PaymentGroup> paymentGroups, Pageable pageable){
-        int start = (int)pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), paymentGroups.size());
-        return paymentGroups.subList(start,end);
-    }*/
 
     /**
      * 페이징, 검색
      */
     /*검색조건 결과*/
-    private List<Payment> searchMembers(SearchCond cond){
+    private List<Payment> searchPayments(SearchCond cond){
         return query.selectFrom(payment)
-                .where(searchBySelect((cond.getSearchSelect()), cond.getSearchValue()))
+                .where(payment.isDeleted.eq(Boolean.FALSE)
+                        .and(searchBySelect((cond.getSearchSelect()), cond.getSearchValue())))
+                .orderBy(payment.paymentDate.desc())
                 .fetch();
     }
     /*페이징 값*/
@@ -70,7 +65,7 @@ public class PaymentQueryRepository {
     }
     /*페이징 및 검색*/
     public Page<Payment> search(SearchCond cond, Pageable pageable) {
-        List<Payment> searchedMembers = searchMembers(cond);
+        List<Payment> searchedMembers = searchPayments(cond);
         List<Payment> paginatePayment = paginatePayment(searchedMembers, pageable);
         return new PageImpl<>(paginatePayment, pageable, searchedMembers.size());
     }
@@ -80,10 +75,10 @@ public class PaymentQueryRepository {
         if(StringUtils.hasText(searchSelect)&& StringUtils.hasText(searchValue)){
             switch (searchSelect){
                 case "all":
-                    return payment.paymentGroup.stringValue().contains(searchValue)
+                    return payment.paymentOrderNum.stringValue().contains(searchValue)
                             .or(payment.member.memberId.contains(searchValue));
                 case "paymentGroup":
-                    return payment.paymentGroup.stringValue().contains(searchValue);
+                    return payment.paymentOrderNum.stringValue().contains(searchValue);
                 case"memberName":
                     return payment.member.memberId.contains(searchValue);
             }
@@ -93,11 +88,10 @@ public class PaymentQueryRepository {
 
 
 
-    public void cancelPayment(Long paymentNum, Long memberNum) {
+    public void deleteLogical(Long paymentNum, Long memberNum) {
         query.update(payment)
-                .set(payment.visible, 0)
-                .where(payment.paymentNum.eq(paymentNum)
-                        .and(payment.member.memberNum.eq(memberNum)))
+                .set(payment.isDeleted, Boolean.TRUE)
+                .where(payment.paymentNum.eq(paymentNum))
                 .execute();
 
         // 해당 Payment에 대응하는 Product의 재고(stock)를 증가시키는 로직 추가

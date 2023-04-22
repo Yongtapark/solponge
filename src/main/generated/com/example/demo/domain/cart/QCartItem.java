@@ -26,6 +26,8 @@ public class QCartItem extends EntityPathBase<CartItem> {
 
     public final NumberPath<Integer> cartItemStock = createNumber("cartItemStock", Integer.class);
 
+    public final BooleanPath isDeleted = createBoolean("isDeleted");
+
     public final com.example.demo.domain.member.QMember member;
 
     public final com.example.demo.domain.product.QProduct product;

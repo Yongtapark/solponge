@@ -13,7 +13,7 @@ public interface CartService {
      */
     CartItem addItem(CartItem cartItem);
 
-    void deleteItem(CartItem cartItem);
+    void deleteItem(Long cartItemNum);
 
     CartItem findItem(Long cartItemNum);
 

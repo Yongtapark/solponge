@@ -10,12 +10,12 @@ import java.util.Map;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PaymentGroup {
+public class PaymentOrderNum {
 
     private Map<Long,List<Payment>> payments;
 
 
-    public PaymentGroup(Map<Long, List<Payment>> payments) {
+    public PaymentOrderNum(Map<Long, List<Payment>> payments) {
         this.payments = payments;
     }
 }

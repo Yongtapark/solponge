@@ -1,12 +1,9 @@
 package com.example.demo.service.interfaces;
 
 import com.example.demo.domain.payment.Payment;
-import com.example.demo.domain.payment.PaymentGroup;
-import com.example.demo.domain.product.Product;
 import com.example.demo.domain.utils.SearchCond;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;

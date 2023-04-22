@@ -26,6 +26,8 @@ public class QPayment extends EntityPathBase<Payment> {
 
     public final NumberPath<Long> deliveryNum = createNumber("deliveryNum", Long.class);
 
+    public final BooleanPath isDeleted = createBoolean("isDeleted");
+
     public final com.example.demo.domain.member.QMember member;
 
     public final StringPath paymentAddress = createString("paymentAddress");
@@ -34,11 +36,9 @@ public class QPayment extends EntityPathBase<Payment> {
 
     public final StringPath paymentEmail = createString("paymentEmail");
 
-    public final NumberPath<Long> paymentGroup = createNumber("paymentGroup", Long.class);
-
     public final NumberPath<Long> paymentNum = createNumber("paymentNum", Long.class);
 
-    public final StringPath paymentOrderNum = createString("paymentOrderNum");
+    public final NumberPath<Long> paymentOrderNum = createNumber("paymentOrderNum", Long.class);
 
     public final StringPath paymentPhone = createString("paymentPhone");
 
@@ -47,8 +47,6 @@ public class QPayment extends EntityPathBase<Payment> {
     public final com.example.demo.domain.product.QProduct product;
 
     public final NumberPath<Integer> success = createNumber("success", Integer.class);
-
-    public final NumberPath<Integer> visible = createNumber("visible", Integer.class);
 
     public QPayment(String variable) {
         this(Payment.class, forVariable(variable), INITS);

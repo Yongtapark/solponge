@@ -46,7 +46,7 @@
 
             <tr th:each="order : ${paginatedPayment}" th:if="${order.success == 0}">
                 <form method="post" th:action="@{/com.solponge/admin/order/{paymentNum}/update(paymentNum=${order.paymentNum})}">
-                    <td th:text="${order.paymentGroup}"></td>
+                    <td th:text="${order.paymentOrderNum}"></td>
                     <td th:text="${order.member.memberId}"></td>
                     <td th:text="${order.product.productTitle}"></td>
                     <td th:text="${order.paymentStock}"></td>
@@ -95,7 +95,7 @@
             </thead>
             <tbody>
             <tr th:each="order : ${paginatedPayment}" th:if="${order.success == 1}">
-                <td th:text="${order.paymentGroup}"></td>
+                <td th:text="${order.paymentOrderNum}"></td>
                 <td th:text="${order.member.memberId}"></td>
                 <td th:text="${order.product.productTitle}"></td>
                 <td th:text="${order.paymentStock}"></td>

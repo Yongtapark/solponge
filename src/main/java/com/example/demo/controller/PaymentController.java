@@ -70,11 +70,10 @@ public class PaymentController {
         getLoginMember(request);
 
         List<OrderList> orderList = payForm.getOrderList();
-        long paymentGroup = System.currentTimeMillis();
+        long paymentOrderNum = System.currentTimeMillis();
         for (OrderList list : orderList) {
             Product product = productService.findByNo(list.getProductNum()).get();
             Member member = memberService.findByNo(payForm.getMemberNum()).get();
-            CartItem item = cartService.findItem(list.getCartItemNum());
             if(product.getProductStock()-list.getPaymentStock()<0){
                 throw new RuntimeException("상품 재고가 부족합니다.");
             }else {
@@ -87,11 +86,11 @@ public class PaymentController {
                     payForm.getMemberEmail(),
                     payForm.getMemberAddress(),
                     payForm.getDeliveryInfo(),
-                    paymentGroup);
+                    paymentOrderNum);
 
             Long save = paymentService.save(payment);
             log.info("saveNum={}",save);
-            cartService.deleteItem(item);
+            cartService.deleteItem(list.getCartItemNum());
 
         }
 

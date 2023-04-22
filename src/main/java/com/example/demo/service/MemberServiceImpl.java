@@ -4,7 +4,6 @@ import com.example.demo.domain.member.Member;
 import com.example.demo.domain.utils.SearchCond;
 import com.example.demo.repository.member.MemberQueryRepository;
 import com.example.demo.repository.member.MemberRepository;
-import com.example.demo.repository.member.MemberSearchCond;
 import com.example.demo.service.interfaces.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -36,10 +35,11 @@ public class MemberServiceImpl implements MemberService {
         findmember.setMemberEmail(member.getMemberEmail());
     }
 
+
+
     @Override
-    public void delete(Long memberNo) {
-        Member deleteMember = findByNo(memberNo).get();
-        memberRepository.delete(deleteMember);
+    public void delete(Long memberNum) {
+        memberQueryRepository.deleteLogical(memberNum);
     }
 
     @Override
