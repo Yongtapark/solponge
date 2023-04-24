@@ -18,5 +18,10 @@ public interface JobInfoService {
     Page<JobInfo> findAll(Pageable pageable);
     Page<JobInfo> search(SearchCond cond, Pageable pageable);
 
+    Page<JobInfo> myPageScrapJobInfo(Long memberNum, Pageable pageable);
+    Page<JobInfo> myPageScrapCompany(Long memberNum, Pageable pageable);
+
     List<JobInfo> findAll();
+
+
 }

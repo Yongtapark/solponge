@@ -59,4 +59,6 @@ public class JobScrapController {
         return ResponseEntity.noContent().build();
     }
 
+
+
 }

@@ -1,13 +1,19 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.infoScrap.InfoScrap;
+import com.example.demo.domain.jobInfo.JobInfo;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.MemberJoinForm;
 import com.example.demo.domain.member.login.session.SessionConst;
 import com.example.demo.domain.payment.PaymentOrderNum;
+import com.example.demo.service.interfaces.JobInfoService;
+import com.example.demo.service.interfaces.JobScrapService;
 import com.example.demo.service.interfaces.MemberService;
 import com.example.demo.service.interfaces.PaymentService;
+import com.example.demo.utils.SearchCond;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -18,6 +24,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -26,6 +35,8 @@ import javax.servlet.http.HttpSession;
 public class MemberController {
     private final MemberService memberService;
     private final PaymentService paymentService;
+    private final JobScrapService jobScrapService;
+    private final JobInfoService jobInfoService;
 
     @GetMapping("/myPage")
     public String getMyPage(Model model,
@@ -92,6 +103,48 @@ public class MemberController {
         return "member/paymentList";
     }
 
+    @GetMapping("/myPage/jobScrap")
+    public String getjobScrap(Model model,
+                              HttpServletRequest request,
+                              @PageableDefault(page = 0, size = 20, sort ="jobInfoNum",direction = Sort.Direction.ASC) Pageable pageable,
+                              String searchSelect,
+                              String searchValue) {
+        Member loginMember = getLoginMember(request);
+        model.addAttribute("member", loginMember);
+        Page<JobInfo> paginatedJobInfo =null;
+        if (searchSelect==null && searchValue==null){
+            log.info("===검색어 없음===");
+            paginatedJobInfo = jobInfoService.findAll(pageable);
+        }else {
+            log.info("===검색어 있음===");
+            SearchCond cond = new SearchCond(searchSelect, searchValue);
+            log.info("cond={}",cond);
+            paginatedJobInfo = jobInfoService.search(cond, pageable);
+        }
+
+        Page<JobInfo> jobInScrap = jobInfoService.myPageScrapJobInfo(loginMember.getMemberNum(), pageable);
+        Page<JobInfo> companyScrap = jobInfoService.myPageScrapCompany(loginMember.getMemberNum(), pageable);
+        model.addAttribute("jobInScrap",jobInScrap);
+        model.addAttribute("companyScrap",companyScrap);
+
+        int nowPage= jobInScrap.getPageable().getPageNumber()+1 ;
+        int totalPages = jobInScrap.getTotalPages();
+        int startPage = Math.max(nowPage - 5, 1);
+        int endPage = Math.min(startPage + 9, totalPages);
+
+        if (endPage - startPage < 9 && totalPages > 9) {
+            startPage = Math.max(endPage - 9, 1);
+        }
+
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("totalPages",totalPages);
+
+
+        return "jobInfo/memberScrap";
+    }
+
     /**
      * 메서드
      */
@@ -104,8 +157,8 @@ public class MemberController {
         //세션에 업데이트된 찾은 회원 정보 저장
         Session.setAttribute(SessionConst.LOGIN_MEMBER,updateMemeber);
     }
-
     /*문자열 합치기*/
+
     private void updateMember(Member loginMember, String member_pwd, String email1, String email2, String sample6_postcode, String sample6_address, String sample6_detailAddress, String firstnum, String secnum, String thrnum) {
         String email = email1 + "@" + email2;
         String address = sample6_postcode + "/" + sample6_address + "/" + sample6_detailAddress;

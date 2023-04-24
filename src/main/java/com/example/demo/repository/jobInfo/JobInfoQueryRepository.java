@@ -1,13 +1,11 @@
 package com.example.demo.repository.jobInfo;
 
 import com.example.demo.domain.jobInfo.JobInfo;
-import com.example.demo.domain.jobInfo.QJobInfo;
-import com.example.demo.domain.member.Member;
+import com.example.demo.repository.companyScrap.CompanyScrapRepository;
+import com.example.demo.repository.infoScrap.InfoScrapRepository;
 import com.example.demo.utils.SearchCond;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Normalized;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -16,17 +14,23 @@ import org.springframework.util.StringUtils;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static com.example.demo.domain.companyScrap.QCompanyScrap.companyScrap;
+import static com.example.demo.domain.infoScrap.QInfoScrap.infoScrap;
 import static com.example.demo.domain.jobInfo.QJobInfo.jobInfo;
-import static com.example.demo.domain.member.QMember.member;
 
 
 public class JobInfoQueryRepository {
     private final JPAQueryFactory query;
     private final JobInfoRepository jobInfoRepository;
+    private final InfoScrapRepository infoScrapRepository;
 
-    public JobInfoQueryRepository(EntityManager em, JobInfoRepository jobInfoRepository) {
+    private final CompanyScrapRepository companyScrapRepository;
+
+    public JobInfoQueryRepository(EntityManager em, JobInfoRepository jobInfoRepository, InfoScrapRepository infoScrapRepository, CompanyScrapRepository companyScrapRepository) {
         this.query = new JPAQueryFactory(em);
         this.jobInfoRepository = jobInfoRepository;
+        this.infoScrapRepository = infoScrapRepository;
+        this.companyScrapRepository = companyScrapRepository;
     }
 
     private List<JobInfo> paginateJobInfos(List<JobInfo> jobInfos, Pageable pageable){
@@ -71,6 +75,55 @@ public class JobInfoQueryRepository {
         }
         return null;
     }
+
+    /**
+     * infoScrap
+     */
+
+    /*마이페이지 scrapInfo*/
+    public List<JobInfo> myScrapJobInfo(Long memberNum){
+        List<String> scrap = query.select(infoScrap.infoName)
+                .from(infoScrap)
+                .where(infoScrap.memberNum.eq(memberNum))
+                .fetch();
+
+        List<JobInfo> scrappedJobInfo = query.selectFrom(jobInfo)
+                .where(jobInfo.jobInfoPostingName.in(scrap))
+                .fetch();
+        return scrappedJobInfo;
+    }
+    /*마이페이지 scrapInfo 페이징*/
+    public Page<JobInfo> myScrapjobInfoPage(Long memberNum, Pageable pageable){
+        List<JobInfo> jobInfos = myScrapJobInfo(memberNum);
+        List<JobInfo> paginatedJobInfos = paginateJobInfos(jobInfos, pageable);
+        return new PageImpl<>(paginatedJobInfos, pageable, jobInfos.size());
+
+    }
+
+    /**
+     * companyScrap
+     */
+    /*마이페이지 companyScrap*/
+    public List<JobInfo> myScrapCompany(Long memberNum){
+        List<String> scrap = query.select(companyScrap.companyName)
+                .from(infoScrap)
+                .where(infoScrap.memberNum.eq(memberNum))
+                .fetch();
+
+        List<JobInfo> scrappedCompany = query.selectFrom(jobInfo)
+                .where(jobInfo.jobInfoCompanyName.in(scrap))
+                .fetch();
+        return scrappedCompany;
+    }
+    /*마이페이지 companyScrap 페이징*/
+    public Page<JobInfo> myScrapCompanyPage(Long memberNum, Pageable pageable){
+        List<JobInfo> jobInfos = myScrapCompany(memberNum);
+        List<JobInfo> paginatedJobInfos = paginateJobInfos(jobInfos, pageable);
+        return new PageImpl<>(paginatedJobInfos, pageable, jobInfos.size());
+
+    }
+
+
 
     public List<JobInfo> getJopInfoNewTop8List(){
         return query.selectFrom(jobInfo)

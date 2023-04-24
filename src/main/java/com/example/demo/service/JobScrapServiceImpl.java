@@ -3,15 +3,16 @@ package com.example.demo.service;
 import com.example.demo.domain.companyScrap.CompanyScrap;
 import com.example.demo.domain.infoScrap.InfoScrap;
 import com.example.demo.repository.companyScrap.CompanyScrapRepository;
-import com.example.demo.repository.infoScrapRepository.InfoScrapRepository;
+import com.example.demo.repository.infoScrap.InfoScrapRepository;
 import com.example.demo.service.interfaces.JobScrapService;
-import lombok.NoArgsConstructor;
+import com.example.demo.utils.SearchCond;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 @Service
 @Transactional
 @Slf4j
@@ -19,6 +20,7 @@ import java.util.List;
 public class JobScrapServiceImpl implements JobScrapService {
     private final InfoScrapRepository infoScrapRepository;
     private final CompanyScrapRepository companyScrapRepository;
+
 
 
     @Override
@@ -42,12 +44,17 @@ public class JobScrapServiceImpl implements JobScrapService {
     }
 
     @Override
-    public List<CompanyScrap> getCompanyScrapList(Long memberNum) {
-        return null;
+    public Page<CompanyScrap> getCompanyScrapList(Long memberNum, Pageable pageable) {
+        return companyScrapRepository.findAllByMemberNum(memberNum,pageable);
     }
 
     @Override
-    public List<InfoScrap> getInfoScrapList(Long memberNum) {
+    public Page<InfoScrap> getInfoScrapList(Long memberNum, Pageable pageable) {
+        return infoScrapRepository.findAllByMemberNum(memberNum,pageable);
+    }
+
+    @Override
+    public Page<InfoScrap> search(SearchCond cond, Pageable pageable) {
         return null;
     }
 }

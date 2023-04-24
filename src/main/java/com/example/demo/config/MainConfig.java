@@ -3,6 +3,8 @@ package com.example.demo.config;
 import com.example.demo.repository.cart.CartItemRepository;
 import com.example.demo.repository.cart.CartQueryRepository;
 import com.example.demo.repository.cart.CartRepository;
+import com.example.demo.repository.companyScrap.CompanyScrapRepository;
+import com.example.demo.repository.infoScrap.InfoScrapRepository;
 import com.example.demo.repository.jobInfo.JobInfoQueryRepository;
 import com.example.demo.repository.jobInfo.JobInfoRepository;
 import com.example.demo.repository.member.MemberQueryRepository;
@@ -30,6 +32,8 @@ public class MainConfig {
     private final CartItemRepository cartItemRepository;
     private final PaymentRepository paymentRepository;
     private final JobInfoRepository jobInfoRepository;
+    private final InfoScrapRepository infoScrapRepository;
+    private final CompanyScrapRepository companyScrapRepository;
 
     /**
      * 서비스
@@ -81,7 +85,7 @@ public class MainConfig {
         return new PaymentQueryRepository(em,paymentRepository);
     }
     @Bean
-    public JobInfoQueryRepository jobInfoQueryRepository(){return new JobInfoQueryRepository(em,jobInfoRepository);}
+    public JobInfoQueryRepository jobInfoQueryRepository(){return new JobInfoQueryRepository(em,jobInfoRepository,infoScrapRepository, companyScrapRepository);}
 
 
 
