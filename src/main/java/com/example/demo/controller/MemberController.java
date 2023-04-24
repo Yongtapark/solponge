@@ -124,8 +124,11 @@ public class MemberController {
 
         Page<JobInfo> jobInScrap = jobInfoService.myPageScrapJobInfo(loginMember.getMemberNum(), pageable);
         Page<JobInfo> companyScrap = jobInfoService.myPageScrapCompany(loginMember.getMemberNum(), pageable);
+        Map<String, Long> announcement = jobInfoService.MyScrapCompanyAnnouncement(loginMember.getMemberNum());
+
         model.addAttribute("jobInScrap",jobInScrap);
         model.addAttribute("companyScrap",companyScrap);
+        model.addAttribute("announcement",announcement);
 
         int nowPage= jobInScrap.getPageable().getPageNumber()+1 ;
         int totalPages = jobInScrap.getTotalPages();

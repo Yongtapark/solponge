@@ -12,7 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.example.demo.domain.companyScrap.QCompanyScrap.companyScrap;
 import static com.example.demo.domain.infoScrap.QInfoScrap.infoScrap;
@@ -106,8 +109,8 @@ public class JobInfoQueryRepository {
     /*마이페이지 companyScrap*/
     public List<JobInfo> myScrapCompany(Long memberNum){
         List<String> scrap = query.select(companyScrap.companyName)
-                .from(infoScrap)
-                .where(infoScrap.memberNum.eq(memberNum))
+                .from(companyScrap)
+                .where(companyScrap.memberNum.eq(memberNum))
                 .fetch();
 
         List<JobInfo> scrappedCompany = query.selectFrom(jobInfo)
@@ -115,12 +118,37 @@ public class JobInfoQueryRepository {
                 .fetch();
         return scrappedCompany;
     }
+
+
     /*마이페이지 companyScrap 페이징*/
     public Page<JobInfo> myScrapCompanyPage(Long memberNum, Pageable pageable){
         List<JobInfo> jobInfos = myScrapCompany(memberNum);
         List<JobInfo> paginatedJobInfos = paginateJobInfos(jobInfos, pageable);
         return new PageImpl<>(paginatedJobInfos, pageable, jobInfos.size());
 
+    }
+    /*companyScrap 의 공고수*/
+    public Map<String, Long> MyScrapCompanyAnnouncement(Long memberNum) {
+        List<JobInfo> scrappedJobInfos = myScrapCompany(memberNum);
+
+        /*Map<String, Long> jobInfoCounts = new HashMap<>();
+
+        for (JobInfo jobInfo : scrappedJobInfos) {
+            String companyName = jobInfo.getJobInfoCompanyName();
+            if (jobInfoCounts.containsKey(companyName)) {
+                jobInfoCounts.put(companyName, jobInfoCounts.get(companyName) + 1);
+            } else {
+                jobInfoCounts.put(companyName, 1L);
+            }
+        }*/
+
+
+        // 스크랩한 회사의 공고 목록을 스트림으로 처리하여 회사별 공고 개수를 계산하고, Map에 저장합니다.
+        Map<String, Long> jobInfoCounts = scrappedJobInfos.stream()
+                .collect(Collectors.groupingBy(JobInfo::getJobInfoCompanyName, Collectors.counting()));
+
+
+        return jobInfoCounts;
     }
 
 

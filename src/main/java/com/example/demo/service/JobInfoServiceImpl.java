@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+
 @Service
 @Transactional
 @Slf4j
@@ -74,6 +76,11 @@ public class JobInfoServiceImpl implements JobInfoService {
     @Override
     public Page<JobInfo> myPageScrapCompany(Long memberNum, Pageable pageable) {
         return jobInfoQueryRepository.myScrapCompanyPage(memberNum,pageable);
+    }
+
+    @Override
+    public Map<String, Long> MyScrapCompanyAnnouncement(Long memberNum) {
+        return jobInfoQueryRepository.MyScrapCompanyAnnouncement(memberNum);
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 
 public interface JobInfoService {
     JobInfo getJobInfo(Long jobInfoNum);
@@ -20,6 +21,8 @@ public interface JobInfoService {
 
     Page<JobInfo> myPageScrapJobInfo(Long memberNum, Pageable pageable);
     Page<JobInfo> myPageScrapCompany(Long memberNum, Pageable pageable);
+
+    Map<String,Long> MyScrapCompanyAnnouncement(Long memberNum);
 
     List<JobInfo> findAll();
 

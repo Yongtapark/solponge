@@ -100,7 +100,7 @@
                                     </div>
                                     <div class="company_name"
                                          th:onclick="'location.href=\'/com.solponge/jobinfolist/' + ${company} + '\''"
-                                         th:text="|${company} 채용중 ${responseData[company].count} 건|"></div>
+                                         th:text="|${company} 채용중 ${announcement} 건|"></div>
                                     <button class="delete_bt" type="button" style="float: right;" th:id="${company}"
                                             onclick="submitForm(this.id)">x
                                     </button>
