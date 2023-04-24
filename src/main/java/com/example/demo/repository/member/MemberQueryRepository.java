@@ -1,8 +1,7 @@
 package com.example.demo.repository.member;
 
 import com.example.demo.domain.member.Member;
-import com.example.demo.domain.utils.SearchCond;
-import com.querydsl.core.QueryResults;
+import com.example.demo.utils.SearchCond;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;

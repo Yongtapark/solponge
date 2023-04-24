@@ -3,8 +3,7 @@ package com.example.demo.repository.cart;
 import com.example.demo.domain.cart.Cart;
 import com.example.demo.domain.cart.CartItem;
 import com.example.demo.domain.cart.QCart;
-import com.example.demo.domain.cart.QCartItem;
-import com.example.demo.domain.utils.SearchCond;
+import com.example.demo.utils.SearchCond;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
@@ -16,7 +15,6 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.demo.domain.cart.QCart.cart;
 import static com.example.demo.domain.cart.QCartItem.cartItem;
 import static com.example.demo.domain.member.QMember.member;
 
@@ -38,8 +36,6 @@ public class CartQueryRepository {
                 .where(QCart.cart.member.memberNum.eq(memberNum))
                 .fetchOne();
 
-        // cart가 null이 아닌 경우, 즉 찾은 결과가 있는 경우에만 진행
-        if (cart != null) {
             // cart의 cartItems 목록에서 각 cartItem에 대해 isDeleted가 false인 것만 필터링
             List<CartItem> filteredCartItems = cart.getCartItems().stream()
                     .filter(cartItem -> !cartItem.getIsDeleted())
@@ -47,7 +43,7 @@ public class CartQueryRepository {
 
             // 필터링된 cartItems 목록으로 cart의 cartItems를 설정
             cart.setCartItems(filteredCartItems);
-        }
+
         return cart;
     }
 
@@ -66,9 +62,9 @@ public class CartQueryRepository {
 
 
     public Page<CartItem> search(SearchCond cond, Pageable pageable) {
-        List<CartItem> searchedMembers = searchCartItems(cond);
-        List<CartItem> paginatedMembers = paginateCartItems(searchedMembers, pageable);
-        return new PageImpl<>(paginatedMembers, pageable, searchedMembers.size());
+        List<CartItem> searchCartItems = searchCartItems(cond);
+        List<CartItem> paginateCartItems = paginateCartItems(searchCartItems, pageable);
+        return new PageImpl<>(paginateCartItems, pageable, searchCartItems.size());
     }
 
 
@@ -77,11 +73,11 @@ public class CartQueryRepository {
             switch (searchSelect){
                 case "all":
                     return cartItem.product.productTitle.contains(searchValue)
-                            .or(cart.cartDate.contains(searchValue));
+                            .or(cartItem.cartItemStock.stringValue().contains(searchValue));
                 case "productTitle":
                     return member.memberId.contains(searchValue);
-                case"cartDate":
-                    return cart.cartDate.contains(searchValue);
+                case"cartItemStock":
+                    return cartItem.cartItemStock.stringValue().contains(searchValue);
             }
         }
         return null;

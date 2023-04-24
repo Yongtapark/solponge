@@ -5,7 +5,7 @@ import com.example.demo.domain.payment.Payment;
 import java.util.LinkedHashMap;
 
 
-import com.example.demo.domain.utils.SearchCond;
+import com.example.demo.utils.SearchCond;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -65,9 +65,9 @@ public class PaymentQueryRepository {
     }
     /*페이징 및 검색*/
     public Page<Payment> search(SearchCond cond, Pageable pageable) {
-        List<Payment> searchedMembers = searchPayments(cond);
-        List<Payment> paginatePayment = paginatePayment(searchedMembers, pageable);
-        return new PageImpl<>(paginatePayment, pageable, searchedMembers.size());
+        List<Payment> searchPayments = searchPayments(cond);
+        List<Payment> paginatePayment = paginatePayment(searchPayments, pageable);
+        return new PageImpl<>(paginatePayment, pageable, searchPayments.size());
     }
 
     /*검색조건*/

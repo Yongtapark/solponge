@@ -1,7 +1,7 @@
 package com.example.demo.repository.product;
 
 import com.example.demo.domain.product.Product;
-import com.example.demo.domain.utils.SearchCond;
+import com.example.demo.utils.SearchCond;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -41,9 +41,9 @@ public class ProductQueryRepository {
     }
 
     public Page<Product> search(SearchCond cond, Pageable pageable) {
-        List<Product> searchedMembers = searchProducts(cond);
-        List<Product> paginatedMembers = paginateProducts(searchedMembers, pageable);
-        return new PageImpl<>(paginatedMembers, pageable, searchedMembers.size());
+        List<Product> searchProducts = searchProducts(cond);
+        List<Product> paginateProducts = paginateProducts(searchProducts, pageable);
+        return new PageImpl<>(paginateProducts, pageable, searchProducts.size());
     }
 
     private BooleanExpression searchBySelect(String searchSelect, String searchValue) {

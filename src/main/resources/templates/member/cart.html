@@ -12,7 +12,7 @@
 
 <!-- 장바구니가 비어있는 경우 메시지 출력 -->
 <div th:if="${#lists.isEmpty(cart.getCartItems())}" class="cart" style="min-height: 500px">
-  <h1 th:text="|${session.loginMember.getMemberName()} + '님의 장바구니'|"></h1>
+  <h1 th:text="|${session.loginMember.getMemberName()} 님의 장바구니|"></h1>
   <p style="text-align: center; font-size: 1.5rem; font-weight: bold;">장바구니가 비어있습니다</p>
   <div style="
   display: flex;

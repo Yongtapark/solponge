@@ -3,20 +3,16 @@ package com.example.demo.config;
 import com.example.demo.repository.cart.CartItemRepository;
 import com.example.demo.repository.cart.CartQueryRepository;
 import com.example.demo.repository.cart.CartRepository;
+import com.example.demo.repository.jobInfo.JobInfoQueryRepository;
+import com.example.demo.repository.jobInfo.JobInfoRepository;
 import com.example.demo.repository.member.MemberQueryRepository;
 import com.example.demo.repository.member.MemberRepository;
 import com.example.demo.repository.payment.PaymentQueryRepository;
 import com.example.demo.repository.payment.PaymentRepository;
 import com.example.demo.repository.product.ProductQueryRepository;
 import com.example.demo.repository.product.ProductRepository;
-import com.example.demo.service.CartServiceImpl;
-import com.example.demo.service.PaymentServiceImpl;
-import com.example.demo.service.ProductServiceImpl;
-import com.example.demo.service.interfaces.CartService;
-import com.example.demo.service.interfaces.MemberService;
-import com.example.demo.service.MemberServiceImpl;
-import com.example.demo.service.interfaces.PaymentService;
-import com.example.demo.service.interfaces.ProductService;
+import com.example.demo.service.*;
+import com.example.demo.service.interfaces.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,8 +28,8 @@ public class MainConfig {
     private final ProductRepository productRepository;
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-
     private final PaymentRepository paymentRepository;
+    private final JobInfoRepository jobInfoRepository;
 
     /**
      * 서비스
@@ -57,6 +53,8 @@ public class MainConfig {
 
     @Bean
     public PaymentService paymentService(){return new PaymentServiceImpl(paymentRepository,productQueryRepository(),paymentQueryRepository());}
+    @Bean
+    public JobInfoService jobInfoService(){return new JobInfoServiceImpl(jobInfoRepository,jobInfoQueryRepository());}
 
 
 
@@ -82,6 +80,8 @@ public class MainConfig {
     public PaymentQueryRepository paymentQueryRepository(){
         return new PaymentQueryRepository(em,paymentRepository);
     }
+    @Bean
+    public JobInfoQueryRepository jobInfoQueryRepository(){return new JobInfoQueryRepository(em,jobInfoRepository);}
 
 
 

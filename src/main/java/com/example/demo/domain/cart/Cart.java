@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,8 @@ public class Cart {
     private Member member; // 카트 소유자
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CartItem> cartItems = new ArrayList<>(); // 카트 아이템 리스트
-    private String cartDate;
-    private Boolean isDeleted = true;
+    private LocalDateTime cartDate=LocalDateTime.now();
+    private Boolean isDeleted = false;
 
    // private Long cartItemNumCounter = 1L;// 카트 아이템 번호 시퀀스
 

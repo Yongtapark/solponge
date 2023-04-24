@@ -5,6 +5,7 @@ import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.MemberJoinForm;
 import com.example.demo.domain.member.login.session.SessionConst;
 import com.example.demo.service.interfaces.CartService;
+import com.example.demo.service.interfaces.JobInfoService;
 import com.example.demo.service.interfaces.MemberService;
 import com.example.demo.service.interfaces.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -32,25 +33,15 @@ public class homeController {
     private final MemberService memberService;
     private final ProductService productService;
     private final CartService cartService;
+    private final JobInfoService jobInfoService;
 
     @GetMapping("/main")
     public String home(Model model, HttpServletRequest request){
         Member loginMember = getLoginMember(request);
         model.addAttribute("newTop8List", productService.newTop8List());
         model.addAttribute("popTop8List", productService.popTop8List());
-        //model.addAttribute("getJopInfoNewTop8List", jopinfoService.getJopInfoNewTop8List());
+        model.addAttribute("getJopInfoNewTop8List",jobInfoService.getJobInfoNewTop8List());
         model.addAttribute("loginMember",loginMember);
-       /* try{
-            Long userNo = loginMember.getMEMBER_NO();
-            System.out.println(userNo);
-            String id = loginMember.getMEMBER_ID();
-            System.out.println(id);
-            if(id !=null) {
-                new responseScrap(model, userNo, jobscrapService, "JobScrap", "JobScrap2");
-            }
-        }catch (Exception e){
-            System.out.println("오류발생");
-        }*/
         return "main";
     }
 

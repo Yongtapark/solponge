@@ -4,7 +4,7 @@ import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.login.session.SessionConst;
 import com.example.demo.domain.payment.Payment;
 import com.example.demo.domain.product.Product;
-import com.example.demo.domain.utils.SearchCond;
+import com.example.demo.utils.SearchCond;
 import com.example.demo.service.interfaces.CartService;
 import com.example.demo.service.interfaces.MemberService;
 import com.example.demo.service.interfaces.PaymentService;
@@ -18,11 +18,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 @Slf4j

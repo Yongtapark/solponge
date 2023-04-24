@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.member.Member;
-import com.example.demo.domain.utils.SearchCond;
+import com.example.demo.utils.SearchCond;
 import com.example.demo.repository.member.MemberQueryRepository;
 import com.example.demo.repository.member.MemberRepository;
 import com.example.demo.service.interfaces.MemberService;
