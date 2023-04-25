@@ -77,41 +77,41 @@
         </table>
     </div>
     <div>
-        <div th:if="${#lists.isEmpty(companyScrap)}">
-
-            <h3 id="company_state">관심 기업을 스크랩 해주세요!</h3>
-        </div>
         <div th:unless="${#lists.isEmpty(companyScrap)}" id="companyNameContainer">
             <div class="companyScrap">
                 <div class="companies">
-                    <div class="company" th:each="company : ${recentCompanyAnnouncement}">
+                    <div class="company">
                         <div class="flex-container">
-                            <div th:each="index : ${#numbers.sequence(0, 3)}" class="flex-item color-gray"
-                                 style="float: left;">
-                                <input type="hidden" name="company_name" th:id="'companyName_' + ${company}"
-                                       th:value="${company.getValue().jobInfoCompanyName}">
-                                <div th:if="${#strings.isEmpty(company)}" class="flex-item color-gray"
-                                     style="text-align: center;">
-                                    <div style="top: 32px;  position:relative;">solponge</div>
-                                </div>
-                                <div th:unless="${#strings.isEmpty(company)}" class="item_container">
-                                    <div class="logo"
-                                         th:attr="onclick='system.location.href=\'/com.solponge/jobinfo/' + ${company} + '\''">
-                                        <img th:src="@{/img/icons8-business-buildings-100.png}"/>
+                            <div th:each="company, index : ${recentCompanyAnnouncement}" th:if="${index.index < 8}">
+                                <div th:if="${index.index % 4 == 0}" style="clear: left;"></div>
+                                <div class="flex-item color-gray" style="float: left;">
+                                    <input type="hidden" name="company_name" th:id="'companyName_' + ${company}"
+                                           th:value="${company.getValue().jobInfoCompanyName}">
+                                    <div th:unless="${#strings.isEmpty(company)}" class="item_container">
+                                        <div class="logo"
+                                             th:attr="onclick='system.location.href=\'/com.solponge/jobinfo/' + ${company} + '\''">
+                                            <img th:src="@{/img/icons8-business-buildings-100.png}"/>
+                                        </div>
+                                        <div class="company_name"
+                                             th:attr="onclick='system.location.href=\'/com.solponge/jobinfo/' + ${company} + '\''">
+                                            <th:block th:text="${company.getKey()}"></th:block>
+                                            <br>
+                                            <span style="font-size: 12px;" th:text="'채용중 ' + ${announcement.get(company.getKey())} + ' 건'"></span>
+                                        </div>
+                                        <button class="delete_bt" type="button" style="float: right;" th:id="${company}"
+                                                onclick="submitForm(this.id)">x
+                                        </button>
+                                        <div class="jobinfo" th:with="recentCompany=${recentCompanyAnnouncement.get(company.getKey())}">
+                                            <a th:href="@{'/com.solponge/jobinfo/' + ${recentCompany.getJobInfoNum()}}">
+                                <span th:if="${#strings.length(recentCompany.getJobInfoPostingName()) > 15}">최근 공고: <span
+                                        th:text="${#strings.substring(recentCompany.getJobInfoPostingName(), 0, 14)}"></span>...</span>
+                                                <span th:if="${#strings.length(recentCompany.getJobInfoPostingName()) <= 15}"
+                                                      th:text="|최근 공고: ${recentCompany.getJobInfoPostingName()}|"></span>
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div class="company_name"
-                                         th:attr="onclick='system.location.href=\'/com.solponge/jobinfo/' + ${company} + '\''"
-                                         th:text="|${company.getKey()} 채용중 ${announcement.values()} 건|"></div>
-                                    <button class="delete_bt" type="button" style="float: right;" th:id="${company}"
-                                            onclick="submitForm(this.id)">x
-                                    </button>
-                                    <div class="jobinfo" th:with="recentCompany=${recentCompanyAnnouncement.get(company.getKey())}">
-                                        <a th:href="@{'/com.solponge/jobinfo/' + ${recentCompany.getJobInfoNum()}}">
-                                            <span th:if="${#strings.length(recentCompany.getJobInfoCompanyName()) > 15}">최근 공고: <span
-                                                    th:text="${#strings.substring(recentCompany.getJobInfoCompanyName(), 0, 14)}"></span>...</span>
-                                            <span th:if="${#strings.length(recentCompany.getJobInfoCompanyName()) <= 15}"
-                                                  th:text="|최근 공고: ${recentCompany.getJobInfoCompanyName()}|"></span>
-                                        </a>
+                                    <div th:if="${#strings.isEmpty(company)}" class="flex-item color-gray" style="text-align: center;">
+                                        <div style="top: 32px;  position:relative;">solponge</div>
                                     </div>
                                 </div>
                             </div>
@@ -128,6 +128,7 @@
                 </button>
             </div>
         </div>
+    </div>
     </div>
     <br>
     <div style="width: 1050px; margin: 0 auto; position: relative; left: 55px;">
