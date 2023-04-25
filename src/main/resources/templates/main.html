@@ -57,11 +57,11 @@
     function submitForm(clicked_id) {
       var buttonElement = document.getElementById(clicked_id);
       var usercheck = {/*[[${loginMember != null ? loginMember.memberNum : ''}]]*/};
-
       var companyScrap={
         memberNum:"[[${loginMember != null ? loginMember.memberNum : ''}]]",
         companyName:clicked_id
       }
+
       if (buttonElement.value === 'Click') {
         buttonElement.value = 'Clicked';
         buttonElement.classList.add('red');
@@ -73,7 +73,7 @@
             , contentType: "application/json"
             , data: scrapCompany
             , success: function() {
-              alert('성공');
+              alert('찜 하였습니다.');
             }
             , error: function() {
               alert('찜 등록에 실패했습니다. 관리자에게 문의해주세요.');
@@ -94,7 +94,7 @@
             , contentType: "application/json"
             , data: scrapCompany
             , success: function() {
-              alert('성공');
+              alert('찜 삭제');
             }
             , error: function() {
               alert('찜 삭제 실패했습니다. 관리자에게 문의해주세요.');
@@ -105,11 +105,13 @@
     }
     function submitForm2(clicked_id) {
       var buttonElement = document.getElementById(clicked_id);
+      console.log("clicked_id",clicked_id)
       var usercheck = "[[${loginMember != null ? loginMember.memberNum : ''}]]";
       var infoScrap={
         memberNum:"[[${loginMember != null ? loginMember.memberNum : ''}]]",
-        companyName:clicked_id
+        infoName:clicked_id
       }
+      console.log("infoScrap",infoScrap)
 
       if (buttonElement.value === 'Click') {
         buttonElement.value = 'Clicked';
@@ -122,7 +124,7 @@
             , contentType: "application/json"
             , data: scrapInfo
             , success: function() {
-              alert('성공');
+              alert('찜 하였습니다.');
             }
             , error: function() {
               alert('찜 등록에 실패했습니다. 관리자에게 문의해주세요.');
@@ -143,7 +145,7 @@
             , contentType: "application/json"
             , data: scrapInfo
             , success: function() {
-              alert('성공');
+              alert('찜 삭제');
             }
             , error: function() {
               alert('찜 삭제 실패했습니다. 관리자에게 문의해주세요.');
@@ -241,15 +243,19 @@
             <td>마감일</td>
           </tr>
           <tr th:each="NewJopInfo, status : ${getJopInfoNewTop8List}">
-            <input type="hidden" th:id="|infoname_${NewJopInfo.jobInfoNum}|" th:value="${NewJopInfo.jobInfoPostingName}"/>
-            <input type="hidden" th:id="|companyName_${NewJopInfo.jobInfoNum}|" th:value="${NewJopInfo.jobInfoCompanyName}"/>
+            <input type="hidden" th:id="${NewJopInfo.jobInfoNum}" th:value="${NewJopInfo.jobInfoPostingName}"/>
+            <input type="hidden" th:id="${NewJopInfo.jobInfoNum}" th:value="${NewJopInfo.jobInfoCompanyName}"/>
             <td th:style="'height: 54px;'">
               <div class="url" th:attr="onclick='window.location.href =\'' + '/com.solponge/jobinfo/' + ${NewJopInfo.jobInfoCompanyName} + '\';'" th:text="${NewJopInfo.jobInfoCompanyName}"></div>
-              <button class="heart" th:id="${NewJopInfo.jobInfoCompanyName}" type="button" onclick="submitForm(this.id)" value="Click">&#10084;</button>
+              <!-- 회사 스크랩 버튼 -->
+              <button class="heart" th:id="${NewJopInfo.jobInfoCompanyName}" type="button" onclick="submitForm(this.id)" value="Click"
+                     th:classappend="${loginMember!=null and companyNames.contains(NewJopInfo.jobInfoCompanyName) ? 'heart red':''}">&#10084;</button>
             </td>
             <td th:style="'height: 54px;'">
               <div class="url" th:attr="onclick='window.location.href =\'' + '/com.solponge/jobinfo/' + ${NewJopInfo.jobInfoNum} + '\';'" th:text="${NewJopInfo.jobInfoPostingName}"></div>
-              <button class="star" th:id="${NewJopInfo.jobInfoPostingName}" type="button" onclick="submitForm2(this.id)" value="Click">&#10029;</button>
+              <!-- 정보 스크랩 버튼 -->
+              <button class="star" th:id="${NewJopInfo.jobInfoPostingName}" type="button" onclick="submitForm2(this.id)" value="Click"
+                     th:classappend="${loginMember!=null and infoNames.contains(NewJopInfo.jobInfoPostingName) ? 'start yellow':''}">&#10029;</button>
               <br>
               <span style="font-size: 10px" th:text="${NewJopInfo.jobInfoFieldTagList}"></span>
             </td>

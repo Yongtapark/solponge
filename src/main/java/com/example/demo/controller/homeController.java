@@ -1,13 +1,12 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.cart.Cart;
+import com.example.demo.domain.companyScrap.CompanyScrap;
+import com.example.demo.domain.infoScrap.InfoScrap;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.MemberJoinForm;
 import com.example.demo.domain.member.login.session.SessionConst;
-import com.example.demo.service.interfaces.CartService;
-import com.example.demo.service.interfaces.JobInfoService;
-import com.example.demo.service.interfaces.MemberService;
-import com.example.demo.service.interfaces.ProductService;
+import com.example.demo.service.interfaces.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.example.demo.domain.cart.QCart.cart;
 
@@ -34,14 +34,39 @@ public class homeController {
     private final ProductService productService;
     private final CartService cartService;
     private final JobInfoService jobInfoService;
+    private final JobScrapService jobScrapService;
 
     @GetMapping("/main")
     public String home(Model model, HttpServletRequest request){
         Member loginMember = getLoginMember(request);
+        //회원의 스크랩된 정보
+        if(loginMember!=null){
+            List<InfoScrap> infoScraps = jobScrapService.infoScrapList(loginMember.getMemberNum());
+            for (InfoScrap infoScrap : infoScraps) {
+                model.addAttribute("infoScrap",infoScrap);
+            }
+            List<CompanyScrap> companyScraps = jobScrapService.companyScrapList(loginMember.getMemberNum());
+            for (CompanyScrap companyScrap : companyScraps) {
+                model.addAttribute("companyScrap",companyScrap);
+            }
+            log.info("companyScraps={}",companyScraps);
+
+
+            List<String> infoNames = infoScraps.stream().map(InfoScrap::getInfoName).collect(Collectors.toList());
+            List<String> companyNames = companyScraps.stream().map(CompanyScrap::getCompanyName).collect(Collectors.toList());
+            log.info("infoNames={}",infoNames);
+            log.info("companyNames={}",companyNames);
+            model.addAttribute("infoNames", infoNames);
+            model.addAttribute("companyNames", companyNames);
+        }
+
+
+
         model.addAttribute("newTop8List", productService.newTop8List());
         model.addAttribute("popTop8List", productService.popTop8List());
         model.addAttribute("getJopInfoNewTop8List",jobInfoService.getJobInfoNewTop8List());
         model.addAttribute("loginMember",loginMember);
+
         return "main";
     }
 

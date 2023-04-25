@@ -77,10 +77,11 @@
         </table>
     </div>
     <div>
-        <div th:if="${company_state == 'NO'}">
+        <div th:if="${#lists.isEmpty(companyScrap)}">
+
             <h3 id="company_state">관심 기업을 스크랩 해주세요!</h3>
         </div>
-        <div th:unless="${company_state == 'NO'}" id="companyNameContainer">
+        <div th:unless="${#lists.isEmpty(companyScrap)}" id="companyNameContainer">
             <div class="companyScrap">
                 <div class="companies">
                     <div class="company" th:each="company : ${companyScrap}">
@@ -137,7 +138,7 @@
         </div>
         <div th:unless="${jobinfo_state == 'NO'}" id="container_booklist">
             <div id="row2">
-                <form th:action="@{/com.solponge/member/{memberId}/myPage/jobScrap/search(memberId=${member.MEMBER_NO})}"
+                <form th:action="@{/com.solponge/member/{memberNum}/myPage/jobScrap/search(memberNum=${member.memberNum})}"
                       accept-charset="utf-8" name="book_info" method="get">
                     <h3 id="newbook">
                         스크랩된 공고<span>

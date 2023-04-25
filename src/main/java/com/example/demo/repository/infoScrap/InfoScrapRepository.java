@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface InfoScrapRepository extends JpaRepository<InfoScrap,Long> {
+    List<InfoScrap> findAllByMemberNum(Long memberNum);
     void deleteByMemberNumAndInfoName(Long memberNum,String infoName);
     Page<InfoScrap> findAllByMemberNum(Long memberNum, Pageable pageable);
 

@@ -33,30 +33,12 @@ public class JobInfoServiceImpl implements JobInfoService {
         return null;
     }
 
-    @Override
-    public Long getJobInfoCount() {
-        return null;
-    }
 
     @Override
     public List<JobInfo> getJobInfoNewTop8List() {
         return jobInfoQueryRepository.getJopInfoNewTop8List();
     }
 
-    @Override
-    public List<JobInfo> getCompanyTojobinfoList(String companyName) {
-        return null;
-    }
-
-    @Override
-    public List<JobInfo> getCompanyInScrapList(String[] companyNames) {
-        return null;
-    }
-
-    @Override
-    public List<JobInfo> getInfoInScrapList(String[] infoNames) {
-        return null;
-    }
 
     @Override
     public Page<JobInfo> findAll(Pageable pageable) {

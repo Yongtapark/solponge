@@ -15,6 +15,10 @@ public interface JobScrapService {
     void deleteJobScrapCompany(Long memberNum,String companyName);
     void deleteJobScrapInfoScrap(Long memberNum,String infoSName);
 
+    List<InfoScrap> infoScrapList(Long memberNum);
+    List<CompanyScrap> companyScrapList(Long memberNum);
+
+
     Page<CompanyScrap> getCompanyScrapList(Long memberNum, Pageable pageable);
     Page<InfoScrap> getInfoScrapList(Long memberNum, Pageable pageable);
 

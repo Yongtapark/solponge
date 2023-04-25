@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Slf4j
@@ -29,5 +31,15 @@ class JobInfoServiceImplTest {
     void findAll() {
         Pageable pageable = PageRequest.of(0, 10);
         jobInfoService.findAll(pageable);
+    }
+
+    @Test
+    void findMyJobInfo(){
+        PageRequest pageable = PageRequest.of(0, 10);
+        Page<JobInfo> jobInfos = jobInfoService.myPageScrapJobInfo(3L, pageable);
+        log.info("jobInfos={}",jobInfos.getContent());
+
+        Map<String, Long> announcement = jobInfoService.MyScrapCompanyAnnouncement(3L);
+        log.info("announcement={}",announcement);
     }
 }

@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @Slf4j
@@ -41,6 +43,16 @@ public class JobScrapServiceImpl implements JobScrapService {
     @Override
     public void deleteJobScrapInfoScrap(Long memberNum, String infoName) {
         infoScrapRepository.deleteByMemberNumAndInfoName(memberNum,infoName);
+    }
+
+    @Override
+    public List<InfoScrap> infoScrapList(Long memberNum) {
+        return infoScrapRepository.findAllByMemberNum(memberNum);
+    }
+
+    @Override
+    public List<CompanyScrap> companyScrapList(Long memberNum) {
+        return companyScrapRepository.findAllByMemberNum(memberNum);
     }
 
     @Override
