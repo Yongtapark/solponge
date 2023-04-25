@@ -51,13 +51,13 @@
   <div id="sidebar">
     <table>
       <tr>
-        <td><a class="link" th:href="@{'/com.solponge/member/' + ${session.loginMember.memberNum} + '/myPage'}">정보수정</a></td>
+        <td><a th:href="@{/com.solponge/member/{memberNum}/myPage(memberNum=${session.loginMember.memberNum})}">정보수정</a></td>
       </tr>
       <tr>
-        <td class="link" style="background-color: #007bff;"><a th:href="@{'/com.solponge/member/' + ${session.loginMember.memberNum} + '/paymentList'}" style="color:white;">구매목록</a></td>
+        <td style="background-color: #007bff;"><a th:href="@{/com.solponge/member/{memberNum}/paymentList(memberNum=${session.loginMember.memberNum})}" style="color:white;">구매목록</a></td>
       </tr>
       <tr>
-        <td class="link"><a th:href="@{'/com.solponge/member/' + ${session.loginMember.memberNum} + '/myPage/jobScrap'}">스크랩</a></td>
+        <td><a class="link" th:href="@{/com.solponge/member/{memberNum}/jobScrap(memberNum=${session.loginMember.memberNum})}">스크랩</a></td>
       </tr>
     </table>
   </div>

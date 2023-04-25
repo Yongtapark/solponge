@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -115,8 +116,24 @@ public class JobInfoQueryRepository {
 
         List<JobInfo> scrappedCompany = query.selectFrom(jobInfo)
                 .where(jobInfo.jobInfoCompanyName.in(scrap))
+                .orderBy(jobInfo.jobInfoNum.desc())
                 .fetch();
         return scrappedCompany;
+    }
+
+    public Map<String,JobInfo> resentCompanyAnnounce(Long memberNum){
+        List<JobInfo> scrappedCompany = myScrapCompany(memberNum);
+
+        Map<String,JobInfo> recentCompanyMap = new LinkedHashMap<>();
+        for (JobInfo jobInfo : scrappedCompany){
+            String jobInfoCompanyName = jobInfo.getJobInfoCompanyName();
+            //recentCompanyMap 의 값이 없거나, 기존의 값보다 infoNum 의 크기가 더 크면 대체한다.
+            if(!recentCompanyMap.containsKey(recentCompanyMap) ||
+                jobInfo.getJobInfoNum() > recentCompanyMap.get(jobInfoCompanyName).getJobInfoNum()){
+                recentCompanyMap.put(jobInfoCompanyName,jobInfo);
+            }
+        }
+        return recentCompanyMap;
     }
 
 
@@ -143,7 +160,7 @@ public class JobInfoQueryRepository {
         }*/
 
 
-        // 스크랩한 회사의 공고 목록을 스트림으로 처리하여 회사별 공고 개수를 계산하고, Map에 저장합니다.
+        // 스크랩한 회사의 공고 목록을 스트림으로 처리하여 회사별 공고 개수를 계산하고, Map에 저장
         Map<String, Long> jobInfoCounts = scrappedJobInfos.stream()
                 .collect(Collectors.groupingBy(JobInfo::getJobInfoCompanyName, Collectors.counting()));
 

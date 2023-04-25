@@ -19,7 +19,9 @@ public interface JobInfoService {
     Page<JobInfo> myPageScrapJobInfo(Long memberNum, Pageable pageable);
     Page<JobInfo> myPageScrapCompany(Long memberNum, Pageable pageable);
     /*스크랩한 회사의 공고 수*/
-    Map<String,Long> MyScrapCompanyAnnouncement(Long memberNum);
+    Map<String,Long> myScrapCompanyAnnouncements(Long memberNum);
+
+    Map<String,JobInfo> recentCompanyAnnouncement(Long memberNum);
 
     List<JobInfo> findAll();
 

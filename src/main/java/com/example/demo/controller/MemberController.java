@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.domain.infoScrap.InfoScrap;
 import com.example.demo.domain.jobInfo.JobInfo;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.MemberJoinForm;
@@ -24,8 +23,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -103,7 +100,7 @@ public class MemberController {
         return "member/paymentList";
     }
 
-    @GetMapping("/myPage/jobScrap")
+    @GetMapping("/jobScrap")
     public String getjobScrap(Model model,
                               HttpServletRequest request,
                               @PageableDefault(page = 0, size = 20, sort ="jobInfoNum",direction = Sort.Direction.ASC) Pageable pageable,
@@ -124,11 +121,13 @@ public class MemberController {
 
         Page<JobInfo> jobInScrap = jobInfoService.myPageScrapJobInfo(loginMember.getMemberNum(), pageable);
         Page<JobInfo> companyScrap = jobInfoService.myPageScrapCompany(loginMember.getMemberNum(), pageable);
-        Map<String, Long> announcement = jobInfoService.MyScrapCompanyAnnouncement(loginMember.getMemberNum());
+        Map<String, Long> announcement = jobInfoService.myScrapCompanyAnnouncements(loginMember.getMemberNum());
+        Map<String, JobInfo> recentCompanyAnnouncement = jobInfoService.recentCompanyAnnouncement(loginMember.getMemberNum());
 
         model.addAttribute("jobInScrap",jobInScrap);
         model.addAttribute("companyScrap",companyScrap);
         model.addAttribute("announcement",announcement);
+        model.addAttribute("recentCompanyAnnouncement",recentCompanyAnnouncement);
 
         int nowPage= jobInScrap.getPageable().getPageNumber()+1 ;
         int totalPages = jobInScrap.getTotalPages();

@@ -61,8 +61,13 @@ public class JobInfoServiceImpl implements JobInfoService {
     }
 
     @Override
-    public Map<String, Long> MyScrapCompanyAnnouncement(Long memberNum) {
+    public Map<String, Long> myScrapCompanyAnnouncements(Long memberNum) {
         return jobInfoQueryRepository.MyScrapCompanyAnnouncement(memberNum);
+    }
+
+    @Override
+    public Map<String, JobInfo> recentCompanyAnnouncement(Long memberNum) {
+        return jobInfoQueryRepository.resentCompanyAnnounce(memberNum);
     }
 
     @Override

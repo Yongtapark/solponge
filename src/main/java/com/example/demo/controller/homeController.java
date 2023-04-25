@@ -42,20 +42,11 @@ public class homeController {
         //회원의 스크랩된 정보
         if(loginMember!=null){
             List<InfoScrap> infoScraps = jobScrapService.infoScrapList(loginMember.getMemberNum());
-            for (InfoScrap infoScrap : infoScraps) {
-                model.addAttribute("infoScrap",infoScrap);
-            }
             List<CompanyScrap> companyScraps = jobScrapService.companyScrapList(loginMember.getMemberNum());
-            for (CompanyScrap companyScrap : companyScraps) {
-                model.addAttribute("companyScrap",companyScrap);
-            }
-            log.info("companyScraps={}",companyScraps);
-
-
+            //이름들만 리스트로 저장
             List<String> infoNames = infoScraps.stream().map(InfoScrap::getInfoName).collect(Collectors.toList());
             List<String> companyNames = companyScraps.stream().map(CompanyScrap::getCompanyName).collect(Collectors.toList());
-            log.info("infoNames={}",infoNames);
-            log.info("companyNames={}",companyNames);
+
             model.addAttribute("infoNames", infoNames);
             model.addAttribute("companyNames", companyNames);
         }

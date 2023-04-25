@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/login.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/memberScrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/mypageForm.css}">
+
     <script>
         const items = document.querySelectorAll('.company');
         const itemCount = items.length - 1;
@@ -61,18 +66,13 @@
     <div id="sidebar">
         <table>
             <tr>
-                <td style="background-color: #007bff;"><a class="link"
-                                                          th:href="@{/com.solponge/member/{memberNum}/myPage(memberNum=${member.memberNum})}"
-                                                          style="color:white;">정보수정</a></td>
+                <td><a th:href="@{/com.solponge/member/{memberNum}/myPage(memberNum=${member.memberNum})}">정보수정</a></td>
             </tr>
             <tr>
-                <td><a th:href="@{/com.solponge/member/{memberNum}/paymentList(memberNum=${member.memberNum})}">구매목록</a>
-                </td>
+                <td><a th:href="@{/com.solponge/member/{memberNum}/paymentList(memberNum=${member.memberNum})}">구매목록</a></td>
             </tr>
             <tr>
-                <td>
-                    <a th:href="@{/com.solponge/member/{memberNum}/myPage/jobScrap(memberNum=${member.memberNum})}">스크랩</a>
-                </td>
+                <td style="background-color: #007bff;"><a class="link" th:href="@{/com.solponge/member/{memberNum}/jobScrap(memberNum=${member.memberNum})}" style="color:white;">스크랩</a></td>
             </tr>
         </table>
     </div>
@@ -84,33 +84,33 @@
         <div th:unless="${#lists.isEmpty(companyScrap)}" id="companyNameContainer">
             <div class="companyScrap">
                 <div class="companies">
-                    <div class="company" th:each="company : ${companyScrap}">
+                    <div class="company" th:each="company : ${recentCompanyAnnouncement}">
                         <div class="flex-container">
                             <div th:each="index : ${#numbers.sequence(0, 3)}" class="flex-item color-gray"
                                  style="float: left;">
                                 <input type="hidden" name="company_name" th:id="'companyName_' + ${company}"
-                                       th:value="${company}">
+                                       th:value="${company.getValue().jobInfoCompanyName}">
                                 <div th:if="${#strings.isEmpty(company)}" class="flex-item color-gray"
                                      style="text-align: center;">
                                     <div style="top: 32px;  position:relative;">solponge</div>
                                 </div>
                                 <div th:unless="${#strings.isEmpty(company)}" class="item_container">
                                     <div class="logo"
-                                         th:onclick="'location.href=\'/com.solponge/jobinfolist/' + ${company} + '\''">
+                                         th:attr="onclick='system.location.href=\'/com.solponge/jobinfo/' + ${company} + '\''">
                                         <img th:src="@{/img/icons8-business-buildings-100.png}"/>
                                     </div>
                                     <div class="company_name"
-                                         th:onclick="'location.href=\'/com.solponge/jobinfolist/' + ${company} + '\''"
-                                         th:text="|${company} 채용중 ${announcement} 건|"></div>
+                                         th:attr="onclick='system.location.href=\'/com.solponge/jobinfo/' + ${company} + '\''"
+                                         th:text="|${company.getKey()} 채용중 ${announcement.values()} 건|"></div>
                                     <button class="delete_bt" type="button" style="float: right;" th:id="${company}"
                                             onclick="submitForm(this.id)">x
                                     </button>
-                                    <div class="jobinfo">
-                                        <a th:href="@{'/com.solponge/jobinfo/' + ${responseData[company].OneInfoNum}}">
-                                            <span th:if="${#strings.length(responseData[company].OneInfoName) > 15}">최근 공고: <span
-                                                    th:text="${#strings.substring(responseData[company].OneInfoName, 0, 14)}"></span>...</span>
-                                            <span th:if="${#strings.length(responseData[company].OneInfoName) <= 15}"
-                                                  th:text="|최근 공고: ${responseData[company].OneInfoName}|"></span>
+                                    <div class="jobinfo" th:with="recentCompany=${recentCompanyAnnouncement.get(company.getKey())}">
+                                        <a th:href="@{'/com.solponge/jobinfo/' + ${recentCompany.getJobInfoNum()}}">
+                                            <span th:if="${#strings.length(recentCompany.getJobInfoCompanyName()) > 15}">최근 공고: <span
+                                                    th:text="${#strings.substring(recentCompany.getJobInfoCompanyName(), 0, 14)}"></span>...</span>
+                                            <span th:if="${#strings.length(recentCompany.getJobInfoCompanyName()) <= 15}"
+                                                  th:text="|최근 공고: ${recentCompany.getJobInfoCompanyName()}|"></span>
                                         </a>
                                     </div>
                                 </div>
@@ -172,12 +172,12 @@
                 <input type="hidden" th:id="'companyName_' + ${NewJopInfo.jobInfoNum}" th:value="${NewJopInfo.jobInfoCompanyName}"/>
                 <td th:id="Newjob8td" class="infonum" style="height: 54px">
                     <div class="url"
-                         th:onclick="'location.href =\'/com.solponge/jobinfolist/' + ${NewJopInfo.jobInfoCompanyName} + '\''"
+                         th:onclick="'system.location.href =\'/com.solponge/jobinfolist/' + ${NewJopInfo.jobInfoCompanyName} + '\''"
                          th:text="${NewJopInfo.jobInfoCompanyName}"></div>
                 </td>
                 <td th:style="'height: 54px'" th:with="infoname='response_' + ${NewJopInfo.jobInfoPostingName}">
                     <div th:if="${JobScrap2.containsKey(infoname)}" class="url"
-                         th:onclick="'location.href =\'/com.solponge/jobinfo/' + ${NewJopInfo.jobInfoNum} + '\''"
+                         th:onclick="'system.location.href =\'/com.solponge/jobinfo/' + ${NewJopInfo.jobInfoNum} + '\''"
                          th:text="${NewJopInfo.jobInfoPostingName}">
                     </div>
                     <button th:if="${JobScrap2.containsKey(infoname)}" class="star yellow"
