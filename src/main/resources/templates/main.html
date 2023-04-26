@@ -103,11 +103,13 @@
     }
     function submitForm2(clicked_id) {
       var buttonElement = document.getElementById(clicked_id);
+      var jobInfoNum = buttonElement.value;
       console.log("clicked_id",clicked_id)
       var usercheck = "[[${loginMember != null ? loginMember.memberNum : ''}]]";
       var infoScrap={
         memberNum:"[[${loginMember != null ? loginMember.memberNum : ''}]]",
-        infoName:clicked_id
+        infoName:clicked_id,
+        jobInfoNum:jobInfoNum
       }
       console.log("infoScrap",infoScrap)
 
@@ -250,7 +252,7 @@
             <td th:style="'height: 54px;'">
               <div class="url" th:attr="onclick='window.location.href =\'' + '/com.solponge/jobinfo/' + ${NewJopInfo.jobInfoNum} + '\';'" th:text="${NewJopInfo.jobInfoPostingName}"></div>
               <!-- 정보 스크랩 버튼 -->
-              <button class="star" th:id="${NewJopInfo.jobInfoPostingName}" type="button" onclick="submitForm2(this.id)" value="Click"
+              <button class="star" th:id="${NewJopInfo.jobInfoPostingName}" type="button" onclick="submitForm2(this.id)" th:value="${NewJopInfo.jobInfoNum}"
                      th:classappend="${loginMember!=null and infoNames.contains(NewJopInfo.jobInfoPostingName) ? 'start yellow':''}">&#10029;</button>
               <br>
               <span style="font-size: 10px" th:text="${NewJopInfo.jobInfoFieldTagList}"></span>

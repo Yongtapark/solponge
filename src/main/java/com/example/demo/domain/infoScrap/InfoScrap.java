@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public class InfoScrap {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long infoScrapNum;
+    private Long jobInfoNum;
     private Long memberNum;
     private String infoName;
     private LocalDateTime scrapTime=LocalDateTime.now();

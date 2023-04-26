@@ -92,6 +92,8 @@ public class JobInfoQueryRepository {
                 .fetch();
 
         List<JobInfo> scrappedJobInfo = query.selectFrom(jobInfo)
+                .innerJoin(infoScrap)
+                .on(jobInfo.jobInfoNum.eq(infoScrap.jobInfoNum))
                 .where(jobInfo.jobInfoPostingName.in(scrap))
                 .fetch();
         return scrappedJobInfo;

@@ -34,7 +34,7 @@ class JobInfoServiceImplTest {
     void findMyJobInfo(){
         PageRequest pageable = PageRequest.of(0, 10);
         Page<JobInfo> jobInfos = jobInfoService.myPageScrapJobInfo(3L, pageable);
-        log.info("jobInfos={}",jobInfos.getContent());
+        log.info("jobInfos={}",jobInfos.getContent().size());
 
         Map<String, Long> announcement = jobInfoService.myScrapCompanyAnnouncements(3L);
         log.info("announcement={}",announcement);

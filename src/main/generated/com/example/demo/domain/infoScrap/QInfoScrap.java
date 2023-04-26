@@ -23,6 +23,8 @@ public class QInfoScrap extends EntityPathBase<InfoScrap> {
 
     public final NumberPath<Long> infoScrapNum = createNumber("infoScrapNum", Long.class);
 
+    public final NumberPath<Long> jobInfoNum = createNumber("jobInfoNum", Long.class);
+
     public final NumberPath<Long> memberNum = createNumber("memberNum", Long.class);
 
     public final DateTimePath<java.time.LocalDateTime> scrapTime = createDateTime("scrapTime", java.time.LocalDateTime.class);
