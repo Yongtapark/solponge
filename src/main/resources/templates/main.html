@@ -111,8 +111,7 @@
       }
       console.log("infoScrap",infoScrap)
 
-      if (buttonElement.value === 'Click') {
-        buttonElement.value = 'Clicked';
+      if (!buttonElement.classList.contains('yellow')) {
         buttonElement.classList.add('yellow');
         if (usercheck.length !== 0) {
           let scrapInfo = JSON.stringify(infoScrap);
@@ -133,7 +132,6 @@
           location.href = "/login";
         }
       } else {
-        buttonElement.value = 'Click';
         buttonElement.classList.remove('yellow');
         if (usercheck.length !== 0) {
           let scrapInfo = JSON.stringify(infoScrap);

@@ -176,41 +176,41 @@
                         <td style="width: 150px; height: 44px">근무조건</td>
                         <td>마감일</td>
                     </tr>
-                    <tr th:each="NewJopInfo, status : ${jobInfos}">
+                    <tr th:each="NewJopInfo, status : ${jobInScrap}">
                         <input type="hidden" th:id="'infoname_' + ${NewJopInfo.jobInfoNum}"
                                th:value="${NewJopInfo.jobInfoPostingName}"/>
                         <input type="hidden" th:id="'companyName_' + ${NewJopInfo.jobInfoNum}"
                                th:value="${NewJopInfo.jobInfoCompanyName}"/>
                         <td th:id="Newjob8td" class="infonum" style="height: 54px">
                             <div class="url"
-                                 th:onclick="'system.location.href =\'/com.solponge/jobinfolist/' + ${NewJopInfo.jobInfoCompanyName} + '\''"
+                                 th:onclick="'system.location.href =\'/com.solponge/jobinfolist/' + ${NewJopInfo.jobInfoNum} + '\''"
                                  th:text="${NewJopInfo.jobInfoCompanyName}"></div>
                         </td>
                         <td th:style="'height: 54px'" th:with="infoname='response_' + ${NewJopInfo.jobInfoPostingName}">
-                            <div th:if="${JobScrap2.containsKey(infoname)}" class="url"
+                            <div th:if="${jobInScrap.content}" class="url"
                                  th:onclick="'system.location.href =\'/com.solponge/jobinfo/' + ${NewJopInfo.jobInfoNum} + '\''"
                                  th:text="${NewJopInfo.jobInfoPostingName}">
                             </div>
-                            <button th:if="${JobScrap2.containsKey(infoname)}" class="star yellow"
+                            <button th:if="${jobInScrap.content}" class="star yellow"
                                     th:id="${NewJopInfo.jobInfoNum} + '_star'" type="button"
                                     onclick="submitForm2(this.id)"
                                     value="Clicked">&#10029;
                             </button>
                             <br>
-                            <span th:if="${JobScrap2.containsKey(infoname)}" style="font-size: 10px"
+                            <span th:if="${jobInScrap.content}" style="font-size: 10px"
                                   th:text="${NewJopInfo.jobInfoFieldTagList}"></span>
 
-                            <div th:unless="${JobScrap2.containsKey(infoname)}" class="url"
+                            <div th:unless="${jobInScrap.content}" class="url"
                                  th:onclick="'location.href =\'/com.solponge/jobinfo/' + ${NewJopInfo.jobInfoNum} + '\''"
                                  th:text="${NewJopInfo.jobInfoPostingName}">
                             </div>
-                            <button th:unless="${JobScrap2.containsKey(infoname)}" class="star"
+                            <button th:unless="${jobInScrap.content}" class="star"
                                     th:id="${NewJopInfo.jobInfoNum} + '_star'" type="button"
                                     onclick="submitForm2(this.id)"
                                     value="Click">&#10029;
                             </button>
                             <br>
-                            <span th:unless="${JobScrap2.containsKey(infoname)}" style="font-size: 10px"
+                            <span th:unless="${jobInScrap.content}" style="font-size: 10px"
                                   th:text="${NewJopInfo.jobInfoFieldTagList}"></span>
                         </td>
                         <td style="height: 54px" th:text="${NewJopInfo.jobInfoQualification}"></td>

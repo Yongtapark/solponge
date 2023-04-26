@@ -103,7 +103,7 @@ public class MemberController {
     @GetMapping("/jobScrap")
     public String getjobScrap(Model model,
                               HttpServletRequest request,
-                              @PageableDefault(page = 0, size = 20, sort ="jobInfoNum",direction = Sort.Direction.ASC) Pageable pageable,
+                              @PageableDefault(page = 0, size = 10, sort ="jobInfoNum",direction = Sort.Direction.DESC) Pageable pageable,
                               String searchSelect,
                               String searchValue) {
         Member loginMember = getLoginMember(request);
