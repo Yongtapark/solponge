@@ -120,12 +120,10 @@ public class MemberController {
         }
 
         Page<JobInfo> jobInScrap = jobInfoService.myPageScrapJobInfo(loginMember.getMemberNum(), pageable);
-        Page<JobInfo> companyScrap = jobInfoService.myPageScrapCompany(loginMember.getMemberNum(), pageable);
         Map<String, Long> announcement = jobInfoService.myScrapCompanyAnnouncements(loginMember.getMemberNum());
         Map<String, JobInfo> recentCompanyAnnouncement = jobInfoService.recentCompanyAnnouncement(loginMember.getMemberNum());
 
         model.addAttribute("jobInScrap",jobInScrap);
-        model.addAttribute("companyScrap",companyScrap);
         model.addAttribute("announcement",announcement);
         model.addAttribute("recentCompanyAnnouncement",recentCompanyAnnouncement);
 

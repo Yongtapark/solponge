@@ -80,7 +80,7 @@
         </table>
     </div>
     <div>
-        <div th:unless="${#lists.isEmpty(companyScrap)}" id="companyNameContainer">
+        <div id="companyNameContainer">
             <div class="companyScrap">
                 <div class="companies">
                     <div class="company flex-container">
@@ -116,8 +116,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div th:each="company : ${recentCompanyAnnouncement}">
-                            <div class="flex-item color-gray" style="float: left;">
+                        <div th:each="i : ${#numbers.sequence(0, 7 - recentCompanyAnnouncement.size())}">                            <div class="flex-item color-gray" style="float: left;">
                                 <div class="item_container">
                                     <div style="top: 32px; position:relative; text-align: center">solponge</div>
                                 </div>
