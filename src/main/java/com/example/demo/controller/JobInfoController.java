@@ -32,7 +32,7 @@ public class JobInfoController {
     @GetMapping("/jobInfo")
     public String jobinfolist(Model model,
                               HttpServletRequest request,
-                              @PageableDefault(page = 0, size = 10, sort ="jobInfoNum",direction = Sort.Direction.ASC) Pageable pageable,
+                              @PageableDefault(page = 0, size = 10, sort ="jobInfoNum",direction = Sort.Direction.DESC) Pageable pageable,
                               String searchSelect, String searchValue){
         Member loginMember = getLoginMember(request);
         model.addAttribute("member",loginMember);

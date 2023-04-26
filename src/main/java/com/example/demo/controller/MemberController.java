@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -111,24 +112,23 @@ public class MemberController {
         Page<JobInfo> paginatedJobInfo =null;
         if (searchSelect==null && searchValue==null){
             log.info("===검색어 없음===");
-            paginatedJobInfo = jobInfoService.findAll(pageable);
+            paginatedJobInfo = jobInfoService.myPageScrapJobInfo(loginMember.getMemberNum(), pageable);
         }else {
             log.info("===검색어 있음===");
             SearchCond cond = new SearchCond(searchSelect, searchValue);
             log.info("cond={}",cond);
-            paginatedJobInfo = jobInfoService.search(cond, pageable);
+            paginatedJobInfo = jobInfoService.myScrapSearch(loginMember.getMemberNum(), cond, pageable);
+            log.info("mySearch={}",paginatedJobInfo.getContent().stream().map(JobInfo::getJobInfoPostingName).collect(Collectors.toList()));
         }
-
-        Page<JobInfo> jobInScrap = jobInfoService.myPageScrapJobInfo(loginMember.getMemberNum(), pageable);
         Map<String, Long> announcement = jobInfoService.myScrapCompanyAnnouncements(loginMember.getMemberNum());
         Map<String, JobInfo> recentCompanyAnnouncement = jobInfoService.recentCompanyAnnouncement(loginMember.getMemberNum());
 
-        model.addAttribute("jobInScrap",jobInScrap);
+        model.addAttribute("jobInfoScrap",paginatedJobInfo);
         model.addAttribute("announcement",announcement);
         model.addAttribute("recentCompanyAnnouncement",recentCompanyAnnouncement);
 
-        int nowPage= jobInScrap.getPageable().getPageNumber()+1 ;
-        int totalPages = jobInScrap.getTotalPages();
+        int nowPage= paginatedJobInfo.getPageable().getPageNumber()+1 ;
+        int totalPages = paginatedJobInfo.getTotalPages();
         int startPage = Math.max(nowPage - 5, 1);
         int endPage = Math.min(startPage + 9, totalPages);
 

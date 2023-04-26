@@ -51,6 +51,11 @@ public class JobInfoServiceImpl implements JobInfoService {
     }
 
     @Override
+    public Page<JobInfo> myScrapSearch(Long memberNum,SearchCond cond, Pageable pageable) {
+        return jobInfoQueryRepository.myScrapSearch(memberNum,cond,pageable);
+    }
+
+    @Override
     public Page<JobInfo> myPageScrapJobInfo(Long memberNum, Pageable pageable) {
         return jobInfoQueryRepository.myScrapjobInfoPage(memberNum,pageable);
     }

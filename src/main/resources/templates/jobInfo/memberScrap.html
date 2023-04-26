@@ -142,25 +142,22 @@
     <div style="width: 1050px; margin: 0 auto; position: relative; left: 55px;">
         <br>
         <hr>
-        <div th:if="${jobinfo_state == 'NO'}">
-            <h3 id="jobinfo_state">관심 구직 공고를 스크랩해주세요!</h3>
-        </div>
-        <div th:unless="${jobinfo_state == 'NO'}" id="container_booklist">
+        <div id="container_booklist">
             <div id="row2">
-                <form th:action="@{/com.solponge/member/{memberNum}/myPage/jobScrap/search(memberNum=${member.memberNum})}"
+                <form th:action="@{/com.solponge/member/{memberNum}/jobScrap(memberNum=${member.memberNum})}"
                       accept-charset="utf-8" name="book_info" method="get">
                     <h3 id="newbook">
                         스크랩된 공고<span>
-                        <select name="SearchSelect">
+                        <select name="searchSelect">
                             <option value="all">전체</option>
-                            <option value="JopInfo_COMPANYNAME">회사명</option>
-                            <option value="JopInfo_INFONAME">공고명</option>
-                            <option value="JopInfo_FTAGLIST">기술 태그</option>
-                            <option value="JopInfo_QUALIFICAT">지원자격</option>
-                            <option value="JopInfo_WORKTYPE">고용 형태</option>
+                            <option value="jobInfoCompanyName">회사명</option>
+                            <option value="jobInfoPostingName">공고명</option>
+                            <option value="jobInfoFieldTagList">기술 태그</option>
+                            <option value="jobInfoQualification">지원자격</option>
+                            <option value="jobInfoWorkType">고용 형태</option>
                         </select>
-                        <input type="text" name="SearchValue" size="15" value="검색 내용">
-                        <button type="submit"><img th:src="@{/img/Magnifier.png}" style="width: 20px;"
+                        <input type="text" name="searchValue" size="15">
+                        <button type="submit"><img th:src="@{/img/Magnifier.png}" style="width: 20px; height: 20px;"
                                                    alt="Search"></button>
                 </span>
                     </h3>
@@ -176,7 +173,7 @@
                         <td style="width: 150px; height: 44px">근무조건</td>
                         <td>마감일</td>
                     </tr>
-                    <tr th:each="NewJopInfo, status : ${jobInScrap}">
+                    <tr th:each="NewJopInfo, status : ${jobInfoScrap}">
                         <input type="hidden" th:id="'infoname_' + ${NewJopInfo.jobInfoNum}"
                                th:value="${NewJopInfo.jobInfoPostingName}"/>
                         <input type="hidden" th:id="'companyName_' + ${NewJopInfo.jobInfoNum}"
@@ -187,30 +184,30 @@
                                  th:text="${NewJopInfo.jobInfoCompanyName}"></div>
                         </td>
                         <td th:style="'height: 54px'" th:with="infoname='response_' + ${NewJopInfo.jobInfoPostingName}">
-                            <div th:if="${jobInScrap.content}" class="url"
+                            <div th:if="${jobInfoScrap.content}" class="url"
                                  th:onclick="'system.location.href =\'/com.solponge/jobinfo/' + ${NewJopInfo.jobInfoNum} + '\''"
                                  th:text="${NewJopInfo.jobInfoPostingName}">
                             </div>
-                            <button th:if="${jobInScrap.content}" class="star yellow"
+                            <button th:if="${jobInfoScrap.content}" class="star yellow"
                                     th:id="${NewJopInfo.jobInfoNum} + '_star'" type="button"
                                     onclick="submitForm2(this.id)"
                                     value="Clicked">&#10029;
                             </button>
                             <br>
-                            <span th:if="${jobInScrap.content}" style="font-size: 10px"
+                            <span th:if="${jobInfoScrap.content}" style="font-size: 10px"
                                   th:text="${NewJopInfo.jobInfoFieldTagList}"></span>
 
-                            <div th:unless="${jobInScrap.content}" class="url"
+                            <div th:unless="${jobInfoScrap.content}" class="url"
                                  th:onclick="'location.href =\'/com.solponge/jobinfo/' + ${NewJopInfo.jobInfoNum} + '\''"
                                  th:text="${NewJopInfo.jobInfoPostingName}">
                             </div>
-                            <button th:unless="${jobInScrap.content}" class="star"
+                            <button th:unless="${jobInfoScrap.content}" class="star"
                                     th:id="${NewJopInfo.jobInfoNum} + '_star'" type="button"
                                     onclick="submitForm2(this.id)"
                                     value="Click">&#10029;
                             </button>
                             <br>
-                            <span th:unless="${jobInScrap.content}" style="font-size: 10px"
+                            <span th:unless="${jobInfoScrap.content}" style="font-size: 10px"
                                   th:text="${NewJopInfo.jobInfoFieldTagList}"></span>
                         </td>
                         <td style="height: 54px" th:text="${NewJopInfo.jobInfoQualification}"></td>
@@ -229,7 +226,7 @@
                         <!-- Previous button -->
                         <li class="page-item" th:classappend="${nowPage == 1 ? 'disabled' : ''}">
                             <a class="page-link"
-                               th:href="@{/com.solponge/productList(page=${nowPage - 2}, searchSelect = ${param.searchSelect}, searchValue = ${param.searchValue})}"
+                               th:href="@{/com.solponge/member/{memberNum}/jobScrap(memberNum=${session.loginMember.memberNum}, page=${nowPage - 2}, searchSelect = ${param.searchSelect}, searchValue = ${param.searchValue})}"
                                tabindex="-1"
                                th:aria-disabled="${nowPage == 1}">Previous</a>
                         </li>
@@ -237,14 +234,14 @@
                         <li class="page-item" th:each="page : ${#numbers.sequence(startPage,endPage)}"
                             th:classappend="${nowPage == page ? 'active' : ''}">
                             <a class="page-link"
-                               th:href="@{/com.solponge/productList(page = ${page - 1}, searchSelect = ${param.searchSelect}, searchValue = ${param.searchValue})}"
+                               th:href="@{/com.solponge/member/{memberNum}/jobScrap(memberNum=${session.loginMember.memberNum},page = ${page - 1}, searchSelect = ${param.searchSelect}, searchValue = ${param.searchValue})}"
                                th:text="${page}"></a>
                         </li>
                         <!-- Next button -->
                         <li class="page-item" th:classappend="${nowPage == totalPages ? 'disabled' : ''}"
                             style="margin-right: 44px">
                             <a class="page-link"
-                               th:href="@{/com.solponge/productList(page=${nowPage}, searchSelect = ${param.searchSelect}, searchValue = ${param.searchValue})}"
+                               th:href="@{/com.solponge/member/{memberNum}/jobScrap(memberNum=${session.loginMember.memberNum},page=${nowPage}, searchSelect = ${param.searchSelect}, searchValue = ${param.searchValue})}"
                                th:aria-disabled="${nowPage == totalPages}">Next</a>
                         </li>
                     </ul>

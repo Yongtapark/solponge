@@ -15,6 +15,7 @@ public interface JobInfoService {
     /*전체 페이지*/
     Page<JobInfo> findAll(Pageable pageable);
     Page<JobInfo> search(SearchCond cond, Pageable pageable);
+    Page<JobInfo> myScrapSearch(Long memberNum,SearchCond cond,Pageable pageable);
     /*마이페이지 스크랩*/
     Page<JobInfo> myPageScrapJobInfo(Long memberNum, Pageable pageable);
     Page<JobInfo> myPageScrapCompany(Long memberNum, Pageable pageable);

@@ -84,27 +84,53 @@ public class JobInfoQueryRepository {
      * infoScrap
      */
 
+
     /*마이페이지 scrapInfo*/
-    public List<JobInfo> myScrapJobInfo(Long memberNum){
-        List<String> scrap = query.select(infoScrap.infoName)
+    public List<JobInfo> myScrapJobInfo(Long memberNum) {
+        List<Long> scrapJobInfoNums = query.select(infoScrap.jobInfoNum)
                 .from(infoScrap)
                 .where(infoScrap.memberNum.eq(memberNum))
                 .fetch();
 
         List<JobInfo> scrappedJobInfo = query.selectFrom(jobInfo)
-                .innerJoin(infoScrap)
-                .on(jobInfo.jobInfoNum.eq(infoScrap.jobInfoNum))
-                .where(jobInfo.jobInfoPostingName.in(scrap))
+                .where(jobInfo.jobInfoNum.in(scrapJobInfoNums))
                 .fetch();
         return scrappedJobInfo;
     }
+
     /*마이페이지 scrapInfo 페이징*/
     public Page<JobInfo> myScrapjobInfoPage(Long memberNum, Pageable pageable){
         List<JobInfo> jobInfos = myScrapJobInfo(memberNum);
         List<JobInfo> paginatedJobInfos = paginateJobInfos(jobInfos, pageable);
         return new PageImpl<>(paginatedJobInfos, pageable, jobInfos.size());
-
     }
+
+    /**
+     * 나의 공고 검색
+     */
+
+
+    private List<JobInfo> myScrapJobInfoSearch(Long memberNum, SearchCond cond){
+        List<Long> scrapJobInfoNums = query.select(infoScrap.jobInfoNum)
+                .from(infoScrap)
+                .where(infoScrap.memberNum.eq(memberNum))
+                .fetch();
+
+
+        List<JobInfo> scrappedJobInfo = query.selectFrom(jobInfo)
+                .where(jobInfo.jobInfoNum.in(scrapJobInfoNums))
+                .where(searchBySelect(cond.getSearchSelect(), cond.getSearchValue()))
+                .fetch();
+        return scrappedJobInfo;
+    }
+
+    public Page<JobInfo> myScrapSearch(Long memberNum,SearchCond cond, Pageable pageable) {
+        List<JobInfo> searchJobInfos = myScrapJobInfoSearch(memberNum,cond);
+        List<JobInfo> paginateJobInfos = paginateJobInfos(searchJobInfos, pageable);
+        return new PageImpl<>(paginateJobInfos, pageable, searchJobInfos.size());
+    }
+
+
 
     /**
      * companyScrap
