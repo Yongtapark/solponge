@@ -4,8 +4,9 @@
 }
 .flex-container {
     margin-left: 10px;
-    display: flex;
 }
+
+
 .flex-item {
     width: 260px;
     height: 100px;
