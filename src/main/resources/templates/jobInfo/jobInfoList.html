@@ -6,8 +6,8 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/memberScrap.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/mypageForm.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/scrapIco.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script language="JavaScript">
-
         function submitForm(clicked_id) {
             var buttonElement = document.getElementById(clicked_id);
             var usercheck = {/*[[${loginMember != null ? loginMember.memberNum : ''}]]*/};
@@ -15,18 +15,20 @@
                 memberNum:"[[${loginMember != null ? loginMember.memberNum : ''}]]",
                 companyName:clicked_id
             }
-
+            console.log(companyScrap);
             if (!buttonElement.classList.contains('red')) {
                 buttonElement.classList.add('red');
                 if (usercheck.length !== null) {
+                    console.log("is stringify?")
                     let scrapCompany = JSON.stringify(companyScrap);
+                    console.log("stringify")
                     $.ajax({
                         type: "POST"
                         , url: "/scrap/company"
                         , contentType: "application/json"
                         , data: scrapCompany
                         , success: function() {
-
+                            console.log("success?")
                         }
                         , error: function() {
                             alert('찜 등록에 실패했습니다. 관리자에게 문의해주세요.');
@@ -34,7 +36,7 @@
                     });
                 } else {
                     alert('찜 등록에 실패했습니다. 로그인을 해주세요');
-                    location.href = "/login";
+                    location.href = "/com.solponge/login";
                 }
             } else {
                 buttonElement.classList.remove('red');

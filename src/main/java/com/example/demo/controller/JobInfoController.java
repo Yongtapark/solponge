@@ -17,7 +17,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -39,6 +41,7 @@ public class JobInfoController {
                               String searchSelect, String searchValue){
 
         Member loginMember = getLoginMember(request);
+        model.addAttribute("loginMember",loginMember);
 
         Page<JobInfo> paginatedJobInfoList = null;
         if ((searchSelect==null||searchSelect=="")&&(searchValue==null||searchValue=="")){
@@ -49,16 +52,7 @@ public class JobInfoController {
         }
 
         //회원의 스크랩된 정보
-        if(loginMember!=null){
-            List<InfoScrap> infoScraps = jobScrapService.infoScrapList(loginMember.getMemberNum());
-            List<CompanyScrap> companyScraps = jobScrapService.companyScrapList(loginMember.getMemberNum());
-            //이름들만 리스트로 저장
-            List<String> infoNames = infoScraps.stream().map(InfoScrap::getInfoName).collect(Collectors.toList());
-            List<String> companyNames = companyScraps.stream().map(CompanyScrap::getCompanyName).collect(Collectors.toList());
-
-            model.addAttribute("infoNames", infoNames);
-            model.addAttribute("companyNames", companyNames);
-        }
+        memberScrapped(model, loginMember);
 
 
         int nowPage= paginatedJobInfoList.getPageable().getPageNumber()+1 ;
@@ -80,9 +74,37 @@ public class JobInfoController {
         return "jobInfo/jobInfoList";
     }
 
+    @GetMapping("/jobInfo/{jobInfoNum}")
+    public String jobinfopage(HttpServletRequest request,
+                              @PathVariable Long jobInfoNum,
+                              Model model){
+        Member loginMember = getLoginMember(request);
+        JobInfo jobInfo = jobInfoService.getJobInfo(jobInfoNum);
+
+        model.addAttribute("member",loginMember);
+        model.addAttribute("jobInfo", jobInfo);
+        memberScrapped(model, loginMember);
+
+
+        return "jobInfo/jobInfoPage";
+    }
+
     private Member getLoginMember(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         return session != null ? (Member) session.getAttribute(SessionConst.LOGIN_MEMBER) : null;
+    }
+
+    private void memberScrapped(Model model, Member loginMember) {
+        if(loginMember !=null){
+            List<InfoScrap> infoScraps = jobScrapService.infoScrapList(loginMember.getMemberNum());
+            List<CompanyScrap> companyScraps = jobScrapService.companyScrapList(loginMember.getMemberNum());
+            //이름들만 리스트로 저장
+            List<String> infoNames = infoScraps.stream().map(InfoScrap::getInfoName).collect(Collectors.toList());
+            List<String> companyNames = companyScraps.stream().map(CompanyScrap::getCompanyName).collect(Collectors.toList());
+
+            model.addAttribute("infoNames", infoNames);
+            model.addAttribute("companyNames", companyNames);
+        }
     }
 
 

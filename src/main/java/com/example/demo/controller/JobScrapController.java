@@ -30,7 +30,8 @@ public class JobScrapController {
     /*회사 스크랩*/
     @PostMapping("/scrap/company")
     public ResponseEntity<CompanyScrap> scrapCompanyInsert(@RequestBody CompanyScrap companyScrap) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(jobScrapService.insertJobScrapCompany(companyScrap));
+        ResponseEntity<CompanyScrap> body = ResponseEntity.status(HttpStatus.CREATED).body(jobScrapService.insertJobScrapCompany(companyScrap));
+        return body;
     }
     /*회사 스크랩 제거*/
     @DeleteMapping("/scrap/company/delete")
