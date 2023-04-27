@@ -6,56 +6,93 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/memberScrap.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/mypageForm.css}">
-
-
     <script>
-        const items = document.querySelectorAll('.company');
-        const itemCount = items.length - 1;
-        console.log(itemCount);
-        let curPos = 0;
-        let position = 0;
-        const IMAGE_WIDTH = 1090;
-
-        // 요소 선택
-        const prevBtn = document.querySelector('.prev');
-        const nextBtn = document.querySelector('.next');
-        const companies = document.querySelector('.companies');
-
-        function prev() {
-            if (curPos > 0) {
-                nextBtn.removeAttribute('disabled');
-                position += IMAGE_WIDTH;
-
-                companies.style.transform = 'translateX(' + position + 'px)';
-                curPos -= 1;
+        function submitForm(clicked_id) {
+            var buttonElement = document.getElementById(clicked_id);
+            var usercheck = {/*[[${session.loginMember != null ? session.loginMember.memberNum : ''}]]*/};
+            var companyScrap={
+                memberNum:"[[${session.loginMember != null ? session.loginMember.memberNum : ''}]]",
+                companyName:clicked_id
             }
-            if (curPos === 0) {
-                prevBtn.setAttribute('disabled', 'true');
+            console.log(companyScrap)
+                if (usercheck.length !== 0) {
+                    let scrapCompany = JSON.stringify(companyScrap);
+                    $.ajax({
+                        type: "DELETE"
+                        , url: "/scrap/company/delete"
+                        , contentType: "application/json"
+                        , data: scrapCompany
+                        , success: function() {
+                            //location.reload()
+                            let companyItem = buttonElement.closest('.color-gray');
+                            companyItem.innerHTML = `
+                <div class="item_container">
+                    <div style="top: 32px; position:relative; text-align: center">solponge</div>
+                </div>`;
+                        }
+                        , error: function() {
+                            alert('찜 삭제 실패했습니다. 관리자에게 문의해주세요.');
+                        }
+                    });
+                }
+        }
+        function submitForm2(clicked_id) {
+            var buttonElement = document.getElementById(clicked_id);
+            var jobInfoNum = buttonElement.value;
+            console.log("clicked_id",clicked_id)
+            var usercheck = "[[${session.loginMember != null ? session.loginMember.memberNum : ''}]]";
+            var infoScrap={
+                memberNum:"[[${session.loginMember != null ? session.loginMember.memberNum : ''}]]",
+                infoName:clicked_id,
+                jobInfoNum:jobInfoNum
+            }
+            console.log("buttonElement",buttonElement)
+            console.log("jobInfoNum",jobInfoNum)
+            console.log("infoScrap",infoScrap)
+
+            if (!buttonElement.classList.contains('yellow')) {
+                buttonElement.classList.add('yellow');
+                if (usercheck.length !== 0) {
+                    let scrapInfo = JSON.stringify(infoScrap);
+                    $.ajax({
+                        type: "POST"
+                        , url: "/scrap/job"
+                        , contentType: "application/json"
+                        , data: scrapInfo
+                        , success: function() {
+
+                        }
+                        , error: function() {
+                            alert('찜 등록에 실패했습니다. 관리자에게 문의해주세요.');
+                            console.log(clicked_id)
+                            console.log(jobInfoNum)
+                            console.log("infoScrap",infoScrap)
+                        }
+                    });
+                } else {
+                    alert('찜 등록에 실패했습니다.');
+                    location.href = "/login";
+                }
+            } else {
+                buttonElement.classList.remove('yellow');
+                if (usercheck.length !== 0) {
+                    let scrapInfo = JSON.stringify(infoScrap);
+                    $.ajax({
+                        type: "DELETE"
+                        , url: "/scrap/job/delete"
+                        , contentType: "application/json"
+                        , data: scrapInfo
+                        , success: function() {
+
+                        }
+                        , error: function() {
+                            alert('찜 삭제 실패했습니다. 관리자에게 문의해주세요.');
+                        }
+                    });
+                }
             }
         }
 
-        function next() {
-            if (curPos < itemCount) {
-                prevBtn.removeAttribute('disabled');
-                position -= IMAGE_WIDTH;
-                companies.style.transform = 'translateX(' + position + 'px)';
-                curPos += 1;
-            }
-            if (curPos === itemCount) {
-                nextBtn.setAttribute('disabled', 'true');
-            }
-        }
-
-        function init() {
-            prevBtn.setAttribute('disabled', 'true');
-            prevBtn.addEventListener('click', prev);
-            nextBtn.addEventListener('click', next);
-        }
-
-        init();
-
-        const myButton = document.getElementsByClassName("delete_bt");
-        myButton.addEventListener("click", postData);
     </script>
 </head>
 <body>
@@ -87,7 +124,7 @@
 
                         <div th:each="company : ${recentCompanyAnnouncement}">
                             <div class="flex-item color-gray" style="float: left;" th:if="${company.getKey()}!=null">
-                                <input type="hidden" name="company_name" th:id="'companyName_' + ${company}"
+                                <input type="hidden" name="company_name" th:id="${company.getValue().jobInfoNum}"
                                        th:value="${company.getValue().jobInfoCompanyName}">
                                 <div th:unless="${#strings.isEmpty(company)}" class="item_container">
                                     <div class="logo"
@@ -101,7 +138,7 @@
                                         <span style="font-size: 12px;"
                                               th:text="'채용중 ' + ${announcement.get(company.getKey())} + ' 건'"></span>
                                     </div>
-                                    <button class="delete_bt" type="button" style="float: right;" th:id="${company}"
+                                    <button class="delete_bt" type="button" style="float: right;" th:id="${company.getValue().jobInfoCompanyName}"
                                             onclick="submitForm(this.id)">x
                                     </button>
                                     <div class="jobinfo"
@@ -116,13 +153,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div th:each="i : ${#numbers.sequence(0, 7 - recentCompanyAnnouncement.size())}">                            <div class="flex-item color-gray" style="float: left;">
+                        <div th:each="i : ${#numbers.sequence(0, 7 - recentCompanyAnnouncement.size())}">
+                            <div th:classappend="${recentCompanyAnnouncement == null ? 'color-gray' : ''}" class="flex-item" style="float: left;">
                                 <div class="item_container">
                                     <div style="top: 32px; position:relative; text-align: center">solponge</div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -174,24 +211,24 @@
                         <td>마감일</td>
                     </tr>
                     <tr th:each="NewJopInfo, status : ${jobInfoScrap}">
-                        <input type="hidden" th:id="'infoname_' + ${NewJopInfo.jobInfoNum}"
+                        <input type="hidden" th:id="${NewJopInfo.jobInfoNum}"
                                th:value="${NewJopInfo.jobInfoPostingName}"/>
-                        <input type="hidden" th:id="'companyName_' + ${NewJopInfo.jobInfoNum}"
+                        <input type="hidden" th:id="${NewJopInfo.jobInfoNum}"
                                th:value="${NewJopInfo.jobInfoCompanyName}"/>
                         <td th:id="Newjob8td" class="infonum" style="height: 54px">
                             <div class="url"
                                  th:onclick="'system.location.href =\'/com.solponge/jobinfolist/' + ${NewJopInfo.jobInfoNum} + '\''"
                                  th:text="${NewJopInfo.jobInfoCompanyName}"></div>
                         </td>
-                        <td th:style="'height: 54px'" th:with="infoname='response_' + ${NewJopInfo.jobInfoPostingName}">
+                        <td th:style="'height: 54px'" th:with="infoname=${NewJopInfo.jobInfoPostingName}">
                             <div th:if="${jobInfoScrap.content}" class="url"
                                  th:onclick="'system.location.href =\'/com.solponge/jobinfo/' + ${NewJopInfo.jobInfoNum} + '\''"
                                  th:text="${NewJopInfo.jobInfoPostingName}">
                             </div>
                             <button th:if="${jobInfoScrap.content}" class="star yellow"
-                                    th:id="${NewJopInfo.jobInfoNum} + '_star'" type="button"
+                                    th:id="${NewJopInfo.jobInfoCompanyName}" type="button"
                                     onclick="submitForm2(this.id)"
-                                    value="Clicked">&#10029;
+                                    th:value="${NewJopInfo.jobInfoNum}">&#10029;
                             </button>
                             <br>
                             <span th:if="${jobInfoScrap.content}" style="font-size: 10px"
@@ -202,9 +239,9 @@
                                  th:text="${NewJopInfo.jobInfoPostingName}">
                             </div>
                             <button th:unless="${jobInfoScrap.content}" class="star"
-                                    th:id="${NewJopInfo.jobInfoNum} + '_star'" type="button"
+                                    th:id="${NewJopInfo.jobInfoPostingName}" type="button"
                                     onclick="submitForm2(this.id)"
-                                    value="Click">&#10029;
+                                    th:value="${NewJopInfo.jobInfoNum}">&#10029;
                             </button>
                             <br>
                             <span th:unless="${jobInfoScrap.content}" style="font-size: 10px"
