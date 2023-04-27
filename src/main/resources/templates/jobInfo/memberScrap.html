@@ -25,10 +25,11 @@
                         , success: function() {
                             //location.reload()
                             let companyItem = buttonElement.closest('.color-gray');
-                            companyItem.innerHTML = `
+                            companyItem.remove();
+                            /*companyItem.innerHTML = `
                 <div class="item_container">
                     <div style="top: 32px; position:relative; text-align: center">solponge</div>
-                </div>`;
+                </div>`;*/
                         }
                         , error: function() {
                             alert('찜 삭제 실패했습니다. 관리자에게 문의해주세요.');
@@ -123,7 +124,7 @@
                     <div class="company flex-container">
 
                         <div th:each="company : ${recentCompanyAnnouncement}">
-                            <div class="flex-item color-gray" style="float: left;" th:if="${company.getKey()}!=null">
+                            <div class="flex-item color-gray" style="float: left;" th:classappend="${recentCompanyAnnouncement != null ? 'flext-item color-gray' : ''}">
                                 <input type="hidden" name="company_name" th:id="${company.getValue().jobInfoNum}"
                                        th:value="${company.getValue().jobInfoCompanyName}">
                                 <div th:unless="${#strings.isEmpty(company)}" class="item_container">
@@ -153,12 +154,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div th:each="i : ${#numbers.sequence(0, 7 - recentCompanyAnnouncement.size())}">
-                            <div th:classappend="${recentCompanyAnnouncement == null ? 'color-gray' : ''}" class="flex-item" style="float: left;">
-                                <div class="item_container">
-                                    <div style="top: 32px; position:relative; text-align: center">solponge</div>
-                                </div>
+                        <div th:each="i : ${#numbers.sequence(0, 8)}">
+                        <div th:classappend="${recentCompanyAnnouncement == null ? 'color-gray' : ''}" class="flex-item" style="float: left;">
+                            <div class="item_container">
+                                <div style="top: 32px; position:relative; text-align: center">solponge</div>
                             </div>
+                        </div>
                         </div>
                     </div>
                 </div>
