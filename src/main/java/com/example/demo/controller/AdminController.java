@@ -43,7 +43,7 @@ public class AdminController {
                                HttpServletRequest request){
         getLoginMember(request);
         Page<Member> paginatedMember = null;
-        if(searchSelect==null && searchValue==null){
+        if ((searchSelect==null||searchSelect=="")&&(searchValue==null||searchValue=="")){
             paginatedMember =memberService.findAll(pageable);
         }else {
             SearchCond cond = new SearchCond(searchSelect, searchValue);
@@ -106,7 +106,7 @@ public class AdminController {
                         String searchSelect, String searchValue) {
         getLoginMember(request);
         Page<Payment> paginatedPayment = null;
-        if(searchSelect==null && searchValue==null){
+        if ((searchSelect==null||searchSelect=="")&&(searchValue==null||searchValue=="")){
             paginatedPayment =paymentService.findAll(pageable);
         }else {
             SearchCond cond = new SearchCond(searchSelect, searchValue);
@@ -149,7 +149,7 @@ public class AdminController {
                           String searchSelect, String searchValue) {
         getLoginMember(request);
         Page<Product> paginatedProduct = null;
-        if(searchSelect==null && searchValue==null){
+        if ((searchSelect==null||searchSelect=="")&&(searchValue==null||searchValue=="")){
             paginatedProduct =productService.findAll(pageable);
         }else {
             SearchCond cond = new SearchCond(searchSelect, searchValue);

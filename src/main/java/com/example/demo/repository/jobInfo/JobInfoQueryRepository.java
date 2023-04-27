@@ -6,6 +6,7 @@ import com.example.demo.repository.infoScrap.InfoScrapRepository;
 import com.example.demo.utils.SearchCond;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -38,6 +39,7 @@ public class JobInfoQueryRepository {
         this.companyScrapRepository = companyScrapRepository;
     }
 
+
     private List<JobInfo> paginateJobInfos(List<JobInfo> jobInfos, Pageable pageable){
         int start = (int)pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), jobInfos.size());
@@ -49,10 +51,7 @@ public class JobInfoQueryRepository {
                 .fetch();
     }
 
-    private List<JobInfo> jobInfoList(){
-        return query.selectFrom(jobInfo)
-                .fetch();
-    }
+
 
 
     public Page<JobInfo> search(SearchCond cond, Pageable pageable) {
@@ -61,26 +60,8 @@ public class JobInfoQueryRepository {
         return new PageImpl<>(paginateJobInfos, pageable, searchJobInfos.size());
     }
 
-    //**********************
-    private List<JobInfo> jobInfoList2(Pageable pageable) {
-        return query.selectFrom(jobInfo)
-                .offset(pageable.getOffset())
-                .limit(10)
-                .fetch();
-    }
 
-    public Page<JobInfo> jobInfos2(Pageable pageable) {
-        List<JobInfo> jobInfoList = jobInfoList2(pageable);
-        long total = query.selectFrom(jobInfo).fetchCount();
-        return new PageImpl<>(jobInfoList, pageable, total);
-    }
-    //************************
 
-    public Page<JobInfo> jobInfos(Pageable pageable) {
-        List<JobInfo> jobInfoList = jobInfoList();
-        List<JobInfo> paginateJobInfos = paginateJobInfos(jobInfoList, pageable);
-        return new PageImpl<>(paginateJobInfos, pageable, jobInfoList.size());
-    }
 
 
     private BooleanExpression searchBySelect(String searchSelect, String searchValue){

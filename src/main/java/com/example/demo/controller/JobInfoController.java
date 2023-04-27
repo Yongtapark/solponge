@@ -41,7 +41,7 @@ public class JobInfoController {
         Member loginMember = getLoginMember(request);
 
         Page<JobInfo> paginatedJobInfoList = null;
-        if (searchSelect==null && searchValue==null){
+        if ((searchSelect==null||searchSelect=="")&&(searchValue==null||searchValue=="")){
             paginatedJobInfoList = jobInfoService.findAllPage(pageable);
         }else {
             SearchCond cond = new SearchCond(searchSelect, searchValue);

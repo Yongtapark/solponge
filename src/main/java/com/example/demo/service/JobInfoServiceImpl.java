@@ -42,7 +42,7 @@ public class JobInfoServiceImpl implements JobInfoService {
 
     @Override
     public Page<JobInfo> findAllPage(Pageable pageable) {
-        return jobInfoQueryRepository.jobInfos(pageable);
+        return jobInfoRepository.findAll(pageable);
     }
 
     @Override

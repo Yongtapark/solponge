@@ -110,13 +110,10 @@ public class MemberController {
         Member loginMember = getLoginMember(request);
         model.addAttribute("member", loginMember);
         Page<JobInfo> paginatedJobInfo =null;
-        if (searchSelect==null && searchValue==null){
-            log.info("===검색어 없음===");
+        if ((searchSelect==null||searchSelect=="")&&(searchValue==null||searchValue=="")){
             paginatedJobInfo = jobInfoService.myPageScrapJobInfo(loginMember.getMemberNum(), pageable);
         }else {
-            log.info("===검색어 있음===");
             SearchCond cond = new SearchCond(searchSelect, searchValue);
-            log.info("cond={}",cond);
             paginatedJobInfo = jobInfoService.myScrapSearch(loginMember.getMemberNum(), cond, pageable);
             log.info("mySearch={}",paginatedJobInfo.getContent().stream().map(JobInfo::getJobInfoPostingName).collect(Collectors.toList()));
         }

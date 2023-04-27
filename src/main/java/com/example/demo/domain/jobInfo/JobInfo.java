@@ -1,9 +1,6 @@
 package com.example.demo.domain.jobInfo;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,4 +24,13 @@ public class JobInfo {
     private String jobInfoDeadline;
     private String jobInfoPageCode;
     private String jobInfoLink;
+
+    public JobInfo(Long jobInfoNum, String jobInfoCompanyName, String jobInfoPostingName, String jobInfoQualification, String jobInfoWorkType, String jobInfoDeadline) {
+        this.jobInfoNum = jobInfoNum;
+        this.jobInfoCompanyName = jobInfoCompanyName;
+        this.jobInfoPostingName = jobInfoPostingName;
+        this.jobInfoQualification = jobInfoQualification;
+        this.jobInfoWorkType = jobInfoWorkType;
+        this.jobInfoDeadline = jobInfoDeadline;
+    }
 }

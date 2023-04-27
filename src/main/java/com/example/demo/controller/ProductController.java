@@ -32,15 +32,11 @@ public class ProductController {
                               @PageableDefault(page = 0, size = 20, sort ="productNum",direction = Sort.Direction.ASC) Pageable pageable,
                               String searchSelect, String searchValue) {
         Page<Product> paginatedProducts = null;
-        if (searchSelect==null && searchValue==null){
-            log.info("===검색어 없음===");
+        if ((searchSelect==null||searchSelect=="")&&(searchValue==null||searchValue=="")){
             paginatedProducts = productService.findAll(pageable);
         }else {
-            log.info("===검색어 있음===");
             SearchCond cond = new SearchCond(searchSelect, searchValue);
-            log.info("cond={}",cond);
             paginatedProducts = productService.search(cond, pageable);
-            //paginatedProducts = productService.productSearchList(searchKeyword,pageable);
         }
 
         int nowPage= paginatedProducts.getPageable().getPageNumber()+1 ;
