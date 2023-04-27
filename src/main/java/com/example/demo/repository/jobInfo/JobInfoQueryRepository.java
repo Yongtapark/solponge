@@ -4,6 +4,7 @@ import com.example.demo.domain.jobInfo.JobInfo;
 import com.example.demo.repository.companyScrap.CompanyScrapRepository;
 import com.example.demo.repository.infoScrap.InfoScrapRepository;
 import com.example.demo.utils.SearchCond;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
@@ -48,11 +49,37 @@ public class JobInfoQueryRepository {
                 .fetch();
     }
 
+    private List<JobInfo> jobInfoList(){
+        return query.selectFrom(jobInfo)
+                .fetch();
+    }
+
 
     public Page<JobInfo> search(SearchCond cond, Pageable pageable) {
         List<JobInfo> searchJobInfos = searchJobInfos(cond);
         List<JobInfo> paginateJobInfos = paginateJobInfos(searchJobInfos, pageable);
-        return new PageImpl<>(paginateJobInfos, pageable, paginateJobInfos.size());
+        return new PageImpl<>(paginateJobInfos, pageable, searchJobInfos.size());
+    }
+
+    //**********************
+    private List<JobInfo> jobInfoList2(Pageable pageable) {
+        return query.selectFrom(jobInfo)
+                .offset(pageable.getOffset())
+                .limit(10)
+                .fetch();
+    }
+
+    public Page<JobInfo> jobInfos2(Pageable pageable) {
+        List<JobInfo> jobInfoList = jobInfoList2(pageable);
+        long total = query.selectFrom(jobInfo).fetchCount();
+        return new PageImpl<>(jobInfoList, pageable, total);
+    }
+    //************************
+
+    public Page<JobInfo> jobInfos(Pageable pageable) {
+        List<JobInfo> jobInfoList = jobInfoList();
+        List<JobInfo> paginateJobInfos = paginateJobInfos(jobInfoList, pageable);
+        return new PageImpl<>(paginateJobInfos, pageable, jobInfoList.size());
     }
 
 
@@ -176,18 +203,6 @@ public class JobInfoQueryRepository {
     public Map<String, Long> MyScrapCompanyAnnouncement(Long memberNum) {
         List<JobInfo> scrappedJobInfos = myScrapCompany(memberNum);
 
-        /*Map<String, Long> jobInfoCounts = new HashMap<>();
-
-        for (JobInfo jobInfo : scrappedJobInfos) {
-            String companyName = jobInfo.getJobInfoCompanyName();
-            if (jobInfoCounts.containsKey(companyName)) {
-                jobInfoCounts.put(companyName, jobInfoCounts.get(companyName) + 1);
-            } else {
-                jobInfoCounts.put(companyName, 1L);
-            }
-        }*/
-
-
         // 스크랩한 회사의 공고 목록을 스트림으로 처리하여 회사별 공고 개수를 계산하고, Map에 저장
         Map<String, Long> jobInfoCounts = scrappedJobInfos.stream()
                 .collect(Collectors.groupingBy(JobInfo::getJobInfoCompanyName, Collectors.counting()));
@@ -205,15 +220,6 @@ public class JobInfoQueryRepository {
                 .limit(8)
                 .fetch();
 
-    }
-    public List<JobInfo> getCompanyToJobInfoList(){
-        return null;
-    }
-    public List<JobInfo> getCompanyInScrapList(){
-        return null;
-    }
-    public List<JobInfo> getInfoInScrapList(){
-        return null;
     }
 
 

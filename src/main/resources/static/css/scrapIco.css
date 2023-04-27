@@ -1,0 +1,38 @@
+.url{
+    float: left;
+}
+.url:hover {
+    cursor: pointer;
+}
+.heart {
+    width: 25px;
+    font-size: 15px;
+    color: gray;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+}
+
+.heart.red {
+    width: 25px;
+    font-size: 15px;
+    color: red;
+    background-color: transparent;
+    border: none;
+}
+.star {
+    width: 25px;
+    font-size: 15px;
+    color: gray;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+}
+
+.star.yellow {
+    width: 25px;
+    font-size: 15px;
+    color: sandybrown;
+    background-color: transparent;
+    border: none;
+}

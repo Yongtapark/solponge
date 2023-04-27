@@ -13,7 +13,7 @@ public interface JobInfoService {
 
     List<JobInfo> getJobInfoNewTop8List();
     /*전체 페이지*/
-    Page<JobInfo> findAll(Pageable pageable);
+    Page<JobInfo> findAllPage(Pageable pageable);
     Page<JobInfo> search(SearchCond cond, Pageable pageable);
     Page<JobInfo> myScrapSearch(Long memberNum,SearchCond cond,Pageable pageable);
     /*마이페이지 스크랩*/

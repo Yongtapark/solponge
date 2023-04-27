@@ -101,7 +101,6 @@
   <div id="row2">
     <form th:action="@{/com.solponge/productList}" accept-charset="utf-8" method="get">
       <h3 id="newbook">
-        <span th:text="${paginatedProducts != null ? '검색된 책' : '새로나온책'}"></span>
         <select name="searchSelect">
           <option value="all">전체</option>
           <option value="productTitle">도서명</option>

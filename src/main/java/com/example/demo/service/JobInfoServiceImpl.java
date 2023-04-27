@@ -41,8 +41,8 @@ public class JobInfoServiceImpl implements JobInfoService {
 
 
     @Override
-    public Page<JobInfo> findAll(Pageable pageable) {
-        return jobInfoRepository.findAll(pageable);
+    public Page<JobInfo> findAllPage(Pageable pageable) {
+        return jobInfoQueryRepository.jobInfos(pageable);
     }
 
     @Override

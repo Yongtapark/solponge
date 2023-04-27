@@ -1,14 +1,15 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.companyScrap.CompanyScrap;
+import com.example.demo.domain.infoScrap.InfoScrap;
 import com.example.demo.domain.jobInfo.JobInfo;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.login.session.SessionConst;
-import com.example.demo.domain.product.Product;
 import com.example.demo.service.interfaces.JobInfoService;
+import com.example.demo.service.interfaces.JobScrapService;
 import com.example.demo.utils.SearchCond;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.flyway.FlywayDataSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,10 +18,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/com.solponge")
@@ -28,25 +30,34 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 public class JobInfoController {
     private final JobInfoService jobInfoService;
+    private final JobScrapService jobScrapService;
 
-    @GetMapping("/jobInfo")
-    public String jobinfolist(Model model,
+    @GetMapping({"/jobInfo"})
+    public String jobInfoList(Model model,
                               HttpServletRequest request,
                               @PageableDefault(page = 0, size = 10, sort ="jobInfoNum",direction = Sort.Direction.DESC) Pageable pageable,
                               String searchSelect, String searchValue){
+
         Member loginMember = getLoginMember(request);
-        model.addAttribute("member",loginMember);
 
         Page<JobInfo> paginatedJobInfoList = null;
         if (searchSelect==null && searchValue==null){
-            log.info("paginatedJobInfoList진입==================");
-            paginatedJobInfoList = jobInfoService.findAll(pageable);
-            log.info("paginatedJobInfoList={}",paginatedJobInfoList);
+            paginatedJobInfoList = jobInfoService.findAllPage(pageable);
         }else {
-            log.info("===검색어 있음===");
             SearchCond cond = new SearchCond(searchSelect, searchValue);
-            log.info("cond={}",cond);
             paginatedJobInfoList = jobInfoService.search(cond, pageable);
+        }
+
+        //회원의 스크랩된 정보
+        if(loginMember!=null){
+            List<InfoScrap> infoScraps = jobScrapService.infoScrapList(loginMember.getMemberNum());
+            List<CompanyScrap> companyScraps = jobScrapService.companyScrapList(loginMember.getMemberNum());
+            //이름들만 리스트로 저장
+            List<String> infoNames = infoScraps.stream().map(InfoScrap::getInfoName).collect(Collectors.toList());
+            List<String> companyNames = companyScraps.stream().map(CompanyScrap::getCompanyName).collect(Collectors.toList());
+
+            model.addAttribute("infoNames", infoNames);
+            model.addAttribute("companyNames", companyNames);
         }
 
 
