@@ -1,10 +1,7 @@
-package com.example.demo.controller;
+package com.example.demo.api;
 
 import com.example.demo.domain.companyScrap.CompanyScrap;
 import com.example.demo.domain.infoScrap.InfoScrap;
-import com.example.demo.domain.member.Member;
-import com.example.demo.domain.member.login.session.SessionConst;
-import com.example.demo.service.interfaces.JobInfoService;
 import com.example.demo.service.interfaces.JobScrapService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-public class JobScrapController {
+public class JobScrapApiController {
     private final JobScrapService jobScrapService;
 
     /**
@@ -56,7 +53,7 @@ public class JobScrapController {
     /*공고 삭제*/
     @DeleteMapping("/scrap/job/delete")
     public ResponseEntity<Void> scrapJobDelete(@RequestBody InfoScrap infoScrap) {
-        jobScrapService.deleteJobScrapInfoScrap(infoScrap.getMemberNum(), infoScrap.getInfoName());
+        jobScrapService.deleteJobScrapInfoScrap(infoScrap.getMemberNum(), infoScrap.getJobInfoNum());
         return ResponseEntity.noContent().build();
     }
 

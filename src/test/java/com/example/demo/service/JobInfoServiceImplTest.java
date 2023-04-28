@@ -29,7 +29,13 @@ class JobInfoServiceImplTest {
     @Test
     void findAll() {
         Pageable pageable = PageRequest.of(0, 10);
-        jobInfoService.findAll(pageable);
+        jobInfoService.findAllPage(pageable);
+    }
+
+    @Test
+    void getJobInfo(){
+        JobInfo jobInfo = jobInfoService.getJobInfo(24450L);
+        log.info("jobInfo={}",jobInfo);
     }
 
     @Test

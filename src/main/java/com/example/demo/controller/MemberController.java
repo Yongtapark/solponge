@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.companyScrap.CompanyScrap;
+import com.example.demo.domain.infoScrap.InfoScrap;
 import com.example.demo.domain.jobInfo.JobInfo;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.MemberJoinForm;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -115,10 +118,11 @@ public class MemberController {
         }else {
             SearchCond cond = new SearchCond(searchSelect, searchValue);
             paginatedJobInfo = jobInfoService.myScrapSearch(loginMember.getMemberNum(), cond, pageable);
-            log.info("mySearch={}",paginatedJobInfo.getContent().stream().map(JobInfo::getJobInfoPostingName).collect(Collectors.toList()));
         }
         Map<String, Long> announcement = jobInfoService.myScrapCompanyAnnouncements(loginMember.getMemberNum());
         Map<String, JobInfo> recentCompanyAnnouncement = jobInfoService.recentCompanyAnnouncement(loginMember.getMemberNum());
+
+        memberScrapped(model,loginMember);
 
         model.addAttribute("jobInfoScrap",paginatedJobInfo);
         model.addAttribute("announcement",announcement);
@@ -170,6 +174,19 @@ public class MemberController {
     private Member getLoginMember(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         return session != null ? (Member) session.getAttribute(SessionConst.LOGIN_MEMBER) : null;
+    }
+    /*마이스크랩 */
+    private void memberScrapped(Model model, Member loginMember) {
+        if(loginMember !=null){
+            List<InfoScrap> infoScraps = jobScrapService.infoScrapList(loginMember.getMemberNum());
+            List<CompanyScrap> companyScraps = jobScrapService.companyScrapList(loginMember.getMemberNum());
+            //이름들만 리스트로 저장
+            List<String> infoNames = infoScraps.stream().map(InfoScrap::getInfoName).collect(Collectors.toList());
+            List<String> companyNames = companyScraps.stream().map(CompanyScrap::getCompanyName).collect(Collectors.toList());
+
+            model.addAttribute("infoNames", infoNames);
+            model.addAttribute("companyNames", companyNames);
+        }
     }
 }
 

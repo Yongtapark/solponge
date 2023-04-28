@@ -80,8 +80,11 @@ public class JobInfoController {
                               Model model){
         Member loginMember = getLoginMember(request);
         JobInfo jobInfo = jobInfoService.getJobInfo(jobInfoNum);
+        log.info("jobInfo={}",jobInfo);
 
-        model.addAttribute("member",loginMember);
+        memberScrapped(model, loginMember);
+
+        model.addAttribute("loginMember",loginMember);
         model.addAttribute("jobInfo", jobInfo);
         memberScrapped(model, loginMember);
 

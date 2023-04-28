@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface InfoScrapRepository extends JpaRepository<InfoScrap,Long> {
     List<InfoScrap> findAllByMemberNum(Long memberNum);
-    void deleteByMemberNumAndInfoName(Long memberNum,String infoName);
+    void deleteByMemberNumAndJobInfoNum(Long memberNum,Long jobInfoNum);
     Page<InfoScrap> findAllByMemberNum(Long memberNum, Pageable pageable);
 
 }

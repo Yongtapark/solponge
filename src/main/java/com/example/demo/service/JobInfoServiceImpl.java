@@ -30,7 +30,7 @@ public class JobInfoServiceImpl implements JobInfoService {
 
     @Override
     public JobInfo getJobInfo(Long jobInfoNum) {
-        return null;
+        return jobInfoRepository.findById(jobInfoNum).get();
     }
 
 

@@ -41,8 +41,8 @@ public class JobScrapServiceImpl implements JobScrapService {
     }
 
     @Override
-    public void deleteJobScrapInfoScrap(Long memberNum, String infoName) {
-        infoScrapRepository.deleteByMemberNumAndInfoName(memberNum,infoName);
+    public void deleteJobScrapInfoScrap(Long memberNum, Long jobInfoNum) {
+        infoScrapRepository.deleteByMemberNumAndJobInfoNum(memberNum,jobInfoNum);
     }
 
     @Override

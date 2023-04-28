@@ -13,7 +13,7 @@ public interface JobScrapService {
     CompanyScrap insertJobScrapCompany(CompanyScrap companyScrap);
     InfoScrap insertJobScrapInfoScrap(InfoScrap infoScrap);
     void deleteJobScrapCompany(Long memberNum,String companyName);
-    void deleteJobScrapInfoScrap(Long memberNum,String infoSName);
+    void deleteJobScrapInfoScrap(Long memberNum,Long jobInfoNum);
 
     List<InfoScrap> infoScrapList(Long memberNum);
     List<CompanyScrap> companyScrapList(Long memberNum);

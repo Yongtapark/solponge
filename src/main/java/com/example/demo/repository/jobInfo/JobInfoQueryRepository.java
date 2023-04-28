@@ -128,6 +128,7 @@ public class JobInfoQueryRepository {
         List<JobInfo> scrappedJobInfo = query.selectFrom(jobInfo)
                 .where(jobInfo.jobInfoNum.in(scrapJobInfoNums))
                 .where(searchBySelect(cond.getSearchSelect(), cond.getSearchValue()))
+                .orderBy(infoScrap.infoScrapNum.desc())
                 .fetch();
         return scrappedJobInfo;
     }

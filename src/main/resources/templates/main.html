@@ -244,13 +244,13 @@
             <input type="hidden" th:id="${NewJopInfo.jobInfoNum}" th:value="${NewJopInfo.jobInfoPostingName}"/>
             <input type="hidden" th:id="${NewJopInfo.jobInfoNum}" th:value="${NewJopInfo.jobInfoCompanyName}"/>
             <td th:style="'height: 54px;'">
-              <div class="url" th:attr="onclick='window.location.href =\'' + '/com.solponge/jobinfo/' + ${NewJopInfo.jobInfoCompanyName} + '\';'" th:text="${NewJopInfo.jobInfoCompanyName}"></div>
+              <div class="url" th:attr="onclick='window.location.href =\'' + '/com.solponge/jobInfo/' + ${NewJopInfo.jobInfoCompanyName} + '\';'" th:text="${NewJopInfo.jobInfoCompanyName}"></div>
               <!-- 회사 스크랩 버튼 -->
               <button class="heart" th:id="${NewJopInfo.jobInfoCompanyName}" type="button" onclick="submitForm(this.id)" value="Click"
                      th:classappend="${loginMember!=null and companyNames.contains(NewJopInfo.jobInfoCompanyName) ? 'heart red':''}">&#10084;</button>
             </td>
             <td th:style="'height: 54px;'">
-              <div class="url" th:attr="onclick='window.location.href =\'' + '/com.solponge/jobinfo/' + ${NewJopInfo.jobInfoNum} + '\';'" th:text="${NewJopInfo.jobInfoPostingName}"></div>
+              <div class="url" th:attr="onclick='window.location.href =\'' + '/com.solponge/jobInfo/' + ${NewJopInfo.jobInfoNum} + '\';'" th:text="${NewJopInfo.jobInfoPostingName}"></div>
               <!-- 정보 스크랩 버튼 -->
               <button class="star" th:id="${NewJopInfo.jobInfoPostingName}" type="button" onclick="submitForm2(this.id)" th:value="${NewJopInfo.jobInfoNum}"
                      th:classappend="${loginMember!=null and infoNames.contains(NewJopInfo.jobInfoPostingName) ? 'start yellow':''}">&#10029;</button>

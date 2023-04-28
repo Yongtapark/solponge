@@ -222,11 +222,8 @@
                                  th:onclick="'system.location.href =\'/com.solponge/jobinfo/' + ${NewJopInfo.jobInfoNum} + '\''"
                                  th:text="${NewJopInfo.jobInfoPostingName}">
                             </div>
-                            <button th:if="${jobInfoScrap.content}" class="star yellow"
-                                    th:id="${NewJopInfo.jobInfoCompanyName}" type="button"
-                                    onclick="submitForm2(this.id)"
-                                    th:value="${NewJopInfo.jobInfoNum}">&#10029;
-                            </button>
+                            <button class="star" th:id="${NewJopInfo.jobInfoPostingName}" type="button" onclick="submitForm2(this.id)" th:value="${NewJopInfo.jobInfoNum}"
+                                    th:classappend="${session.loginMember!=null and infoNames.contains(NewJopInfo.jobInfoPostingName) ? 'start yellow':''}">&#10029;</button>
                             <br>
                             <span th:if="${jobInfoScrap.content}" style="font-size: 10px"
                                   th:text="${NewJopInfo.jobInfoFieldTagList}"></span>
@@ -235,11 +232,6 @@
                                  th:onclick="'location.href =\'/com.solponge/jobinfo/' + ${NewJopInfo.jobInfoNum} + '\''"
                                  th:text="${NewJopInfo.jobInfoPostingName}">
                             </div>
-                            <button th:unless="${jobInfoScrap.content}" class="star"
-                                    th:id="${NewJopInfo.jobInfoPostingName}" type="button"
-                                    onclick="submitForm2(this.id)"
-                                    th:value="${NewJopInfo.jobInfoNum}">&#10029;
-                            </button>
                             <br>
                             <span th:unless="${jobInfoScrap.content}" style="font-size: 10px"
                                   th:text="${NewJopInfo.jobInfoFieldTagList}"></span>
