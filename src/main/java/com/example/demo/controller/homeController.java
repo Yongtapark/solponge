@@ -4,7 +4,7 @@ import com.example.demo.domain.cart.Cart;
 import com.example.demo.domain.companyScrap.CompanyScrap;
 import com.example.demo.domain.infoScrap.InfoScrap;
 import com.example.demo.domain.member.Member;
-import com.example.demo.domain.member.MemberJoinForm;
+import com.example.demo.api.dto.member.MemberCreatedRequest;
 import com.example.demo.domain.member.login.session.SessionConst;
 import com.example.demo.service.interfaces.*;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.example.demo.domain.cart.QCart.cart;
 
 @Controller
 @Slf4j
@@ -62,12 +60,12 @@ public class homeController {
     }
 
     @GetMapping("/join")
-    public String getJoin(@ModelAttribute("member") MemberJoinForm member){
+    public String getJoin(@ModelAttribute("member") MemberCreatedRequest member){
         log.info("==getJoin==");
         return "member/signup";
     }
     @PostMapping("/join")
-    public String postJoin(@Validated @ModelAttribute("member") MemberJoinForm member, BindingResult bindingResult){
+    public String postJoin(@Validated @ModelAttribute("member") MemberCreatedRequest member, BindingResult bindingResult){
         log.info("==postJoin==");
         List<Member> all = memberService.findAll();
         for (Member members : all) {
@@ -89,13 +87,15 @@ public class homeController {
         combineString(member); //문자열 합치기 주소,이메일,폰
 
 
-        Member joindMember = new Member();
-        joindMember.setMemberId(member.getMemberId());
-        joindMember.setMemberPwd(member.getMemberPwd());
-        joindMember.setMemberName(member.getMemberName());
-        joindMember.setMemberEmail(member.getMemberEmail());
-        joindMember.setMemberAddress(member.getMemberAddress());
-        joindMember.setMemberPhone(member.getMemberPhone());
+        Member joindMember = new Member(
+                member.getMemberId(),
+                member.getMemberPwd(),
+                member.getMemberName(),
+                member.getMemberEmail(),
+                member.getMemberAddress(),
+                member.getMemberPhone()
+        );
+
         Long join = memberService.join(joindMember);
         log.info("join={}",join);
         log.info("joinedMember={}",join);
@@ -111,7 +111,7 @@ public class homeController {
      */
 
     /*회원가입 시 받은 문자열 합치기*/
-    private static void combineString(MemberJoinForm member) {
+    private static void combineString(MemberCreatedRequest member) {
         String address = member.getMemberAddress1() + "/" + member.getMemberAddress2() + "/" + member.getMemberAddress3();
         member.setMemberAddress(address);
 

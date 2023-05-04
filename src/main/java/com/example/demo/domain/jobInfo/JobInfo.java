@@ -8,8 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Getter
-@Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class JobInfo {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

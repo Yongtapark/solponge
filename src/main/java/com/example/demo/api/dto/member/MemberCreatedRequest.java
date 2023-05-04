@@ -1,11 +1,11 @@
-package com.example.demo.domain.member;
+package com.example.demo.api.dto.member;
 
+import com.example.demo.domain.member.Grade;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 @Data
-
-public class MemberJoinForm {
+public class MemberCreatedRequest {
 
 
     private Long memberNum;
@@ -50,10 +50,10 @@ public class MemberJoinForm {
     @NotEmpty
     private String memberPhone3;
 
-    public MemberJoinForm() {
+    public MemberCreatedRequest() {
     }
 
-    public MemberJoinForm(String memberId, String memberPwd, String memberName, String memberAddress, String memberEmail, String memberPhone) {
+    public MemberCreatedRequest(String memberId, String memberPwd, String memberName, String memberAddress, String memberEmail, String memberPhone) {
         this.memberId = memberId;
         this.memberPwd = memberPwd;
         this.memberName = memberName;

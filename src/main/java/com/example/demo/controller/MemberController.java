@@ -4,7 +4,7 @@ import com.example.demo.domain.companyScrap.CompanyScrap;
 import com.example.demo.domain.infoScrap.InfoScrap;
 import com.example.demo.domain.jobInfo.JobInfo;
 import com.example.demo.domain.member.Member;
-import com.example.demo.domain.member.MemberJoinForm;
+import com.example.demo.api.dto.member.MemberCreatedRequest;
 import com.example.demo.domain.member.login.session.SessionConst;
 import com.example.demo.domain.payment.PaymentOrderNum;
 import com.example.demo.service.interfaces.JobInfoService;
@@ -41,7 +41,7 @@ public class MemberController {
 
     @GetMapping("/myPage")
     public String getMyPage(Model model,
-                            @ModelAttribute MemberJoinForm updateMember,
+                            @ModelAttribute MemberCreatedRequest updateMember,
                             HttpServletRequest request) {
         Member loginMember = getLoginMember(request);
         model.addAttribute("member", loginMember);
@@ -50,7 +50,7 @@ public class MemberController {
 
     @PostMapping("/myPage")
     public String updateMember(HttpSession Session,
-                               @ModelAttribute MemberJoinForm updateMember,
+                               @ModelAttribute MemberCreatedRequest updateMember,
                                BindingResult bindingResult,
                                HttpServletRequest request,
                                Model model) {
@@ -153,10 +153,10 @@ public class MemberController {
     /*회원 정보 수정 시 해당 정보 세션에 저장*/
     private void sessionSave(Member loginMember, HttpSession Session) {
         // 업데이트된 멤버 객체 찾기
-        Member updateMemeber = memberService.findByNo(loginMember.getMemberNum()).get();
-        log.info("updatedMember={}",updateMemeber);
+        Member updateMember = memberService.findByNum(loginMember.getMemberNum()).get();
+        log.info("updatedMember={}",updateMember);
         //세션에 업데이트된 찾은 회원 정보 저장
-        Session.setAttribute(SessionConst.LOGIN_MEMBER,updateMemeber);
+        Session.setAttribute(SessionConst.LOGIN_MEMBER,updateMember);
     }
     /*문자열 합치기*/
 

@@ -9,105 +9,106 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script language="JavaScript">
         function submitForm(clicked_id) {
-            var buttonElement = document.getElementById(clicked_id);
-            var usercheck = {/*[[${loginMember != null ? loginMember.memberNum : ''}]]*/};
-            var companyScrap={
-                memberNum:"[[${loginMember != null ? loginMember.memberNum : ''}]]",
-                companyName:clicked_id
-            }
-            console.log(companyScrap);
-            if (!buttonElement.classList.contains('red')) {
-                buttonElement.classList.add('red');
-                if (usercheck.length !== null) {
-                    console.log("is stringify?")
-                    let scrapCompany = JSON.stringify(companyScrap);
-                    console.log("stringify")
-                    $.ajax({
-                        type: "POST"
-                        , url: "/scrap/company"
-                        , contentType: "application/json"
-                        , data: scrapCompany
-                        , success: function() {
-                            console.log("success?")
-                        }
-                        , error: function() {
-                            alert('찜 등록에 실패했습니다. 관리자에게 문의해주세요.');
-                        }
-                    });
-                } else {
-                    alert('찜 등록에 실패했습니다. 로그인을 해주세요');
-                    location.href = "/com.solponge/login";
-                }
-            } else {
-                buttonElement.classList.remove('red');
-                if (usercheck.length !== 0) {
-                    let scrapCompany = JSON.stringify(companyScrap);
-                    $.ajax({
-                        type: "DELETE"
-                        , url: "/scrap/company/delete"
-                        , contentType: "application/json"
-                        , data: scrapCompany
-                        , success: function() {
+      var buttonElement = document.getElementById(clicked_id);
+      var usercheck = "[[${loginMember != null ? loginMember.memberNum : ''}]]";
+      var companyScrap={
+        memberNum:"[[${loginMember != null ? loginMember.memberNum : ''}]]",
+        companyName:clicked_id
+      }
 
-                        }
-                        , error: function() {
-                            alert('찜 삭제 실패했습니다. 관리자에게 문의해주세요.');
-                        }
-                    });
-                }
+      if (!buttonElement.classList.contains('red')) {
+        buttonElement.classList.add('red');
+        if (usercheck.length !== 0) {
+          console.log("usercheck=",usercheck);
+          let scrapCompany = JSON.stringify(companyScrap);
+          $.ajax({
+            type: "POST"
+            , url: "/scrap/company"
+            , contentType: "application/json"
+            , data: scrapCompany
+            , success: function() {
+
             }
+            , error: function() {
+              alert('찜 등록에 실패했습니다. 관리자에게 문의해주세요.');
+            }
+          });
+        } else {
+          alert('로그인이 필요합니다.');
+          location.href = "/com.solponge/login";
         }
-        function submitForm2(clicked_id) {
-            var buttonElement = document.getElementById(clicked_id);
-            var jobInfoNum = buttonElement.value;
-            console.log("clicked_id",clicked_id)
-            var usercheck = "[[${loginMember != null ? loginMember.memberNum : ''}]]";
-            var infoScrap={
-                memberNum:"[[${loginMember != null ? loginMember.memberNum : ''}]]",
-                infoName:clicked_id,
-                jobInfoNum:jobInfoNum
+      } else {
+        buttonElement.classList.remove('red');
+        if (usercheck.length !== 0) {
+          console.log("usercheck=",usercheck);
+          let scrapCompany = JSON.stringify(companyScrap);
+          $.ajax({
+            type: "DELETE"
+            , url: "/scrap/company/delete"
+            , contentType: "application/json"
+            , data: scrapCompany
+            , success: function() {
+
             }
-            console.log("infoScrap",infoScrap)
-
-            if (!buttonElement.classList.contains('yellow')) {
-                buttonElement.classList.add('yellow');
-                if (usercheck.length !== 0) {
-                    let scrapInfo = JSON.stringify(infoScrap);
-                    $.ajax({
-                        type: "POST"
-                        , url: "/scrap/job"
-                        , contentType: "application/json"
-                        , data: scrapInfo
-                        , success: function() {
-
-                        }
-                        , error: function() {
-                            alert('찜 등록에 실패했습니다. 관리자에게 문의해주세요.');
-                        }
-                    });
-                } else {
-                    alert('찜 등록에 실패했습니다.');
-                    location.href = "/login";
-                }
-            } else {
-                buttonElement.classList.remove('yellow');
-                if (usercheck.length !== 0) {
-                    let scrapInfo = JSON.stringify(infoScrap);
-                    $.ajax({
-                        type: "DELETE"
-                        , url: "/scrap/job/delete"
-                        , contentType: "application/json"
-                        , data: scrapInfo
-                        , success: function() {
-
-                        }
-                        , error: function() {
-                            alert('찜 삭제 실패했습니다. 관리자에게 문의해주세요.');
-                        }
-                    });
-                }
+            , error: function() {
+              alert('찜 삭제 실패했습니다. 관리자에게 문의해주세요.');
             }
+          });
         }
+      }
+    }
+    function submitForm2(clicked_id) {
+      var buttonElement = document.getElementById(clicked_id);
+      var jobInfoNum = buttonElement.value;
+      console.log("clicked_id",clicked_id)
+      var usercheck = "[[${loginMember != null ? loginMember.memberNum : ''}]]";
+      var infoScrap={
+        memberNum:"[[${loginMember != null ? loginMember.memberNum : ''}]]",
+        infoName:clicked_id,
+        jobInfoNum:jobInfoNum
+      }
+      console.log("infoScrap",infoScrap)
+
+      if (!buttonElement.classList.contains('yellow')) {
+        buttonElement.classList.add('yellow');
+        if (usercheck.length !== 0) {
+          console.log("usercheck=",usercheck);
+          let scrapInfo = JSON.stringify(infoScrap);
+          $.ajax({
+            type: "POST"
+            , url: "/scrap/job"
+            , contentType: "application/json"
+            , data: scrapInfo
+            , success: function() {
+
+            }
+            , error: function() {
+              alert('찜 등록에 실패했습니다. 관리자에게 문의해주세요.');
+            }
+          });
+        } else {
+          alert('로그인이 필요합니다.');
+          location.href = "/com.solponge/login";
+        }
+      } else {
+        buttonElement.classList.remove('yellow');
+        if (usercheck.length !== 0) {
+          let scrapInfo = JSON.stringify(infoScrap);
+          $.ajax({
+            type: "DELETE"
+            , url: "/scrap/job/delete"
+            , contentType: "application/json"
+            , data: scrapInfo
+            , success: function() {
+
+            }
+            , error: function() {
+              alert('찜 삭제 실패했습니다. 관리자에게 문의해주세요.');
+            }
+          });
+        }
+      }
+    }
     </script>
 </head>
 <body>
@@ -149,13 +150,13 @@
                         <div class="url" th:attr="onclick='window.location.href =\'' + '/com.solponge/jobInfo/' + ${NewJopInfo.jobInfoCompanyName} + '\';'" th:text="${NewJopInfo.jobInfoCompanyName}"></div>
                         <!-- 회사 스크랩 버튼 -->
                         <button class="heart" th:id="${NewJopInfo.jobInfoCompanyName}" type="button" onclick="submitForm(this.id)" value="Click"
-                                th:classappend="${session.loginMember!=null and companyNames.contains(NewJopInfo.jobInfoCompanyName) ? 'heart red':''}">&#10084;</button>
+                                th:classappend="${loginMember!=null and companyNames.contains(NewJopInfo.jobInfoCompanyName) ? 'heart red':''}">&#10084;</button>
                     </td>
                     <td th:style="'height: 54px;'">
                         <div class="url" th:attr="onclick='window.location.href =\'' + '/com.solponge/jobInfo/' + ${NewJopInfo.jobInfoNum} + '\';'" th:text="${NewJopInfo.jobInfoPostingName}"></div>
                         <!-- 정보 스크랩 버튼 -->
                         <button class="star" th:id="${NewJopInfo.jobInfoPostingName}" type="button" onclick="submitForm2(this.id)" th:value="${NewJopInfo.jobInfoNum}"
-                                th:classappend="${session.loginMember!=null and infoNames.contains(NewJopInfo.jobInfoPostingName) ? 'start yellow':''}">&#10029;</button>
+                                th:classappend="${loginMember!=null and infoNames.contains(NewJopInfo.jobInfoPostingName) ? 'start yellow':''}">&#10029;</button>
                         <br>
                         <span style="font-size: 10px" th:text="${NewJopInfo.jobInfoFieldTagList}"></span>
                     </td>
