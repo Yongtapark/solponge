@@ -2,13 +2,12 @@ package com.example.demo.domain.cart;
 
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.product.Product;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
-@NoArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class CartItem {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

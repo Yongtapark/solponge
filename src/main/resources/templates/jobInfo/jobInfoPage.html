@@ -5,137 +5,42 @@
     <title>Title</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/scrapIco.css}">
-    <style>
-        #infocontainer {
-            width: 870px;
-            display: block;
-            margin: auto;
-        }
-        #jv_header {
-            width: 870px;
-            margin-left: 20px;
-            margin-top: 30px;
-        }
-        #jv_header_left{
-            width: 570px;
-            height: 90px;
-            float: left;
-        }
-        #companyName{
-            float: left;
-            font-size: 18px;
-        }
-        #jv_header_right {
-            width: 260px;
-            height: 90px;
-            float: left;
-        }
-        #info_url {
-            width: 186px;
-            height: 60px;
-            top: 10px;
-            position: relative;
-            left: 10px;
-            background-color: rgb(102,153,255);
-            color: white;
-            border: solid 1px #007bff;
-        }
-        #jv_summary {
-            clear: both;
-            padding-top: 20px;
-            width: 870px;
-        }
-        #jv_cont {
-            padding-top: 20px;
-            width: 800px;
-        }
-        #jv_cont div{
-            width: 800px;
-        }
-
-        .heart span{
-            color: black;
-        }
-
-        .heart {
-            margin-left: 10px;
-            width: 130px;
-            font-size: 15px;
-            color: gray;
-            cursor: pointer;
-            background-color: transparent;
-            border: solid 1px gray;
-        }
-
-        .heart.red {
-            margin-left: 10px;
-            width: 130px;
-            font-size: 15px;
-            color: red;
-            background-color: transparent;
-            border: solid 1px gray;
-        }
-        .star {
-            text-align: center;
-            font-size: 35px;
-            color: gray;
-            cursor: pointer;
-            background-color: transparent;
-            border: solid 1px gray;
-            width: 60px;
-            height: 60px;
-            top: 18px;
-            position: relative;
-
-        }
-
-        .star.yellow {
-            text-align: center;
-            font-size: 35px;
-            color: sandybrown;
-            background-color: transparent;
-            border: solid 1px gray;
-            width: 60px;
-            height: 60px;
-            top: 18px;
-            position: relative;
-
-        }
+    <link rel="stylesheet" type="text/css" th:href="@{/css/jobInfoPage.css}">
     </style>
     <script language="JavaScript">
         function submitForm(clicked_id) {
             var buttonElement = document.getElementById(clicked_id);
-            var usercheck = {/*[[${loginMember != null ? loginMember.memberNum : ''}]]*/};
+            var usercheck = "[[${loginMember != null ? loginMember.memberNum : ''}]]";
             var companyScrap={
                 memberNum:"[[${loginMember != null ? loginMember.memberNum : ''}]]",
                 companyName:clicked_id
             }
-            console.log(companyScrap);
+
             if (!buttonElement.classList.contains('red')) {
                 buttonElement.classList.add('red');
-                if (usercheck.length !== null) {
-                    console.log("is stringify?")
+                if (usercheck.length !== 0) {
+                    console.log("usercheck=",usercheck);
                     let scrapCompany = JSON.stringify(companyScrap);
-                    console.log("stringify")
                     $.ajax({
                         type: "POST"
                         , url: "/scrap/company"
                         , contentType: "application/json"
                         , data: scrapCompany
                         , success: function() {
-                            console.log("success?")
+
                         }
                         , error: function() {
                             alert('찜 등록에 실패했습니다. 관리자에게 문의해주세요.');
                         }
                     });
                 } else {
-                    alert('찜 등록에 실패했습니다. 로그인을 해주세요');
+                    alert('로그인이 필요합니다.');
                     location.href = "/com.solponge/login";
                 }
             } else {
                 buttonElement.classList.remove('red');
                 if (usercheck.length !== 0) {
+                    console.log("usercheck=",usercheck);
                     let scrapCompany = JSON.stringify(companyScrap);
                     $.ajax({
                         type: "DELETE"
@@ -167,6 +72,7 @@
             if (!buttonElement.classList.contains('yellow')) {
                 buttonElement.classList.add('yellow');
                 if (usercheck.length !== 0) {
+                    console.log("usercheck=",usercheck);
                     let scrapInfo = JSON.stringify(infoScrap);
                     $.ajax({
                         type: "POST"
@@ -181,8 +87,8 @@
                         }
                     });
                 } else {
-                    alert('찜 등록에 실패했습니다.');
-                    location.href = "/login";
+                    alert('로그인이 필요합니다.');
+                    location.href = "/com.solponge/login";
                 }
             } else {
                 buttonElement.classList.remove('yellow');
@@ -224,7 +130,7 @@
             <div id="jv_header_right">
                 <button class="star" th:id="${jobInfo.jobInfoPostingName}" type="button" onclick="submitForm2(this.id)" th:value="${jobInfo.jobInfoNum}"
                         th:classappend="${session.loginMember!=null and infoNames.contains(jobInfo.jobInfoPostingName) ? 'start yellow':''}">&#10029;</button>
-                <button id="info_url" th:onclick="'location.href=''' + ${jobInfo.jobInfoLink} + ''''">
+                <button id="info_url" type="button" th:attr="onclick='location.href =\'' + ${jobInfo.jobInfoLink} + '\';'">
                     모집 공고 사이트 이동
                 </button>
             </div>

@@ -28,13 +28,13 @@ public class WebConfig implements WebMvcConfigurer {
 //체크 예외 경로
 
                 .excludePathPatterns(
+                        "/api.com.solponge/**",
                         "/com.solponge/main",
                         "/com.solponge/join",
                         "/com.solponge/login",
                         "/com.solponge/product/**",
                         "/com.solponge/productList/**",
-                        "/com.solponge/jobinfolist/**",
-                        "/com.solponge/jobinfo/**",
+                        "/com.solponge/jobInfo/**",
                         "/css/**",
                         "/img/**",
                         "/js/**"

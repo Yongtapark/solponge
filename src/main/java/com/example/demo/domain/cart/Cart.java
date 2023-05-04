@@ -2,10 +2,7 @@ package com.example.demo.domain.cart;
 
 
 import com.example.demo.domain.member.Member;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,6 +13,7 @@ import java.util.List;
 @Setter
 @ToString
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Cart {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartNum; // 카트 번호
@@ -33,8 +31,6 @@ public class Cart {
         this.member = member;
     }
 
-    public Cart() {
-    }
 
     public Cart(Long cart_num, Member member) {
         this.cartNum = cart_num;

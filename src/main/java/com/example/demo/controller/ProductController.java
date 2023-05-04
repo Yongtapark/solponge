@@ -15,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 
@@ -88,6 +90,11 @@ public class ProductController {
             return "redirect:/com.solponge/member/"+loginMember.getMemberNum()+"/myPage/cart/"+ productNum + "/" + quantityinput;
         }
 
+    }
+
+    private Member getLoginMember(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        return session != null ? (Member) session.getAttribute(SessionConst.LOGIN_MEMBER) : null;
     }
 
 

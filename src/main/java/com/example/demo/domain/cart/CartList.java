@@ -2,14 +2,12 @@ package com.example.demo.domain.cart;
 
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.product.Product;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
-@NoArgsConstructor
-public class CartList {
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)public class CartList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cartNum;
@@ -27,11 +25,4 @@ public class CartList {
         this.cartItemStock = cartItemStock;
     }
 
-    public CartItem toCartItem() {
-        CartItem cartItem = new CartItem();
-        cartItem.setMember(this.member);
-        cartItem.setProduct(this.product);
-        cartItem.setCartItemStock(this.cartItemStock);
-        return cartItem;
-    }
 }

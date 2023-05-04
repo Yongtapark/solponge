@@ -56,7 +56,7 @@
 
     function submitForm(clicked_id) {
       var buttonElement = document.getElementById(clicked_id);
-      var usercheck = {/*[[${loginMember != null ? loginMember.memberNum : ''}]]*/};
+      var usercheck = "[[${loginMember != null ? loginMember.memberNum : ''}]]";
       var companyScrap={
         memberNum:"[[${loginMember != null ? loginMember.memberNum : ''}]]",
         companyName:clicked_id
@@ -64,7 +64,8 @@
 
       if (!buttonElement.classList.contains('red')) {
         buttonElement.classList.add('red');
-        if (usercheck.length !== null) {
+        if (usercheck.length !== 0) {
+          console.log("usercheck=",usercheck);
           let scrapCompany = JSON.stringify(companyScrap);
           $.ajax({
             type: "POST"
@@ -79,12 +80,13 @@
             }
           });
         } else {
-          alert('찜 등록에 실패했습니다. 로그인을 해주세요');
-          location.href = "/login";
+          alert('로그인이 필요합니다.');
+          location.href = "/com.solponge/login";
         }
       } else {
         buttonElement.classList.remove('red');
         if (usercheck.length !== 0) {
+          console.log("usercheck=",usercheck);
           let scrapCompany = JSON.stringify(companyScrap);
           $.ajax({
             type: "DELETE"
@@ -116,6 +118,7 @@
       if (!buttonElement.classList.contains('yellow')) {
         buttonElement.classList.add('yellow');
         if (usercheck.length !== 0) {
+          console.log("usercheck=",usercheck);
           let scrapInfo = JSON.stringify(infoScrap);
           $.ajax({
             type: "POST"
@@ -130,8 +133,8 @@
             }
           });
         } else {
-          alert('찜 등록에 실패했습니다.');
-          location.href = "/login";
+          alert('로그인이 필요합니다.');
+          location.href = "/com.solponge/login";
         }
       } else {
         buttonElement.classList.remove('yellow');

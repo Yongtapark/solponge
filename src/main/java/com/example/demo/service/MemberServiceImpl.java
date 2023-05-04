@@ -43,7 +43,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Optional<Member> findByNo(Long memberNo) {
+    public Optional<Member> findByNum(Long memberNo) {
         return memberRepository.findById(memberNo);
     }
 

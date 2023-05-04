@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.domain.cart.Cart;
 import com.example.demo.domain.cart.CartItem;
 import com.example.demo.domain.member.Member;
-import com.example.demo.domain.member.MemberJoinForm;
 import com.example.demo.domain.member.login.session.SessionConst;
 import com.example.demo.domain.payment.OrderList;
 import com.example.demo.domain.payment.PayForm;
@@ -73,7 +72,7 @@ public class PaymentController {
         long paymentOrderNum = System.currentTimeMillis();
         for (OrderList list : orderList) {
             Product product = productService.findByNo(list.getProductNum()).get();
-            Member member = memberService.findByNo(payForm.getMemberNum()).get();
+            Member member = memberService.findByNum(payForm.getMemberNum()).get();
             if(product.getProductStock()-list.getPaymentStock()<0){
                 throw new RuntimeException("상품 재고가 부족합니다.");
             }else {
