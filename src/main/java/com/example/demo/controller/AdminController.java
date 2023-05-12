@@ -70,7 +70,7 @@ public class AdminController {
     @GetMapping("/member/{memberNum}/update")
     public String editMember(@PathVariable Long memberNum, Model model, HttpServletRequest request) {
         getLoginMember(request);
-        Member member = memberService.findByNo(memberNum).get();
+        Member member = memberService.findByNum(memberNum).get();
         log.info("adminMember={}",member);
         model.addAttribute("member", member);
         return "admin/memberManagePage";
@@ -93,7 +93,7 @@ public class AdminController {
     @GetMapping("/member/{memberNum}/delete")
     public String deleteMember(@PathVariable Long memberNum,HttpServletRequest request) {
         getLoginMember(request);
-        memberService.delete(memberService.findByNo(memberNum).get().getMemberNum());
+        memberService.delete(memberService.findByNum(memberNum).get().getMemberNum());
         return "redirect:/com.solponge/admin/member";
     }
 
